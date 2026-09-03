@@ -8,6 +8,7 @@ import {
   Store,
   WandSparkles,
 } from "lucide-react";
+import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
 
 const tabs = [
@@ -99,13 +100,13 @@ export default function AgentsSkillsPage() {
                 Parcourir
               </button>
 
-              <button
-                type="button"
-                className="flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
-              >
-                <Plus size={17} />
-                Créer
-              </button>
+             <Link
+  href="/agents-skills/create"
+  className="flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
+>
+  <Plus size={17} />
+  Créer
+</Link>
 
               <button
                 type="button"
