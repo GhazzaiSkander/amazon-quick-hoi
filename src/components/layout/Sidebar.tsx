@@ -27,7 +27,7 @@ type NavigationItem = {
 const mainNavigation: NavigationItem[] = [
   {
     label: "New chat",
-    href: "/",
+    href: "/chat",
     icon: MessageSquarePlus,
   },
   {
