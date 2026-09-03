@@ -4,6 +4,7 @@ import {
   FileCheck2,
   FileText,
   FolderOpen,
+  MessageCircle,
   Search,
   ShieldCheck,
 } from "lucide-react";
@@ -109,6 +110,13 @@ export default async function VaultPage({
   description="Consulter les pages de connaissances et leurs métadonnées."
   action="Explorer les pages"
 />
+<WorkspaceCard
+  href={`/chat?vaultId=${vaultId}`}
+  icon={<MessageCircle size={22} />}
+  title="Assistant Wiki"
+  description="Interroger les connaissances de ce Vault avec des réponses sourcées."
+  action="Ouvrir l’Assistant"
+/>
 
 <WorkspaceCard
   href={`/wiki/${vaultId}/data`}
@@ -117,6 +125,7 @@ export default async function VaultPage({
   description="Explorer les factures, produits, clients et autres données."
   action="Voir les données"
 />
+
 
             <WorkspaceCard
   href={`/wiki/${vaultId}/sources`}
