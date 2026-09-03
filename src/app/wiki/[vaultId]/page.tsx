@@ -102,33 +102,43 @@ export default async function VaultPage({
           </section>
 
           <section className="grid gap-5 md:grid-cols-2">
-            <WorkspaceCard
-              icon={<FileText size={22} />}
-              title="Pages Wiki"
-              description="Consulter les pages de connaissances et leurs métadonnées."
-              action="Explorer les pages"
-            />
+<WorkspaceCard
+  href={`/wiki/${vaultId}/pages`}
+  icon={<FileText size={22} />}
+  title="Pages Wiki"
+  description="Consulter les pages de connaissances et leurs métadonnées."
+  action="Explorer les pages"
+/>
+
+<WorkspaceCard
+  href={`/wiki/${vaultId}/data`}
+  icon={<Database size={22} />}
+  title="Données structurées"
+  description="Explorer les factures, produits, clients et autres données."
+  action="Voir les données"
+/>
 
             <WorkspaceCard
-              icon={<Database size={22} />}
-              title="Données structurées"
-              description="Explorer les factures, produits, clients et autres données."
-              action="Voir les données"
-            />
-
-            <WorkspaceCard
-              icon={<FolderOpen size={22} />}
-              title="Sources"
-              description="Consulter les fichiers à l’origine des connaissances du Vault."
-              action="Consulter les sources"
-            />
-
-            <WorkspaceCard
-              icon={<FileCheck2 size={22} />}
-              title="Validation humaine"
-              description="Vérifier les changements proposés après une ingestion."
-              action="Ouvrir la revue"
-            />
+  href={`/wiki/${vaultId}/sources`}
+  icon={<FolderOpen size={22} />}
+  title="Sources"
+  description="Consulter les fichiers à l’origine des connaissances du Vault."
+  action="Consulter les sources"
+/>
+<WorkspaceCard
+  href={`/wiki/${vaultId}/search`}
+  icon={<Search size={22} />}
+  title="Deep Search"
+  description="Rechercher dans le contenu complet du Vault avec des sources citées."
+  action="Lancer une recherche"
+/>
+<WorkspaceCard
+  href={`/wiki/${vaultId}/review`}
+  icon={<FileCheck2 size={22} />}
+  title="Validation humaine"
+  description="Vérifier les changements proposés après une ingestion."
+  action="Ouvrir la revue"
+/>
           </section>
 
           <section className="mt-8 rounded-card border border-dashed border-hoi-border bg-white/40 p-6">
@@ -168,23 +178,21 @@ function MetricCard({
     </div>
   );
 }
-
 function WorkspaceCard({
+  href,
   icon,
   title,
   description,
   action,
 }: {
+  href?: string;
   icon: React.ReactNode;
   title: string;
   description: string;
   action: string;
 }) {
-  return (
-    <button
-      type="button"
-      className="rounded-card border border-hoi-border bg-hoi-surface p-6 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-hoi-accent"
-    >
+  const content = (
+    <>
       <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
         {icon}
       </div>
@@ -196,6 +204,20 @@ function WorkspaceCard({
       </p>
 
       <p className="mt-5 text-sm font-medium text-hoi-accent">{action} →</p>
-    </button>
+    </>
   );
+
+  const className =
+    "block rounded-card border border-hoi-border bg-hoi-surface p-6 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-hoi-accent";
+
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={className}>{content}</div>;
 }
+
