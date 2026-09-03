@@ -11,7 +11,7 @@ import {
   Wrench,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
-
+import Link from "next/link";
 const tabs = [
   { label: "Connecteurs", icon: Link2 },
   { label: "Planifications", icon: CalendarClock },
@@ -178,13 +178,13 @@ export default function CapabilitiesPage() {
                   externes à vos agents avec des permissions contrôlées.
                 </p>
 
-                <button
-                  type="button"
-                  className="mt-5 flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-2 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
-                >
-                  <Plus size={17} />
-                  Créer un serveur MCP
-                </button>
+                <Link
+  href="/capabilities/mcp/create"
+  className="mt-5 flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-2 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
+>
+  <Plus size={17} />
+  Créer un serveur MCP
+</Link>
               </div>
             </div>
           </section>
