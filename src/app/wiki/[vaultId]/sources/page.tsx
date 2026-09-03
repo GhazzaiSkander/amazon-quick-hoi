@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -13,56 +14,80 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import { getVaultName } from "@/lib/vaults";
 
-const sources = [
+type SourceStatusKey = "imported" | "validated" | "toValidate";
+type SourceCategoryKey = "finance" | "reference" | "process";
+
+/**
+ * Source records are business data. Filenames, formats, sizes, contributors and
+ * dates stay verbatim; only the category and status labels are translated, and
+ * the date is formatted per locale.
+ */
+const sources: {
+  id: string;
+  name: string;
+  type: string;
+  categoryKey: SourceCategoryKey;
+  sizeBytes: number;
+  addedBy: string;
+  date: string;
+  statusKey: SourceStatusKey;
+}[] = [
   {
     id: "account-move-2026",
     name: "account_move_2026.csv",
     type: "CSV",
-    category: "Finance",
-    size: "202 MB",
+    categoryKey: "finance",
+    sizeBytes: 202 * 1024 * 1024,
     addedBy: "Skander",
-    date: "03 septembre 2026",
-    status: "Importé",
-    description: "Écritures comptables et factures de l’année 2026.",
+    date: "2026-09-03",
+    statusKey: "imported",
   },
   {
     id: "account-move-reference",
     name: "account_move_reference.xlsx",
     type: "Excel",
-    category: "Référentiel",
-    size: "14 MB",
+    categoryKey: "reference",
+    sizeBytes: 14 * 1024 * 1024,
     addedBy: "Sabri",
-    date: "01 septembre 2026",
-    status: "Validé",
-    description: "Référentiel des articles et catégories de produits.",
+    date: "2026-09-01",
+    statusKey: "validated",
   },
   {
     id: "process-onboarding",
     name: "process_onboarding.pdf",
     type: "PDF",
-    category: "Processus",
-    size: "2,4 MB",
+    categoryKey: "process",
+    sizeBytes: Math.round(2.4 * 1024 * 1024),
     addedBy: "Camille",
-    date: "30 août 2026",
-    status: "À valider",
-    description: "Documentation du processus d’onboarding.",
+    date: "2026-08-30",
+    statusKey: "toValidate",
   },
 ];
 
-const vaultNames: Record<string, string> = {
-  "comptabilite-2026": "Comptabilité 2026",
-  "lin-ventes-2026": "LIN — Ventes 2026",
-  "prescription-nature": "Prescription Nature",
-};
+const statusFilterKeys = [
+  "all",
+  "imported",
+  "validated",
+  "toValidate",
+] as const;
+
+const metrics = { total: 248, validated: 236, pending: 12 };
 
 export default function SourcesPage() {
   const params = useParams<{ vaultId: string }>();
   const router = useRouter();
-  const vaultName = vaultNames[params.vaultId] ?? "Vault";
+  const t = useTranslations("sources");
+  const tv = useTranslations("vault");
+  const tcontribute = useTranslations("contribute");
+  const format = useFormatter();
+
+  const vaultName = getVaultName(params.vaultId, tv("fallbackName"));
 
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("Tous les statuts");
+  const [statusFilter, setStatusFilter] =
+    useState<(typeof statusFilterKeys)[number]>("all");
 
   const filteredSources = useMemo(() => {
     const normalizedQuery = query.toLowerCase().trim();
@@ -70,17 +95,23 @@ export default function SourcesPage() {
     return sources.filter((source) => {
       const matchesQuery =
         !normalizedQuery ||
-        `${source.name} ${source.type} ${source.category} ${source.addedBy}`
+        `${source.name} ${source.type} ${source.addedBy}`
           .toLowerCase()
           .includes(normalizedQuery);
 
       const matchesStatus =
-        statusFilter === "Tous les statuts" ||
-        source.status === statusFilter;
+        statusFilter === "all" || source.statusKey === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
   }, [query, statusFilter]);
+
+  /** Byte sizes render with the locale's own digits, separator and unit. */
+  function formatSize(bytes: number) {
+    return tcontribute("fileSize.megabytes", {
+      size: format.number(bytes / (1024 * 1024), { maximumFractionDigits: 1 }),
+    });
+  }
 
   return (
     <AppShell>
@@ -90,34 +121,35 @@ export default function SourcesPage() {
             href={`/wiki/${params.vaultId}`}
             className="mb-6 inline-flex items-center gap-2 text-sm text-hoi-muted hover:text-hoi-navy"
           >
-            <ArrowLeft size={16} />
-            Retour à {vaultName}
+            <ArrowLeft size={16} className="rtl-flip" />
+            {tv("backToVault", { name: vaultName })}
           </Link>
 
           <header className="mb-8">
             <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-                  Sources du Vault · {vaultName}
+                  {t("eyebrow", { vault: vaultName })}
                 </p>
 
                 <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Sources
+                  {t("title")}
                 </h1>
 
                 <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-                  Consultez les fichiers qui alimentent les pages Wiki et les
-                  données structurées de ce Vault.
+                  {t("subtitle")}
                 </p>
               </div>
 
               <button
                 type="button"
-                onClick={() => router.push(`/wiki/${params.vaultId}/contribute`)}
+                onClick={() =>
+                  router.push(`/wiki/${params.vaultId}/contribute`)
+                }
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-hoi-navy px-4 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
               >
                 <FilePlus2 size={17} />
-                Ajouter une source
+                {t("addSource")}
               </button>
             </div>
           </header>
@@ -125,20 +157,20 @@ export default function SourcesPage() {
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<File size={20} />}
-              value="248"
-              label="Sources dans ce Vault"
+              value={format.number(metrics.total)}
+              label={t("metrics.total")}
             />
 
             <MetricCard
               icon={<CheckCircle2 size={20} />}
-              value="236"
-              label="Sources validées"
+              value={format.number(metrics.validated)}
+              label={t("metrics.validated")}
             />
 
             <MetricCard
               icon={<Clock3 size={20} />}
-              value="12"
-              label="En attente de validation"
+              value={format.number(metrics.pending)}
+              label={t("metrics.pending")}
             />
           </section>
 
@@ -147,27 +179,32 @@ export default function SourcesPage() {
               <div className="relative flex-1">
                 <Search
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-hoi-muted"
+                  className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
                 />
 
                 <input
                   type="search"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Rechercher une source..."
-                  className="form-input w-full pl-10"
+                  placeholder={t("searchPlaceholder")}
+                  className="form-input w-full ps-10"
                 />
               </div>
 
               <select
                 value={statusFilter}
-                onChange={(event) => setStatusFilter(event.target.value)}
+                onChange={(event) =>
+                  setStatusFilter(
+                    event.target.value as (typeof statusFilterKeys)[number],
+                  )
+                }
                 className="form-input lg:w-52"
               >
-                <option>Tous les statuts</option>
-                <option>Importé</option>
-                <option>Validé</option>
-                <option>À valider</option>
+                {statusFilterKeys.map((key) => (
+                  <option key={key} value={key}>
+                    {t(`statuses.${key}`)}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -189,7 +226,7 @@ export default function SourcesPage() {
                         </h2>
 
                         <p className="mt-1 text-sm text-hoi-muted">
-                          {source.description}
+                          {t(`descriptions.${source.id}`)}
                         </p>
 
                         <div className="mt-3 flex flex-wrap gap-2 text-xs text-hoi-muted">
@@ -198,11 +235,11 @@ export default function SourcesPage() {
                           </span>
 
                           <span className="rounded-full bg-hoi-cream px-3 py-1">
-                            {source.category}
+                            {t(`categories.${source.categoryKey}`)}
                           </span>
 
                           <span className="rounded-full bg-hoi-cream px-3 py-1">
-                            {source.size}
+                            {formatSize(source.sizeBytes)}
                           </span>
                         </div>
                       </div>
@@ -211,25 +248,29 @@ export default function SourcesPage() {
                     <div className="flex flex-col items-start gap-2 text-sm lg:items-end">
                       <span
                         className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
-                          source.status === "À valider"
+                          source.statusKey === "toValidate"
                             ? "bg-amber-50 text-amber-700"
                             : "bg-emerald-50 text-emerald-700"
                         }`}
                       >
-                        {source.status === "À valider" ? (
+                        {source.statusKey === "toValidate" ? (
                           <Clock3 size={13} />
                         ) : (
                           <CheckCircle2 size={13} />
                         )}
 
-                        {source.status}
+                        {t(`statuses.${source.statusKey}`)}
                       </span>
 
                       <p className="text-xs text-hoi-muted">
-                        Ajouté par {source.addedBy}
+                        {t("addedBy", { name: source.addedBy })}
                       </p>
 
-                      <p className="text-xs text-hoi-muted">{source.date}</p>
+                      <p className="text-xs text-hoi-muted">
+                        {format.dateTime(new Date(source.date), {
+                          dateStyle: "long",
+                        })}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -238,7 +279,7 @@ export default function SourcesPage() {
 
             {filteredSources.length === 0 && (
               <div className="py-12 text-center text-sm text-hoi-muted">
-                Aucune source ne correspond à votre recherche.
+                {t("empty")}
               </div>
             )}
           </section>
@@ -251,13 +292,11 @@ export default function SourcesPage() {
 
               <div>
                 <h2 className="font-semibold text-hoi-navy">
-                  Importer un dossier complet
+                  {t("importFolderTitle")}
                 </h2>
 
                 <p className="mt-2 text-sm leading-6 text-hoi-muted">
-                  Vous pourrez importer plusieurs fichiers en une seule fois.
-                  Chaque fichier sera conservé comme source indépendante et
-                  suivi dans le processus d’ingestion.
+                  {t("importFolderDescription")}
                 </p>
               </div>
             </div>

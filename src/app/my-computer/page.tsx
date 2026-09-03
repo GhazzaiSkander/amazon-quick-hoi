@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import {
   CheckCircle2,
   Folder,
@@ -9,7 +11,16 @@ import {
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 
+const infoCardKeys = ["localAccess", "personalControl", "indexing"] as const;
+const infoCardIcons = {
+  localAccess: <HardDrive size={19} />,
+  personalControl: <Shield size={19} />,
+  indexing: <CheckCircle2 size={19} />,
+} as const;
+
 export default function MyComputerPage() {
+  const t = useTranslations("myComputer");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -22,13 +33,11 @@ export default function MyComputerPage() {
 
               <div>
                 <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Mon ordinateur
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 max-w-3xl text-base leading-7 text-hoi-muted">
-                  Les dossiers locaux que House of Ichigo peut rechercher et
-                  lire. Les espaces cloud se connectent avec une ingestion
-                  personnelle gouvernée.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -42,20 +51,18 @@ export default function MyComputerPage() {
                 </div>
 
                 <div>
-                  <h2 className="font-semibold text-hoi-navy">
-                    Mon ordinateur
-                  </h2>
+                  <h2 className="font-semibold text-hoi-navy">{t("title")}</h2>
 
                   <div className="mt-1 flex items-center gap-2 text-sm text-hoi-success">
                     <CheckCircle2 size={15} />
-                    Connecté
+                    {t("connected")}
                   </div>
                 </div>
               </div>
 
               <button
                 type="button"
-                aria-label="Options de l'ordinateur"
+                aria-label={t("options")}
                 className="rounded-lg p-2 text-hoi-muted transition hover:bg-hoi-cream hover:text-hoi-navy"
               >
                 <MoreVertical size={19} />
@@ -71,18 +78,15 @@ export default function MyComputerPage() {
 
                   <div>
                     <h2 className="text-xl font-semibold text-hoi-navy">
-                      Dossiers locaux
+                      {t("localFolders")}
                     </h2>
 
                     <p className="mt-2 max-w-3xl text-sm leading-6 text-hoi-muted">
-                      House of Ichigo peut rechercher les fichiers des dossiers
-                      que vous autorisez. La recherche fonctionne
-                      automatiquement pour chaque dossier ajouté.
+                      {t("localFoldersDescription")}
                     </p>
 
                     <p className="mt-2 max-w-3xl text-sm leading-6 text-hoi-muted">
-                      Utilisez les interrupteurs de chaque dossier pour activer
-                      ou désactiver l’indexation sémantique.
+                      {t("localFoldersHint")}
                     </p>
                   </div>
                 </div>
@@ -93,12 +97,11 @@ export default function MyComputerPage() {
                   </div>
 
                   <h3 className="mt-5 font-semibold text-hoi-navy">
-                    Aucun dossier ajouté
+                    {t("emptyTitle")}
                   </h3>
 
                   <p className="mt-2 max-w-sm text-sm leading-6 text-hoi-muted">
-                    Ajoutez un dossier pour permettre à vos agents de lire vos
-                    fichiers privés.
+                    {t("emptyDescription")}
                   </p>
                 </div>
 
@@ -107,30 +110,21 @@ export default function MyComputerPage() {
                   className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-hoi-border bg-hoi-cream/40 px-5 py-4 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy hover:bg-hoi-cream"
                 >
                   <FolderPlus size={18} />
-                  Ajouter un dossier
+                  {t("addFolder")}
                 </button>
               </div>
             </div>
           </section>
 
           <section className="mt-6 grid gap-4 md:grid-cols-3">
-            <InfoCard
-              icon={<HardDrive size={19} />}
-              title="Accès local"
-              description="Les agents ne lisent que les dossiers explicitement autorisés."
-            />
-
-            <InfoCard
-              icon={<Shield size={19} />}
-              title="Contrôle personnel"
-              description="Vos fichiers personnels restent dans votre périmètre privé."
-            />
-
-            <InfoCard
-              icon={<CheckCircle2 size={19} />}
-              title="Indexation contrôlée"
-              description="Activez l’indexation séparément pour chaque dossier."
-            />
+            {infoCardKeys.map((key) => (
+              <InfoCard
+                key={key}
+                icon={infoCardIcons[key]}
+                title={t(`cards.${key}.title`)}
+                description={t(`cards.${key}.description`)}
+              />
+            ))}
           </section>
         </div>
       </div>
@@ -143,7 +137,7 @@ function InfoCard({
   title,
   description,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
 }) {

@@ -2,117 +2,134 @@
 
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  FileText,
-  Search,
-  Tag,
-} from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import { ArrowLeft, CheckCircle2, FileText, Search, Tag } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import { getVaultName } from "@/lib/vaults";
 
-const pages = [
+type PageTypeKey = "document" | "organisation" | "category" | "other";
+type PageStatusKey = "verified" | "toVerify";
+type MetadataLabelKey =
+  | "type"
+  | "name"
+  | "identity"
+  | "source"
+  | "sheet"
+  | "rows"
+  | "page";
+
+/**
+ * Page records are business data. Only `typeKey`, `statusKey`, tag slugs and
+ * metadata label keys are translated; paths, identifiers and source filenames
+ * stay verbatim.
+ */
+const pages: {
+  id: string;
+  typeKey: PageTypeKey;
+  path: string;
+  tags: string[];
+  statusKey: PageStatusKey;
+  metadata: { labelKey: MetadataLabelKey; value: string }[];
+}[] = [
   {
     id: "articles",
-    title: "ARTICLES",
-    type: "Catégorie",
+    typeKey: "category",
     path: "wiki/entities/categories/articles.md",
     tags: ["produit", "référentiel"],
-    status: "Vérifiée",
-    description:
-      "Catégorie de produit contenant les articles et leurs informations associées.",
-    metadata: {
-      Type: "categorie",
-      Nom: "ARTICLES",
-      Identité: "name:articles",
-      Source: "account_move_reference.xlsx",
-      Feuille: "Factures",
-    },
+    statusKey: "verified",
+    metadata: [
+      { labelKey: "type", value: "categorie" },
+      { labelKey: "name", value: "ARTICLES" },
+      { labelKey: "identity", value: "name:articles" },
+      { labelKey: "source", value: "account_move_reference.xlsx" },
+      { labelKey: "sheet", value: "Factures" },
+    ],
   },
   {
     id: "clients",
-    title: "Clients",
-    type: "Organisation",
+    typeKey: "organisation",
     path: "wiki/entities/organisations/clients.md",
     tags: ["client", "commercial"],
-    status: "Vérifiée",
-    description:
-      "Répertoire des clients avec leurs informations commerciales et administratives.",
-    metadata: {
-      Type: "organisation",
-      Nom: "Clients",
-      Identité: "entity:clients",
-      Source: "customers_2026.xlsx",
-      Feuille: "Clients",
-    },
+    statusKey: "verified",
+    metadata: [
+      { labelKey: "type", value: "organisation" },
+      { labelKey: "name", value: "Clients" },
+      { labelKey: "identity", value: "entity:clients" },
+      { labelKey: "source", value: "customers_2026.xlsx" },
+      { labelKey: "sheet", value: "Clients" },
+    ],
   },
   {
     id: "factures-janvier",
-    title: "Factures — Janvier 2026",
-    type: "Document",
+    typeKey: "document",
     path: "wiki/finance/factures/2026-01.md",
-    tags: ["facture", "finance", "2026"],
-    status: "À vérifier",
-    description:
-      "Synthèse des factures enregistrées pendant le mois de janvier 2026.",
-    metadata: {
-      Type: "factures",
-      Nom: "Factures — Janvier 2026",
-      Identité: "finance:invoices:2026-01",
-      Source: "account_move_2026.csv",
-      Lignes: "4 238",
-    },
+    tags: ["facture", "finance"],
+    statusKey: "toVerify",
+    metadata: [
+      { labelKey: "type", value: "factures" },
+      { labelKey: "name", value: "Factures — Janvier 2026" },
+      { labelKey: "identity", value: "finance:invoices:2026-01" },
+      { labelKey: "source", value: "account_move_2026.csv" },
+      { labelKey: "rows", value: "4238" },
+    ],
   },
   {
     id: "processus-onboarding",
-    title: "Processus d’onboarding",
-    type: "Autre",
+    typeKey: "other",
     path: "wiki/processes/onboarding.md",
     tags: ["processus", "équipe"],
-    status: "Vérifiée",
-    description:
-      "Description des étapes nécessaires pour intégrer un nouveau collaborateur.",
-    metadata: {
-      Type: "process",
-      Nom: "Processus d’onboarding",
-      Identité: "process:onboarding",
-      Source: "processes_company.pdf",
-      Page: "12-18",
-    },
+    statusKey: "verified",
+    metadata: [
+      { labelKey: "type", value: "process" },
+      { labelKey: "name", value: "Processus d’onboarding" },
+      { labelKey: "identity", value: "process:onboarding" },
+      { labelKey: "source", value: "processes_company.pdf" },
+      { labelKey: "page", value: "12-18" },
+    ],
   },
 ];
 
-const vaultNames: Record<string, string> = {
-  "comptabilite-2026": "Comptabilité 2026",
-  "lin-ventes-2026": "LIN — Ventes 2026",
-  "prescription-nature": "Prescription Nature",
-};
+const typeFilterKeys = [
+  "all",
+  "document",
+  "organisation",
+  "category",
+  "other",
+] as const;
 
 export default function WikiPagesPage() {
   const params = useParams<{ vaultId: string }>();
-  const vaultName = vaultNames[params.vaultId] ?? "Vault";
+  const t = useTranslations("wikiPages");
+  const tc = useTranslations("common");
+  const tv = useTranslations("vault");
+  const format = useFormatter();
+
+  const vaultName = getVaultName(params.vaultId, tv("fallbackName"));
 
   const [query, setQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState("Tous les types");
+  const [typeFilter, setTypeFilter] =
+    useState<(typeof typeFilterKeys)[number]>("all");
   const [selectedId, setSelectedId] = useState("articles");
 
   const filteredPages = useMemo(() => {
     const normalizedQuery = query.toLowerCase().trim();
 
     return pages.filter((page) => {
+      const title = t(`items.${page.id}.title`);
+      const tags = page.tags.map((tag) => t(`tags.${tag}`)).join(" ");
+
       const matchesQuery =
         !normalizedQuery ||
-        `${page.title} ${page.path} ${page.tags.join(" ")}`
+        `${title} ${page.path} ${page.tags.join(" ")} ${tags}`
           .toLowerCase()
           .includes(normalizedQuery);
 
-      const matchesType =
-        typeFilter === "Tous les types" || page.type === typeFilter;
+      const matchesType = typeFilter === "all" || page.typeKey === typeFilter;
 
       return matchesQuery && matchesType;
     });
-  }, [query, typeFilter]);
+  }, [query, typeFilter, t]);
 
   const selectedPage =
     pages.find((page) => page.id === selectedId) ?? filteredPages[0];
@@ -125,22 +142,21 @@ export default function WikiPagesPage() {
             href={`/wiki/${params.vaultId}`}
             className="mb-6 inline-flex items-center gap-2 text-sm text-hoi-muted hover:text-hoi-navy"
           >
-            <ArrowLeft size={16} />
-            Retour à {vaultName}
+            <ArrowLeft size={16} className="rtl-flip" />
+            {tv("backToVault", { name: vaultName })}
           </Link>
 
           <header className="mb-8">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              Base de connaissances · {vaultName}
+              {t("eyebrow", { vault: vaultName })}
             </p>
 
             <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              Pages Wiki
+              {t("title")}
             </h1>
 
             <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              Recherchez et consultez les connaissances structurées de ce
-              Vault.
+              {t("subtitle")}
             </p>
           </header>
 
@@ -149,46 +165,47 @@ export default function WikiPagesPage() {
               <div className="relative flex-1">
                 <Search
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-hoi-muted"
+                  className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
                 />
 
                 <input
                   type="search"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Rechercher par titre, chemin ou tag..."
-                  className="form-input w-full pl-10"
+                  placeholder={t("searchPlaceholder")}
+                  className="form-input w-full ps-10"
                 />
               </div>
 
               <select
                 value={typeFilter}
-                onChange={(event) => setTypeFilter(event.target.value)}
+                onChange={(event) =>
+                  setTypeFilter(
+                    event.target.value as (typeof typeFilterKeys)[number],
+                  )
+                }
                 className="form-input lg:w-52"
               >
-                <option>Tous les types</option>
-                <option>Document</option>
-                <option>Organisation</option>
-                <option>Catégorie</option>
-                <option>Autre</option>
+                {typeFilterKeys.map((key) => (
+                  <option key={key} value={key}>
+                    {t(`types.${key}`)}
+                  </option>
+                ))}
               </select>
             </div>
 
-            <p className="mt-3 text-xs text-hoi-muted">
-              La recherche porte sur les titres, chemins et tags. La recherche
-              dans le contenu viendra avec Assistant Recherche Wiki.
-            </p>
+            <p className="mt-3 text-xs text-hoi-muted">{t("searchHint")}</p>
           </section>
 
           <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-4 shadow-sm">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="font-semibold text-hoi-navy">
-                  Pages de connaissances
+                  {t("listTitle")}
                 </h2>
 
                 <span className="text-xs text-hoi-muted">
-                  {filteredPages.length} résultat(s)
+                  {tc("results", { count: filteredPages.length })}
                 </span>
               </div>
 
@@ -201,7 +218,7 @@ export default function WikiPagesPage() {
                       key={page.id}
                       type="button"
                       onClick={() => setSelectedId(page.id)}
-                      className={`w-full rounded-lg border p-3 text-left transition ${
+                      className={`w-full rounded-lg border p-3 text-start transition ${
                         isSelected
                           ? "border-hoi-accent bg-blue-50"
                           : "border-transparent hover:border-hoi-border hover:bg-hoi-cream"
@@ -215,11 +232,12 @@ export default function WikiPagesPage() {
 
                         <div className="min-w-0">
                           <p className="truncate text-sm font-medium text-hoi-navy">
-                            {page.title}
+                            {t(`items.${page.id}.title`)}
                           </p>
 
                           <p className="mt-1 text-xs text-hoi-muted">
-                            {page.type} · {page.status}
+                            {t(`types.${page.typeKey}`)} ·{" "}
+                            {t(`status.${page.statusKey}`)}
                           </p>
                         </div>
                       </div>
@@ -238,12 +256,12 @@ export default function WikiPagesPage() {
                         <CheckCircle2
                           size={15}
                           className={
-                            selectedPage.status === "Vérifiée"
+                            selectedPage.statusKey === "verified"
                               ? "text-emerald-600"
                               : "text-amber-600"
                           }
                         />
-                        {selectedPage.status}
+                        {t(`status.${selectedPage.statusKey}`)}
                       </div>
 
                       <p className="break-all text-xs text-hoi-muted">
@@ -251,11 +269,11 @@ export default function WikiPagesPage() {
                       </p>
 
                       <h2 className="mt-4 text-3xl font-semibold tracking-tight text-hoi-navy">
-                        {selectedPage.title}
+                        {t(`items.${selectedPage.id}.title`)}
                       </h2>
 
                       <p className="mt-3 text-base leading-7 text-hoi-muted">
-                        {selectedPage.description}
+                        {t(`items.${selectedPage.id}.description`)}
                       </p>
                     </div>
 
@@ -263,7 +281,7 @@ export default function WikiPagesPage() {
                       type="button"
                       className="shrink-0 rounded-lg border border-hoi-border px-4 py-2 text-sm font-medium text-hoi-navy hover:bg-hoi-cream"
                     >
-                      Modifier la page
+                      {t("edit")}
                     </button>
                   </div>
 
@@ -274,48 +292,48 @@ export default function WikiPagesPage() {
                         className="inline-flex items-center gap-1 rounded-full border border-hoi-border px-3 py-1 text-xs text-hoi-muted"
                       >
                         <Tag size={13} />
-                        {tag}
+                        {t(`tags.${tag}`)}
                       </span>
                     ))}
                   </div>
 
                   <div className="mt-8 rounded-xl border border-hoi-border bg-hoi-cream/50 p-5">
                     <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-hoi-muted">
-                      Métadonnées de la page
+                      {t("metadataTitle")}
                     </h3>
 
                     <div className="mt-4 divide-y divide-hoi-border">
-                      {Object.entries(selectedPage.metadata).map(
-                        ([key, value]) => (
-                          <div
-                            key={key}
-                            className="grid gap-2 py-3 text-sm md:grid-cols-[160px_1fr]"
-                          >
-                            <span className="text-hoi-muted">{key}</span>
-                            <span className="font-medium text-hoi-navy">
-                              {value}
-                            </span>
-                          </div>
-                        ),
-                      )}
+                      {selectedPage.metadata.map((entry) => (
+                        <div
+                          key={entry.labelKey}
+                          className="grid gap-2 py-3 text-sm md:grid-cols-[160px_1fr]"
+                        >
+                          <span className="text-hoi-muted">
+                            {t(`metadataLabels.${entry.labelKey}`)}
+                          </span>
+                          <span className="font-medium text-hoi-navy">
+                            {entry.labelKey === "rows"
+                              ? format.number(Number(entry.value))
+                              : entry.value}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
                   <div className="mt-8">
                     <h3 className="text-xl font-semibold text-hoi-navy">
-                      Provenance
+                      {t("provenanceTitle")}
                     </h3>
 
                     <p className="mt-2 text-sm leading-6 text-hoi-muted">
-                      Cette page est liée à ses sources originales. Les
-                      informations affichées pourront être vérifiées avant
-                      toute modification.
+                      {t("provenanceDescription")}
                     </p>
                   </div>
                 </>
               ) : (
                 <div className="py-16 text-center text-hoi-muted">
-                  Aucune page trouvée.
+                  {t("empty")}
                 </div>
               )}
             </section>

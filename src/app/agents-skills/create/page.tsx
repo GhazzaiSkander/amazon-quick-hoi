@@ -1,4 +1,6 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Bot,
   ChevronLeft,
@@ -11,14 +13,19 @@ import {
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 
-const tools = [
-  "Lire les documents",
-  "Rechercher dans le contexte",
-  "Analyser les données",
-  "Utiliser les connecteurs",
-];
+const toolKeys = [
+  "readDocuments",
+  "searchContext",
+  "analyzeData",
+  "useConnectors",
+] as const;
+
+const knowledgeKeys = ["personal", "company", "local"] as const;
 
 export default function CreateAgentPage() {
+  const t = useTranslations("agentCreate");
+  const tc = useTranslations("common");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -27,8 +34,8 @@ export default function CreateAgentPage() {
             href="/agents-skills"
             className="inline-flex items-center gap-2 text-sm font-medium text-hoi-muted transition hover:text-hoi-navy"
           >
-            <ChevronLeft size={17} />
-            Retour aux agents
+            <ChevronLeft size={17} className="rtl-flip" />
+            {t("back")}
           </Link>
 
           <header className="mt-6 border-b border-hoi-border pb-6">
@@ -39,16 +46,15 @@ export default function CreateAgentPage() {
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-hoi-muted">
-                  Nouveau configurateur
+                  {t("eyebrow")}
                 </p>
 
                 <h1 className="mt-3 text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Créer un agent
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 max-w-2xl text-base leading-7 text-hoi-muted">
-                  Définissez le rôle, les connaissances et les permissions de
-                  votre assistant IA.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -58,32 +64,34 @@ export default function CreateAgentPage() {
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<Bot size={20} />}
-                title="Informations générales"
-                description="Définissez l’identité et la mission de votre agent."
+                title={t("general.title")}
+                description={t("general.description")}
               />
 
               <div className="mt-6 grid gap-6 md:grid-cols-2">
-                <FormField label="Nom de l’agent">
+                <FormField label={t("general.nameLabel")}>
                   <input
                     type="text"
-                    placeholder="Ex. Assistant commercial"
+                    placeholder={t("general.namePlaceholder")}
                     className="form-input"
                   />
                 </FormField>
 
-                <FormField label="Visibilité">
+                <FormField label={tc("visibility")}>
                   <select className="form-input" defaultValue="private">
-                    <option value="private">Privé</option>
-                    <option value="workspace">Tout l’espace de travail</option>
-                    <option value="shared">Utilisateurs sélectionnés</option>
+                    <option value="private">{tc("visibilityPrivate")}</option>
+                    <option value="workspace">
+                      {tc("visibilityWorkspace")}
+                    </option>
+                    <option value="shared">{tc("visibilityShared")}</option>
                   </select>
                 </FormField>
 
                 <div className="md:col-span-2">
-                  <FormField label="Description">
+                  <FormField label={tc("description")}>
                     <input
                       type="text"
-                      placeholder="Décrivez brièvement ce que fait cet agent."
+                      placeholder={t("general.descriptionPlaceholder")}
                       className="form-input"
                     />
                   </FormField>
@@ -94,17 +102,12 @@ export default function CreateAgentPage() {
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<Info size={20} />}
-                title="Instructions de l’agent"
-                description="Expliquez à l’agent comment il doit raisonner et répondre."
+                title={t("instructions.title")}
+                description={t("instructions.description")}
               />
 
               <textarea
-                placeholder={`Exemple :
-
-Tu es un assistant spécialisé dans l’analyse des processus internes.
-Réponds de manière claire, structurée et concise.
-Cite toujours les sources utilisées.
-Si l’information n’est pas disponible, indique-le clairement.`}
+                placeholder={t("instructions.placeholder")}
                 className="mt-6 min-h-52 w-full resize-y rounded-xl border border-hoi-border bg-white p-4 text-sm leading-6 text-hoi-navy outline-none placeholder:text-hoi-muted/60 focus:border-hoi-navy"
               />
             </section>
@@ -112,40 +115,31 @@ Si l’information n’est pas disponible, indique-le clairement.`}
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<Database size={20} />}
-                title="Sources de connaissances"
-                description="Choisissez les informations auxquelles cet agent pourra accéder."
+                title={t("knowledge.title")}
+                description={t("knowledge.description")}
               />
 
               <div className="mt-6 space-y-3">
-                <PermissionRow
-                  title="Contexte personnel"
-                  description="Documents privés et sources personnelles de l’utilisateur."
-                  enabled
-                />
-
-                <PermissionRow
-                  title="Connaissances de l’entreprise"
-                  description="Espaces partagés accessibles en lecture seule."
-                  enabled
-                />
-
-                <PermissionRow
-                  title="Dossiers locaux"
-                  description="Fichiers locaux explicitement autorisés."
-                  enabled={false}
-                />
+                {knowledgeKeys.map((key, index) => (
+                  <PermissionRow
+                    key={key}
+                    title={t(`knowledge.${key}.title`)}
+                    description={t(`knowledge.${key}.description`)}
+                    enabled={index < 2}
+                  />
+                ))}
               </div>
             </section>
 
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<Wrench size={20} />}
-                title="Outils et capacités"
-                description="Activez les outils que l’agent pourra utiliser."
+                title={t("tools.title")}
+                description={t("tools.description")}
               />
 
               <div className="mt-6 grid gap-3 md:grid-cols-2">
-                {tools.map((tool, index) => (
+                {toolKeys.map((tool, index) => (
                   <label
                     key={tool}
                     className="flex cursor-pointer items-center gap-3 rounded-xl border border-hoi-border bg-white p-4"
@@ -157,21 +151,17 @@ Si l’information n’est pas disponible, indique-le clairement.`}
                     />
 
                     <span className="text-sm font-medium text-hoi-navy">
-                      {tool}
+                      {t(`tools.${tool}`)}
                     </span>
                   </label>
                 ))}
               </div>
 
               <div className="mt-5 flex items-start gap-3 rounded-xl border border-hoi-border bg-hoi-cream/50 p-4">
-                <Shield
-                  size={18}
-                  className="mt-0.5 shrink-0 text-hoi-navy"
-                />
+                <Shield size={18} className="mt-0.5 shrink-0 text-hoi-navy" />
 
                 <p className="text-sm leading-6 text-hoi-muted">
-                  Les outils sensibles, notamment les serveurs MCP, devront
-                  toujours être autorisés par une permission explicite.
+                  {t("tools.notice")}
                 </p>
               </div>
             </section>
@@ -181,7 +171,7 @@ Si l’information n’est pas disponible, indique-le clairement.`}
                 href="/agents-skills"
                 className="rounded-lg border border-hoi-border bg-white px-5 py-3 text-sm font-medium text-hoi-muted transition hover:border-hoi-navy hover:text-hoi-navy"
               >
-                Annuler
+                {tc("cancel")}
               </Link>
 
               <div className="flex gap-3">
@@ -190,15 +180,15 @@ Si l’information n’est pas disponible, indique-le clairement.`}
                   className="flex items-center gap-2 rounded-lg border border-hoi-border bg-white px-5 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
                 >
                   <Save size={17} />
-                  Enregistrer comme brouillon
+                  {tc("saveDraft")}
                 </button>
 
                 <button
                   type="button"
                   className="flex items-center gap-2 rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
                 >
-                  Continuer
-                  <ChevronRight size={17} />
+                  {tc("continue")}
+                  <ChevronRight size={17} className="rtl-flip" />
                 </button>
               </div>
             </div>
@@ -214,15 +204,13 @@ function SectionHeader({
   title,
   description,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="rounded-lg bg-hoi-cream p-2.5 text-hoi-navy">
-        {icon}
-      </div>
+      <div className="rounded-lg bg-hoi-cream p-2.5 text-hoi-navy">{icon}</div>
 
       <div>
         <h2 className="font-semibold text-hoi-navy">{title}</h2>
@@ -237,7 +225,7 @@ function FormField({
   children,
 }: {
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label className="block">
@@ -273,7 +261,7 @@ function PermissionRow({
       >
         <div
           className={`h-4 w-4 rounded-full bg-white transition ${
-            enabled ? "ml-5" : "ml-0"
+            enabled ? "ms-5" : "ms-0"
           }`}
         />
       </div>

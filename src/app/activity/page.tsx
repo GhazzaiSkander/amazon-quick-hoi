@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import {
   CalendarDays,
   CheckSquare2,
@@ -10,24 +11,23 @@ import {
 import AppShell from "@/components/layout/AppShell";
 
 const tabs = [
-  { label: "Inbox", icon: Inbox },
-  { label: "Calendar", icon: CalendarDays },
-  { label: "To-dos", icon: CheckSquare2 },
-  { label: "Channels", icon: MessageCircle },
-];
+  { key: "inbox", icon: Inbox },
+  { key: "calendar", icon: CalendarDays },
+  { key: "todos", icon: CheckSquare2 },
+  { key: "channels", icon: MessageCircle },
+] as const;
 
-const suggestions = [
-  {
-    title: "Review Q3 deck before 3pm sync",
-    description: "Meeting with product team",
-  },
-  {
-    title: "Pull latest metrics for standup",
-    description: "Weekly review — 10am",
-  },
-];
+const proactiveAgentKeys = [
+  "morningDigest",
+  "threadsNeedingReply",
+  "weekAhead",
+] as const;
+
+const suggestionKeys = ["deck", "metrics"] as const;
 
 export default function ActivityPage() {
+  const t = useTranslations("activity");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -40,12 +40,11 @@ export default function ActivityPage() {
 
               <div>
                 <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Activity feed
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 text-base leading-7 text-hoi-muted">
-                  Votre email professionnel, calendrier, tâches et canaux
-                  d’équipe réunis dans une seule file calme.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -57,7 +56,7 @@ export default function ActivityPage() {
 
                 return (
                   <button
-                    key={tab.label}
+                    key={tab.key}
                     type="button"
                     className={`flex items-center gap-2 border-b-2 pb-3 text-sm font-medium transition ${
                       active
@@ -66,7 +65,7 @@ export default function ActivityPage() {
                     }`}
                   >
                     <Icon size={16} />
-                    {tab.label}
+                    {t(`tabs.${tab.key}`)}
                   </button>
                 );
               })}
@@ -75,44 +74,32 @@ export default function ActivityPage() {
 
           <section className="mt-6 rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
             <div className="flex flex-wrap items-center gap-3">
-              <h2 className="font-semibold text-hoi-navy">For you</h2>
+              <h2 className="font-semibold text-hoi-navy">{t("forYou")}</h2>
 
               <span className="rounded-full bg-hoi-cream px-3 py-1 text-xs font-medium text-hoi-navy">
-                Proactive · read-only · personal
+                {t("forYouBadge")}
               </span>
             </div>
 
             <p className="mt-2 text-sm text-hoi-muted">
-              Les agents programmés utilisent uniquement vos connaissances
-              personnelles. Ils résument, mais n’envoient jamais de message.
+              {t("forYouDescription")}
             </p>
 
             <div className="mt-5 rounded-lg border border-dashed border-hoi-border p-4">
               <p className="mb-3 text-sm font-medium text-hoi-navy">
-                Activer davantage d’agents proactifs
+                {t("enableMore")}
               </p>
 
               <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  className="rounded-lg border border-hoi-border bg-white px-4 py-2 text-sm text-hoi-navy transition hover:border-hoi-navy"
-                >
-                  + Morning digest
-                </button>
-
-                <button
-                  type="button"
-                  className="rounded-lg border border-hoi-border bg-white px-4 py-2 text-sm text-hoi-navy transition hover:border-hoi-navy"
-                >
-                  + Threads needing reply
-                </button>
-
-                <button
-                  type="button"
-                  className="rounded-lg border border-hoi-border bg-white px-4 py-2 text-sm text-hoi-navy transition hover:border-hoi-navy"
-                >
-                  + Week ahead
-                </button>
+                {proactiveAgentKeys.map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    className="rounded-lg border border-hoi-border bg-white px-4 py-2 text-sm text-hoi-navy transition hover:border-hoi-navy"
+                  >
+                    {t(`agents.${key}`)}
+                  </button>
+                ))}
               </div>
             </div>
           </section>
@@ -124,14 +111,14 @@ export default function ActivityPage() {
 
                 <input
                   type="search"
-                  placeholder="Rechercher dans les emails..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full bg-transparent text-sm text-hoi-navy outline-none placeholder:text-hoi-muted/60"
                 />
               </div>
 
               <button
                 type="button"
-                aria-label="Actualiser"
+                aria-label={t("refresh")}
                 className="rounded-lg border border-hoi-border bg-hoi-surface p-3 text-hoi-muted transition hover:text-hoi-navy"
               >
                 <RefreshCw size={18} />
@@ -141,27 +128,24 @@ export default function ActivityPage() {
                 type="button"
                 className="rounded-lg border border-hoi-border bg-hoi-surface px-4 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
               >
-                Backfill to My Context
+                {t("backfill")}
               </button>
 
               <button
                 type="button"
                 className="rounded-lg border border-hoi-border bg-hoi-surface px-4 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
               >
-                Edit feed
+                {t("editFeed")}
               </button>
             </div>
 
-            <p className="mt-4 text-sm text-hoi-muted">
-              Votre boîte de réception affichera les emails nécessitant votre
-              attention après la connexion de Gmail ou Outlook.
-            </p>
+            <p className="mt-4 text-sm text-hoi-muted">{t("inboxHint")}</p>
           </section>
 
           <section className="mt-8 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
             <div>
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-hoi-muted">
-                Derniers emails
+                {t("latestEmails")}
               </h2>
 
               <div className="rounded-card border border-dashed border-hoi-border bg-hoi-surface p-10 text-center">
@@ -170,12 +154,11 @@ export default function ActivityPage() {
                 </div>
 
                 <h3 className="mt-4 font-semibold text-hoi-navy">
-                  Connectez votre email
+                  {t("connectEmailTitle")}
                 </h3>
 
                 <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-hoi-muted">
-                  Ajoutez Gmail ou Outlook à votre boîte de réception pour faire
-                  apparaître les emails nécessitant une réponse.
+                  {t("connectEmailDescription")}
                 </p>
 
                 <div className="mt-5 flex justify-center gap-3">
@@ -183,14 +166,14 @@ export default function ActivityPage() {
                     type="button"
                     className="rounded-lg bg-hoi-navy px-4 py-2 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
                   >
-                    Connecter Gmail
+                    {t("connectGmail")}
                   </button>
 
                   <button
                     type="button"
                     className="rounded-lg border border-hoi-border bg-white px-4 py-2 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
                   >
-                    Connecter Outlook
+                    {t("connectOutlook")}
                   </button>
                 </div>
               </div>
@@ -198,13 +181,13 @@ export default function ActivityPage() {
 
             <div>
               <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-hoi-muted">
-                Tâches suggérées
+                {t("suggestedTasks")}
               </h2>
 
               <div className="space-y-3">
-                {suggestions.map((suggestion) => (
+                {suggestionKeys.map((key) => (
                   <div
-                    key={suggestion.title}
+                    key={key}
                     className="rounded-card border border-hoi-border bg-hoi-surface p-4 shadow-sm"
                   >
                     <div className="flex gap-3">
@@ -215,11 +198,11 @@ export default function ActivityPage() {
 
                       <div>
                         <h3 className="text-sm font-semibold text-hoi-navy">
-                          {suggestion.title}
+                          {t(`suggestions.${key}.title`)}
                         </h3>
 
                         <p className="mt-1 text-sm text-hoi-muted">
-                          {suggestion.description}
+                          {t(`suggestions.${key}.description`)}
                         </p>
                       </div>
                     </div>

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import {
   Archive,
   FileText,
@@ -9,6 +10,9 @@ import {
 import AppShell from "@/components/layout/AppShell";
 
 export default function SavedPage() {
+  const t = useTranslations("saved");
+  const tc = useTranslations("common");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -21,12 +25,11 @@ export default function SavedPage() {
 
               <div>
                 <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Mes éléments enregistrés
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 text-base leading-7 text-hoi-muted">
-                  Retrouvez vos réponses, brouillons et ressources réutilisables
-                  au même endroit.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -36,14 +39,14 @@ export default function SavedPage() {
                 type="button"
                 className="border-b-2 border-hoi-navy pb-3 text-sm font-medium text-hoi-navy"
               >
-                Réponses enregistrées
+                {t("tabAnswers")}
               </button>
 
               <button
                 type="button"
                 className="border-b-2 border-transparent pb-3 text-sm font-medium text-hoi-muted transition hover:text-hoi-navy"
               >
-                Ressources
+                {t("tabResources")}
               </button>
             </nav>
           </header>
@@ -55,7 +58,7 @@ export default function SavedPage() {
 
                 <input
                   type="search"
-                  placeholder="Rechercher dans vos éléments enregistrés..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full bg-transparent text-sm text-hoi-navy outline-none placeholder:text-hoi-muted/60"
                 />
               </div>
@@ -65,12 +68,12 @@ export default function SavedPage() {
                 className="flex items-center gap-2 rounded-lg border border-hoi-border bg-hoi-surface px-4 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
               >
                 <FolderPlus size={17} />
-                Nouveau dossier
+                {t("newFolder")}
               </button>
 
               <button
                 type="button"
-                aria-label="Affichage en liste"
+                aria-label={tc("listView")}
                 className="rounded-lg border border-hoi-border bg-hoi-surface p-3 text-hoi-muted transition hover:text-hoi-navy"
               >
                 <List size={18} />
@@ -78,7 +81,7 @@ export default function SavedPage() {
 
               <button
                 type="button"
-                aria-label="Affichage en grille"
+                aria-label={tc("gridView")}
                 className="rounded-lg bg-hoi-navy p-3 text-white"
               >
                 <Grid2X2 size={18} />
@@ -89,13 +92,13 @@ export default function SavedPage() {
               type="button"
               className="mt-5 rounded-full border border-hoi-navy bg-white px-4 py-2 text-sm font-medium text-hoi-navy"
             >
-              Tous
+              {tc("all")}
             </button>
           </section>
 
           <section className="mt-8">
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-hoi-muted">
-              Vos réponses enregistrées
+              {t("sectionTitle")}
             </h2>
 
             <div className="grid gap-6 lg:grid-cols-[1.6fr_0.9fr]">
@@ -106,12 +109,11 @@ export default function SavedPage() {
                   </div>
 
                   <h3 className="mt-5 font-semibold text-hoi-navy">
-                    Aucun élément enregistré
+                    {t("emptyTitle")}
                   </h3>
 
                   <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-hoi-muted">
-                    Enregistrez une réponse depuis le chat pour commencer votre
-                    collection.
+                    {t("emptyDescription")}
                   </p>
                 </div>
               </div>
@@ -123,12 +125,11 @@ export default function SavedPage() {
                   </div>
 
                   <h3 className="mt-4 font-semibold text-hoi-navy">
-                    Ouvrir un élément enregistré
+                    {t("previewTitle")}
                   </h3>
 
                   <p className="mt-2 text-sm leading-6 text-hoi-muted">
-                    Sélectionnez une réponse ou un brouillon pour le prévisualiser
-                    ici.
+                    {t("previewDescription")}
                   </p>
                 </div>
               </div>

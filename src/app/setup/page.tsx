@@ -1,38 +1,82 @@
-import {
-  Building2,
-  Check,
-  ChevronRight,
-  Rocket,
-  Users,
-} from "lucide-react";
+import type { ReactNode } from "react";
+import { useFormatter, useTranslations } from "next-intl";
+import { Building2, Check, ChevronRight, Rocket, Users } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 
-const steps = [
-  "Bases de l’entreprise",
-  "Organisation",
-  "Outils utilisés",
-  "Priorités",
-  "Invitations",
-  "Lancer l’espace",
+const stepKeys = [
+  "basics",
+  "organisation",
+  "tools",
+  "priorities",
+  "invites",
+  "launch",
+] as const;
+
+const industryKeys = [
+  "professionalServices",
+  "technology",
+  "finance",
+  "marketing",
+  "hr",
+  "other",
+] as const;
+
+/** Size brackets are numeric data; only the "more than" wording is translated. */
+const sizeBrackets: [number, number][] = [
+  [1, 10],
+  [11, 50],
+  [51, 250],
+  [251, 1000],
 ];
+const sizeOverflow = 1000;
+
+/** Business-model codes stay stable; two of them need a translated label. */
+const businessModelCodes = ["B2B", "B2C", "B2B2C"] as const;
+
+const growthStageKeys = [
+  "founding",
+  "launch",
+  "scaleUp",
+  "maturity",
+  "transformation",
+] as const;
+
+const customerTypeKeys = [
+  "startups",
+  "sme",
+  "midMarket",
+  "enterprise",
+  "consumer",
+] as const;
+
+const infoCardKeys = ["multiUser", "configurable", "companyContext"] as const;
+const infoCardIcons = {
+  multiUser: <Users size={19} />,
+  configurable: <Rocket size={19} />,
+  companyContext: <Building2 size={19} />,
+} as const;
 
 export default function SetupPage() {
+  const t = useTranslations("setup");
+  const tc = useTranslations("common");
+  const format = useFormatter();
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
           <section className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-hoi-muted">
-              Configuration de l’entreprise
+              {t("eyebrow")}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-2">
-              {steps.map((step, index) => {
+              {stepKeys.map((stepKey, index) => {
                 const active = index === 0;
-                const completed = index < 0;
+                const completed = false;
 
                 return (
-                  <div key={step} className="flex items-center gap-2">
+                  <div key={stepKey} className="flex items-center gap-2">
                     <div
                       className={`flex items-center gap-2 rounded-full border px-3 py-2 text-sm ${
                         active
@@ -47,16 +91,22 @@ export default function SetupPage() {
                             : "bg-hoi-cream text-hoi-muted"
                         }`}
                       >
-                        {completed ? <Check size={13} /> : index + 1}
+                        {completed ? (
+                          <Check size={13} />
+                        ) : (
+                          format.number(index + 1)
+                        )}
                       </span>
 
-                      <span className="hidden md:inline">{step}</span>
+                      <span className="hidden md:inline">
+                        {t(`steps.${stepKey}`)}
+                      </span>
                     </div>
 
-                    {index < steps.length - 1 && (
+                    {index < stepKeys.length - 1 && (
                       <ChevronRight
                         size={16}
-                        className="text-hoi-border"
+                        className="rtl-flip text-hoi-border"
                       />
                     )}
                   </div>
@@ -69,111 +119,118 @@ export default function SetupPage() {
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-hoi-muted">
-                  Étape 1 sur 6
+                  {t("stepIndicator", { current: 1, total: stepKeys.length })}
                 </p>
 
                 <h1 className="mt-4 text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Les bases de votre entreprise
+                  {t("title")}
                 </h1>
 
                 <p className="mt-3 max-w-3xl text-base leading-7 text-hoi-muted">
-                  Ces informations permettront à vos agents de mieux comprendre
-                  votre organisation, vos processus et vos priorités.
+                  {t("subtitle")}
                 </p>
               </div>
 
               <span className="rounded-full bg-hoi-cream px-4 py-2 text-sm font-medium text-hoi-navy">
-                Brouillon
+                {t("draft")}
               </span>
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <FormField label="Nom de l’entreprise">
+              <FormField label={t("fields.companyName")}>
                 <input
                   type="text"
-                  placeholder="Ex. House of Ichigo"
+                  placeholder={t("fields.companyNamePlaceholder")}
                   className="form-input"
                 />
               </FormField>
 
-              <FormField label="Secteur d’activité">
+              <FormField label={t("fields.industry")}>
                 <select className="form-input" defaultValue="">
                   <option value="" disabled>
-                    Sélectionner un secteur
+                    {t("fields.industryPlaceholder")}
                   </option>
-                  <option>Services professionnels</option>
-                  <option>Technologie</option>
-                  <option>Finance</option>
-                  <option>Marketing</option>
-                  <option>Ressources humaines</option>
-                  <option>Autre</option>
+                  {industryKeys.map((key) => (
+                    <option key={key} value={key}>
+                      {t(`industries.${key}`)}
+                    </option>
+                  ))}
                 </select>
               </FormField>
 
-              <FormField label="Sous-secteur">
+              <FormField label={t("fields.subIndustry")}>
                 <input
                   type="text"
-                  placeholder="Ex. Automatisation et conseil IA"
+                  placeholder={t("fields.subIndustryPlaceholder")}
                   className="form-input"
                 />
               </FormField>
 
-              <FormField label="Taille de l’entreprise">
+              <FormField label={t("fields.companySize")}>
                 <select className="form-input" defaultValue="">
                   <option value="" disabled>
-                    Sélectionner une taille
+                    {t("fields.companySizePlaceholder")}
                   </option>
-                  <option>1–10</option>
-                  <option>11–50</option>
-                  <option>51–250</option>
-                  <option>251–1 000</option>
-                  <option>Plus de 1 000</option>
+                  {sizeBrackets.map(([from, to]) => (
+                    <option key={from} value={`${from}-${to}`}>
+                      {`${format.number(from)}–${format.number(to)}`}
+                    </option>
+                  ))}
+                  <option value={`${sizeOverflow}+`}>
+                    {t("sizes.moreThan", {
+                      count: format.number(sizeOverflow),
+                    })}
+                  </option>
                 </select>
               </FormField>
 
-              <FormField label="Modèle économique">
+              <FormField label={t("fields.businessModel")}>
                 <select className="form-input" defaultValue="">
                   <option value="" disabled>
-                    Sélectionner un modèle
+                    {t("fields.businessModelPlaceholder")}
                   </option>
-                  <option>B2B</option>
-                  <option>B2C</option>
-                  <option>B2B2C</option>
-                  <option>Association</option>
-                  <option>Autre</option>
+                  {businessModelCodes.map((code) => (
+                    <option key={code} value={code}>
+                      {code}
+                    </option>
+                  ))}
+                  <option value="nonprofit">
+                    {t("businessModels.nonprofit")}
+                  </option>
+                  <option value="other">{t("businessModels.other")}</option>
                 </select>
               </FormField>
 
-              <FormField label="Phase de croissance">
+              <FormField label={t("fields.growthStage")}>
                 <select className="form-input" defaultValue="">
                   <option value="" disabled>
-                    Sélectionner une phase
+                    {t("fields.growthStagePlaceholder")}
                   </option>
-                  <option>Création</option>
-                  <option>Lancement</option>
-                  <option>Scale-up</option>
-                  <option>Maturité</option>
-                  <option>Transformation</option>
+                  {growthStageKeys.map((key) => (
+                    <option key={key} value={key}>
+                      {t(`growthStages.${key}`)}
+                    </option>
+                  ))}
                 </select>
               </FormField>
 
-              <FormField label="Type de clients">
+              <FormField label={t("fields.customerType")}>
                 <select className="form-input" defaultValue="">
                   <option value="" disabled>
-                    Sélectionner un type
+                    {t("fields.customerTypePlaceholder")}
                   </option>
-                  <option>Startups</option>
-                  <option>PME</option>
-                  <option>ETI</option>
-                  <option>Grands comptes</option>
-                  <option>Grand public</option>
+                  {customerTypeKeys.map((key) => (
+                    <option key={key} value={key}>
+                      {t(`customerTypes.${key}`)}
+                    </option>
+                  ))}
                 </select>
               </FormField>
 
-              <FormField label="Zone géographique">
+              <FormField label={t("fields.region")}>
                 <input
                   type="text"
-                  placeholder="Ex. France, Europe"
+                  placeholder={t("fields.regionPlaceholder")}
                   className="form-input"
                 />
               </FormField>
@@ -187,12 +244,11 @@ export default function SetupPage() {
 
                 <div>
                   <h2 className="font-semibold text-hoi-navy">
-                    Pourquoi ces informations ?
+                    {t("whyTitle")}
                   </h2>
 
                   <p className="mt-1 text-sm leading-6 text-hoi-muted">
-                    Elles serviront à personnaliser les tableaux de bord, les
-                    modèles, les rapports et les suggestions de vos agents.
+                    {t("whyDescription")}
                   </p>
                 </div>
               </div>
@@ -203,37 +259,28 @@ export default function SetupPage() {
                 type="button"
                 className="rounded-lg border border-hoi-border bg-white px-5 py-3 text-sm font-medium text-hoi-muted transition hover:border-hoi-navy hover:text-hoi-navy"
               >
-                Enregistrer comme brouillon
+                {tc("saveDraft")}
               </button>
 
               <button
                 type="button"
                 className="flex items-center gap-2 rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
               >
-                Continuer
-                <ChevronRight size={17} />
+                {tc("continue")}
+                <ChevronRight size={17} className="rtl-flip" />
               </button>
             </div>
           </section>
 
           <section className="mt-6 grid gap-4 md:grid-cols-3">
-            <InfoCard
-              icon={<Users size={19} />}
-              title="Multi-utilisateur"
-              description="Les étapes suivantes permettront d’inviter les membres de votre équipe."
-            />
-
-            <InfoCard
-              icon={<Rocket size={19} />}
-              title="Espace configurable"
-              description="Chaque organisation pourra définir ses propres règles et sources."
-            />
-
-            <InfoCard
-              icon={<Building2 size={19} />}
-              title="Contexte entreprise"
-              description="Les agents pourront adapter leurs réponses à votre organisation."
-            />
+            {infoCardKeys.map((key) => (
+              <InfoCard
+                key={key}
+                icon={infoCardIcons[key]}
+                title={t(`cards.${key}.title`)}
+                description={t(`cards.${key}.description`)}
+              />
+            ))}
           </section>
         </div>
       </div>
@@ -246,7 +293,7 @@ function FormField({
   children,
 }: {
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label className="block">
@@ -264,7 +311,7 @@ function InfoCard({
   title,
   description,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
 }) {

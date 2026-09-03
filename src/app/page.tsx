@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import {
   ArrowUp,
   CalendarDays,
@@ -11,36 +12,33 @@ import {
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 
-const suggestions = [
-  "Résumer notre processus de lancement",
-  "Préparer le briefing de la réunion de demain",
-  "Analyser les dernières données commerciales",
-  "Cartographier notre processus d’onboarding",
-];
+const suggestionKeys = ["launch", "briefing", "sales", "onboarding"] as const;
 
 export default function Home() {
+  const t = useTranslations("home");
+  const tc = useTranslations("common");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
           <header className="mb-10">
             <p className="mb-3 text-sm font-medium text-hoi-muted">
-              House of Ichigo · Workspace
+              {tc("workspaceEyebrow")}
             </p>
 
             <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy lg:text-5xl">
-              Sur quoi travaillons-nous aujourd’hui ?
+              {t("title")}
             </h1>
 
             <p className="mt-4 max-w-2xl text-base leading-7 text-hoi-muted">
-              Interrogez vos connaissances, analysez vos données et utilisez
-              vos outils professionnels depuis un espace unique.
+              {t("subtitle")}
             </p>
           </header>
 
           <section className="rounded-card border border-hoi-border bg-hoi-surface p-4 shadow-sm">
             <textarea
-              placeholder="Posez une question..."
+              placeholder={tc("askQuestion")}
               className="min-h-28 w-full resize-none border-0 bg-transparent p-3 text-base text-hoi-navy outline-none placeholder:text-hoi-muted/60"
             />
 
@@ -48,7 +46,7 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  aria-label="Ajouter une pièce jointe"
+                  aria-label={tc("attachFile")}
                   className="rounded-lg p-2 text-hoi-muted transition hover:bg-hoi-cream hover:text-hoi-navy"
                 >
                   <Paperclip size={18} />
@@ -58,7 +56,7 @@ export default function Home() {
                   type="button"
                   className="rounded-lg px-3 py-2 text-sm font-medium text-hoi-navy transition hover:bg-hoi-cream"
                 >
-                  Tous les outils
+                  {tc("allTools")}
                 </button>
 
                 <button
@@ -66,14 +64,14 @@ export default function Home() {
                   className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-hoi-navy transition hover:bg-hoi-cream"
                 >
                   <Sparkles size={16} />
-                  Smart
+                  {tc("smart")}
                 </button>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  aria-label="Utiliser le microphone"
+                  aria-label={tc("useMicrophone")}
                   className="rounded-lg p-2 text-hoi-muted transition hover:bg-hoi-cream hover:text-hoi-navy"
                 >
                   <Mic size={18} />
@@ -81,7 +79,7 @@ export default function Home() {
 
                 <button
                   type="button"
-                  aria-label="Envoyer"
+                  aria-label={tc("send")}
                   className="flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-navy text-white transition hover:bg-hoi-navy-soft"
                 >
                   <ArrowUp size={18} />
@@ -93,22 +91,22 @@ export default function Home() {
           <section className="mt-10">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-hoi-navy">
-                Suggestions
+                {t("suggestionsTitle")}
               </h2>
 
               <span className="text-sm text-hoi-muted">
-                Démarrer rapidement
+                {t("suggestionsHint")}
               </span>
             </div>
 
             <div className="grid gap-3 md:grid-cols-2">
-              {suggestions.map((suggestion) => (
+              {suggestionKeys.map((key) => (
                 <button
-                  key={suggestion}
+                  key={key}
                   type="button"
-                  className="rounded-card border border-hoi-border bg-hoi-surface p-5 text-left text-sm font-medium text-hoi-navy shadow-sm transition hover:-translate-y-0.5 hover:border-hoi-accent"
+                  className="rounded-card border border-hoi-border bg-hoi-surface p-5 text-start text-sm font-medium text-hoi-navy shadow-sm transition hover:-translate-y-0.5 hover:border-hoi-accent"
                 >
-                  {suggestion}
+                  {t(`suggestions.${key}`)}
                 </button>
               ))}
             </div>
@@ -116,29 +114,29 @@ export default function Home() {
 
           <section className="mt-10">
             <h2 className="mb-4 text-lg font-semibold text-hoi-navy">
-              Connecter vos outils
+              {t("connectTitle")}
             </h2>
 
             <div className="grid gap-4 lg:grid-cols-3">
               <ConnectionCard
                 icon={<FolderOpen size={20} />}
-                title="Dossiers locaux"
-                description="Autoriser la recherche dans vos fichiers."
-                action="Ajouter un dossier"
+                title={t("cards.folders.title")}
+                description={t("cards.folders.description")}
+                action={t("cards.folders.action")}
               />
 
               <ConnectionCard
                 icon={<Mail size={20} />}
-                title="Email"
-                description="Connecter Gmail ou Outlook."
-                action="Connecter"
+                title={t("cards.email.title")}
+                description={t("cards.email.description")}
+                action={t("cards.email.action")}
               />
 
               <ConnectionCard
                 icon={<MessageCircle size={20} />}
-                title="Messagerie"
-                description="Connecter Slack ou Microsoft Teams."
-                action="Connecter"
+                title={t("cards.messaging.title")}
+                description={t("cards.messaging.description")}
+                action={t("cards.messaging.action")}
               />
             </div>
           </section>
@@ -151,12 +149,11 @@ export default function Home() {
 
               <div>
                 <h2 className="font-semibold text-hoi-navy">
-                  Votre espace de travail
+                  {t("workspaceTitle")}
                 </h2>
 
                 <p className="mt-1 text-sm leading-6 text-hoi-muted">
-                  Les connexions, agents et automatisations apparaîtront ici
-                  au fur et à mesure de la configuration de votre espace.
+                  {t("workspaceDescription")}
                 </p>
               </div>
             </div>

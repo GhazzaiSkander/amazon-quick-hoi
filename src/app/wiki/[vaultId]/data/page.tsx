@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -12,15 +13,33 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import { getVaultName } from "@/lib/vaults";
 
-const invoices = [
+type InvoiceStatusKey = "paid" | "toVerify";
+
+/**
+ * Invoice records are business data: numbers, dates, amounts and third parties
+ * stay verbatim. `statusKey` is the stable internal status; only its label is
+ * translated. Amounts and dates are formatted per locale at render time.
+ */
+const invoices: {
+  id: string;
+  number: string;
+  date: string;
+  thirdParty: string;
+  amount: number;
+  currency: string;
+  statusKey: InvoiceStatusKey;
+  source: string;
+}[] = [
   {
     id: "FA2515312",
     number: "FA2515312",
     date: "2026-01-08",
     thirdParty: "Vanhoeve Dylan",
-    amount: "1 245,00 €",
-    status: "Payée",
+    amount: 1245,
+    currency: "EUR",
+    statusKey: "paid",
     source: "account_move_2026.csv",
   },
   {
@@ -28,8 +47,9 @@ const invoices = [
     number: "FA2514447",
     date: "2026-01-16",
     thirdParty: "Lixxball",
-    amount: "860,50 €",
-    status: "Payée",
+    amount: 860.5,
+    currency: "EUR",
+    statusKey: "paid",
     source: "account_move_2026.csv",
   },
   {
@@ -37,8 +57,9 @@ const invoices = [
     number: "FA2510110",
     date: "2026-02-22",
     thirdParty: "Avenir Énergie",
-    amount: "3 420,00 €",
-    status: "À vérifier",
+    amount: 3420,
+    currency: "EUR",
+    statusKey: "toVerify",
     source: "account_move_2026.csv",
   },
   {
@@ -46,24 +67,29 @@ const invoices = [
     number: "FA2504135",
     date: "2026-03-17",
     thirdParty: "Ciblex Express",
-    amount: "2 180,75 €",
-    status: "Payée",
+    amount: 2180.75,
+    currency: "EUR",
+    statusKey: "paid",
     source: "account_move_2026.csv",
   },
 ];
 
-const vaultNames: Record<string, string> = {
-  "comptabilite-2026": "Comptabilité 2026",
-  "lin-ventes-2026": "LIN — Ventes 2026",
-  "prescription-nature": "Prescription Nature",
-};
+const statusFilterKeys = ["all", "paid", "toVerify"] as const;
+
+const metrics = { records: 49920, invoices: 4238, toVerify: 12 };
 
 export default function StructuredDataPage() {
   const params = useParams<{ vaultId: string }>();
-  const vaultName = vaultNames[params.vaultId] ?? "Vault";
+  const t = useTranslations("data");
+  const tc = useTranslations("common");
+  const tv = useTranslations("vault");
+  const format = useFormatter();
+
+  const vaultName = getVaultName(params.vaultId, tv("fallbackName"));
 
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("Tous les statuts");
+  const [statusFilter, setStatusFilter] =
+    useState<(typeof statusFilterKeys)[number]>("all");
 
   const filteredInvoices = useMemo(() => {
     const normalizedQuery = query.toLowerCase().trim();
@@ -76,8 +102,7 @@ export default function StructuredDataPage() {
           .includes(normalizedQuery);
 
       const matchesStatus =
-        statusFilter === "Tous les statuts" ||
-        invoice.status === statusFilter;
+        statusFilter === "all" || invoice.statusKey === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
@@ -91,42 +116,41 @@ export default function StructuredDataPage() {
             href={`/wiki/${params.vaultId}`}
             className="mb-6 inline-flex items-center gap-2 text-sm text-hoi-muted hover:text-hoi-navy"
           >
-            <ArrowLeft size={16} />
-            Retour à {vaultName}
+            <ArrowLeft size={16} className="rtl-flip" />
+            {tv("backToVault", { name: vaultName })}
           </Link>
 
           <header className="mb-8">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              Données du Vault · {vaultName}
+              {t("eyebrow", { vault: vaultName })}
             </p>
 
             <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              Données structurées
+              {t("title")}
             </h1>
 
             <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              Explorez les données extraites et normalisées à partir des
-              sources du Vault.
+              {t("subtitle")}
             </p>
           </header>
 
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<Database size={20} />}
-              value="49 920"
-              label="Enregistrements"
+              value={format.number(metrics.records)}
+              label={t("metrics.records")}
             />
 
             <MetricCard
               icon={<FileText size={20} />}
-              value="4 238"
-              label="Factures"
+              value={format.number(metrics.invoices)}
+              label={t("metrics.invoices")}
             />
 
             <MetricCard
               icon={<CircleAlert size={20} />}
-              value="12"
-              label="À vérifier"
+              value={format.number(metrics.toVerify)}
+              label={t("metrics.toVerify")}
             />
           </section>
 
@@ -134,16 +158,16 @@ export default function StructuredDataPage() {
             <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-hoi-navy">
-                  Factures
+                  {t("invoicesTitle")}
                 </h2>
 
                 <p className="mt-1 text-sm text-hoi-muted">
-                  Données extraites du référentiel comptable.
+                  {t("invoicesDescription")}
                 </p>
               </div>
 
               <span className="text-sm text-hoi-muted">
-                {filteredInvoices.length} résultat(s)
+                {tc("results", { count: filteredInvoices.length })}
               </span>
             </div>
 
@@ -151,39 +175,57 @@ export default function StructuredDataPage() {
               <div className="relative flex-1">
                 <Search
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-hoi-muted"
+                  className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
                 />
 
                 <input
                   type="search"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Rechercher par numéro ou tiers..."
-                  className="form-input w-full pl-10"
+                  placeholder={t("searchPlaceholder")}
+                  className="form-input w-full ps-10"
                 />
               </div>
 
               <select
                 value={statusFilter}
-                onChange={(event) => setStatusFilter(event.target.value)}
+                onChange={(event) =>
+                  setStatusFilter(
+                    event.target.value as (typeof statusFilterKeys)[number],
+                  )
+                }
                 className="form-input lg:w-48"
               >
-                <option>Tous les statuts</option>
-                <option>Payée</option>
-                <option>À vérifier</option>
+                {statusFilterKeys.map((key) => (
+                  <option key={key} value={key}>
+                    {t(`statuses.${key}`)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="overflow-x-auto rounded-xl border border-hoi-border">
-              <table className="w-full min-w-[760px] text-left text-sm">
+              <table className="w-full min-w-[760px] text-start text-sm">
                 <thead className="bg-hoi-cream text-xs uppercase tracking-wide text-hoi-muted">
                   <tr>
-                    <th className="px-4 py-3 font-semibold">Numéro</th>
-                    <th className="px-4 py-3 font-semibold">Date</th>
-                    <th className="px-4 py-3 font-semibold">Tiers</th>
-                    <th className="px-4 py-3 font-semibold">Montant TTC</th>
-                    <th className="px-4 py-3 font-semibold">Statut</th>
-                    <th className="px-4 py-3 font-semibold">Source</th>
+                    <th className="px-4 py-3 text-start font-semibold">
+                      {t("columns.number")}
+                    </th>
+                    <th className="px-4 py-3 text-start font-semibold">
+                      {t("columns.date")}
+                    </th>
+                    <th className="px-4 py-3 text-start font-semibold">
+                      {t("columns.thirdParty")}
+                    </th>
+                    <th className="px-4 py-3 text-start font-semibold">
+                      {t("columns.amount")}
+                    </th>
+                    <th className="px-4 py-3 text-start font-semibold">
+                      {t("columns.status")}
+                    </th>
+                    <th className="px-4 py-3 text-start font-semibold">
+                      {t("columns.source")}
+                    </th>
                   </tr>
                 </thead>
 
@@ -198,7 +240,9 @@ export default function StructuredDataPage() {
                       </td>
 
                       <td className="px-4 py-4 text-hoi-muted">
-                        {invoice.date}
+                        {format.dateTime(new Date(invoice.date), {
+                          dateStyle: "medium",
+                        })}
                       </td>
 
                       <td className="px-4 py-4 text-hoi-navy">
@@ -206,24 +250,27 @@ export default function StructuredDataPage() {
                       </td>
 
                       <td className="px-4 py-4 font-medium text-hoi-navy">
-                        {invoice.amount}
+                        {format.number(invoice.amount, {
+                          style: "currency",
+                          currency: invoice.currency,
+                        })}
                       </td>
 
                       <td className="px-4 py-4">
                         <span
                           className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
-                            invoice.status === "Payée"
+                            invoice.statusKey === "paid"
                               ? "bg-emerald-50 text-emerald-700"
                               : "bg-amber-50 text-amber-700"
                           }`}
                         >
-                          {invoice.status === "Payée" ? (
+                          {invoice.statusKey === "paid" ? (
                             <CheckCircle2 size={13} />
                           ) : (
                             <CircleAlert size={13} />
                           )}
 
-                          {invoice.status}
+                          {t(`statuses.${invoice.statusKey}`)}
                         </span>
                       </td>
 
@@ -238,7 +285,7 @@ export default function StructuredDataPage() {
 
             {filteredInvoices.length === 0 && (
               <div className="py-12 text-center text-sm text-hoi-muted">
-                Aucune donnée ne correspond à votre recherche.
+                {t("empty")}
               </div>
             )}
           </section>

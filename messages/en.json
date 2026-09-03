@@ -1,0 +1,943 @@
+{
+  "common": {
+    "appName": "House of Ichigo",
+    "appDescription": "House of Ichigo AI workspace",
+    "workspaceEyebrow": "House of Ichigo · Workspace",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "saveDraft": "Save as draft",
+    "create": "Create",
+    "browse": "Browse",
+    "refresh": "Refresh",
+    "connect": "Connect",
+    "configure": "Configure",
+    "notConfigured": "Not configured",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "all": "All",
+    "selected": "Selected",
+    "attachFile": "Attach a file",
+    "useMicrophone": "Use the microphone",
+    "send": "Send",
+    "allTools": "All tools",
+    "smart": "Smart",
+    "askQuestion": "Ask a question...",
+    "results": "{count, plural, =0 {No results} one {# result} other {# results}}",
+    "documents": "{count, plural, one {# document} other {# documents}}",
+    "files": "{count, plural, one {# file selected} other {# files selected}}",
+    "visibility": "Visibility",
+    "visibilityPrivate": "Private",
+    "visibilityWorkspace": "Entire workspace",
+    "visibilityShared": "Selected users",
+    "description": "Description"
+  },
+
+  "sidebar": {
+    "brandInitials": "HOI",
+    "brandTop": "House of",
+    "brandName": "Ichigo",
+    "newChat": "New chat",
+    "wiki": "Wiki",
+    "activity": "Activity feed",
+    "saved": "Saved",
+    "agents": "Agents & Skills",
+    "settings": "Settings",
+    "setup": "Setup",
+    "capabilities": "Capabilities",
+    "myComputer": "My computer",
+    "myContext": "My context",
+    "customization": "Customization",
+    "recents": "Recents",
+    "editRecents": "Edit recents",
+    "searchRecents": "Search recents",
+    "noConversations": "No conversations yet",
+    "role": "Owner"
+  },
+
+  "home": {
+    "title": "What are we working on today?",
+    "subtitle": "Query your knowledge, analyse your data and use your work tools from a single place.",
+    "suggestionsTitle": "Suggestions",
+    "suggestionsHint": "Get started quickly",
+    "suggestions": {
+      "launch": "Summarise our launch process",
+      "briefing": "Prepare the briefing for tomorrow's meeting",
+      "sales": "Analyse the latest sales data",
+      "onboarding": "Map out our onboarding process"
+    },
+    "connectTitle": "Connect your tools",
+    "cards": {
+      "folders": {
+        "title": "Local folders",
+        "description": "Allow search across your files.",
+        "action": "Add a folder"
+      },
+      "email": {
+        "title": "Email",
+        "description": "Connect Gmail or Outlook.",
+        "action": "Connect"
+      },
+      "messaging": {
+        "title": "Messaging",
+        "description": "Connect Slack or Microsoft Teams.",
+        "action": "Connect"
+      }
+    },
+    "workspaceTitle": "Your workspace",
+    "workspaceDescription": "Connections, agents and automations will appear here as you configure your workspace."
+  },
+
+  "activity": {
+    "title": "Activity feed",
+    "subtitle": "Your work email, calendar, tasks and team channels gathered into one calm queue.",
+    "tabs": {
+      "inbox": "Inbox",
+      "calendar": "Calendar",
+      "todos": "To-dos",
+      "channels": "Channels"
+    },
+    "forYou": "For you",
+    "forYouBadge": "Proactive · read-only · personal",
+    "forYouDescription": "Scheduled agents only use your personal knowledge. They summarise, but never send a message.",
+    "enableMore": "Enable more proactive agents",
+    "agents": {
+      "morningDigest": "+ Morning digest",
+      "threadsNeedingReply": "+ Threads needing reply",
+      "weekAhead": "+ Week ahead"
+    },
+    "searchPlaceholder": "Search your emails...",
+    "refresh": "Refresh",
+    "backfill": "Backfill to My Context",
+    "editFeed": "Edit feed",
+    "inboxHint": "Your inbox will show the emails needing your attention once Gmail or Outlook is connected.",
+    "latestEmails": "Latest emails",
+    "connectEmailTitle": "Connect your email",
+    "connectEmailDescription": "Add Gmail or Outlook to your inbox to surface the emails that need a reply.",
+    "connectGmail": "Connect Gmail",
+    "connectOutlook": "Connect Outlook",
+    "suggestedTasks": "Suggested tasks",
+    "suggestions": {
+      "deck": {
+        "title": "Review the Q3 deck before the 3pm sync",
+        "description": "Meeting with the product team"
+      },
+      "metrics": {
+        "title": "Pull the latest metrics for standup",
+        "description": "Weekly review — 10am"
+      }
+    }
+  },
+
+  "saved": {
+    "title": "My saved items",
+    "subtitle": "Find your answers, drafts and reusable resources in one place.",
+    "tabAnswers": "Saved answers",
+    "tabResources": "Resources",
+    "searchPlaceholder": "Search your saved items...",
+    "newFolder": "New folder",
+    "sectionTitle": "Your saved answers",
+    "emptyTitle": "No saved items",
+    "emptyDescription": "Save an answer from the chat to start your collection.",
+    "previewTitle": "Open a saved item",
+    "previewDescription": "Select an answer or draft to preview it here."
+  },
+
+  "agents": {
+    "title": "Agents & Skills",
+    "subtitle": "Agents are AI teammates that work for you. Skills are reusable procedures they follow to complete a task consistently.",
+    "tabs": {
+      "agents": "Agents",
+      "skills": "Skills",
+      "marketplace": "Marketplace",
+      "browse": "Browse"
+    },
+    "searchPlaceholder": "Search for an agent...",
+    "createFromChat": "Create from chat",
+    "filters": {
+      "all": "All",
+      "recent": "Recent",
+      "favorites": "Favourites",
+      "shared": "Shared"
+    },
+    "emptyTitle": "No agent found",
+    "emptyDescription": "Create your first agent from the library, the chat or a manual configuration.",
+    "createAgent": "Create an agent",
+    "buildTitle": "Build your assistants",
+    "buildDescription": "Each agent can have its own instructions, skills, knowledge sources and permissions.",
+    "features": {
+      "instructions": {
+        "title": "Custom instructions",
+        "description": "Define the agent's role and behaviour."
+      },
+      "tools": {
+        "title": "Tools and permissions",
+        "description": "Control exactly which actions are allowed."
+      },
+      "knowledge": {
+        "title": "Knowledge sources",
+        "description": "Connect the spaces each agent can read."
+      }
+    }
+  },
+
+  "agentCreate": {
+    "back": "Back to agents",
+    "eyebrow": "New configurator",
+    "title": "Create an agent",
+    "subtitle": "Define the role, knowledge and permissions of your AI assistant.",
+    "general": {
+      "title": "General information",
+      "description": "Define your agent's identity and mission.",
+      "nameLabel": "Agent name",
+      "namePlaceholder": "e.g. Sales assistant",
+      "descriptionPlaceholder": "Briefly describe what this agent does."
+    },
+    "instructions": {
+      "title": "Agent instructions",
+      "description": "Explain how the agent should reason and answer.",
+      "placeholder": "Example:\n\nYou are an assistant specialised in analysing internal processes.\nAnswer clearly, in a structured and concise way.\nAlways cite the sources you used.\nIf the information is not available, say so explicitly."
+    },
+    "knowledge": {
+      "title": "Knowledge sources",
+      "description": "Choose the information this agent will be able to access.",
+      "personal": {
+        "title": "Personal context",
+        "description": "The user's private documents and personal sources."
+      },
+      "company": {
+        "title": "Company knowledge",
+        "description": "Shared spaces available in read-only mode."
+      },
+      "local": {
+        "title": "Local folders",
+        "description": "Local files that have been explicitly allowed."
+      }
+    },
+    "tools": {
+      "title": "Tools and capabilities",
+      "description": "Enable the tools the agent will be able to use.",
+      "readDocuments": "Read documents",
+      "searchContext": "Search the context",
+      "analyzeData": "Analyse data",
+      "useConnectors": "Use connectors",
+      "notice": "Sensitive tools, in particular MCP servers, must always be authorised by an explicit permission."
+    }
+  },
+
+  "capabilities": {
+    "title": "Capabilities",
+    "subtitle": "Manage the connectors, schedules, tools and MCP servers of your workspace.",
+    "tabs": {
+      "connectors": "Connectors",
+      "schedules": "Schedules",
+      "tools": "Tools",
+      "mcp": "MCP servers"
+    },
+    "searchPlaceholder": "Search for a connector...",
+    "refresh": "Refresh connectors",
+    "webConnectors": "Web connectors",
+    "webBrowsing": {
+      "title": "Web browsing",
+      "description": "Search and read public pages with SSRF protection."
+    },
+    "mcpServers": "MCP servers",
+    "mcpEmptyTitle": "No MCP server configured",
+    "mcpEmptyDescription": "MCP servers will let you connect external tools to your agents with controlled permissions.",
+    "createMcp": "Create an MCP server",
+    "newConnections": "New connections",
+    "readOnlyNotice": "New connectors are read-only by default. They cannot send, edit, delete or publish data without an explicit permission.",
+    "connections": {
+      "slack": "Messages, threads and channels under controlled read access.",
+      "teams": "Channels, mentions and work conversations.",
+      "gmail": "Authorised emails and calendar information.",
+      "drive": "Documents and folders approved by the user."
+    }
+  },
+
+  "mcpCreate": {
+    "back": "Back to capabilities",
+    "eyebrow": "New connection",
+    "title": "Add an MCP server",
+    "subtitle": "Connect an MCP server to make its tools available to your agents with controlled permissions.",
+    "server": {
+      "title": "Server information",
+      "description": "Define the identity and endpoint of the MCP server.",
+      "nameLabel": "Server name",
+      "namePlaceholder": "e.g. MCP Finance",
+      "visibilityWorkspace": "Workspace",
+      "transportLabel": "Transport type",
+      "urlLabel": "Server URL",
+      "descriptionPlaceholder": "Describe the data and tools this server offers."
+    },
+    "auth": {
+      "title": "Authentication",
+      "description": "Configure how House of Ichigo will authenticate against the server.",
+      "methodLabel": "Authentication method",
+      "methodNone": "No authentication",
+      "methodBearer": "Bearer token",
+      "methodOauth": "OAuth 2.0",
+      "methodCustom": "Custom headers",
+      "secretNameLabel": "Secret name",
+      "secretNamePlaceholder": "e.g. MCP_FINANCE_TOKEN",
+      "secretLabel": "Secret or token",
+      "secretPlaceholder": "Enter the connection secret",
+      "notice": "The secret must never be exposed in the frontend. It will be encrypted and used only by the backend server."
+    },
+    "tools": {
+      "title": "Allowed tools",
+      "description": "Choose the operations agents will be able to use.",
+      "read": "Read data",
+      "search": "Search",
+      "createItems": "Create items",
+      "updateItems": "Update items",
+      "deleteItems": "Delete items",
+      "notice": "Update and delete permissions must be confirmed separately by the administrator."
+    }
+  },
+
+  "setup": {
+    "eyebrow": "Company setup",
+    "steps": {
+      "basics": "Company basics",
+      "organisation": "Organisation",
+      "tools": "Tools in use",
+      "priorities": "Priorities",
+      "invites": "Invitations",
+      "launch": "Launch the workspace"
+    },
+    "stepIndicator": "Step {current} of {total}",
+    "title": "Your company basics",
+    "subtitle": "This information will help your agents better understand your organisation, your processes and your priorities.",
+    "draft": "Draft",
+    "fields": {
+      "companyName": "Company name",
+      "companyNamePlaceholder": "e.g. House of Ichigo",
+      "industry": "Industry",
+      "industryPlaceholder": "Select an industry",
+      "subIndustry": "Sub-industry",
+      "subIndustryPlaceholder": "e.g. Automation and AI consulting",
+      "companySize": "Company size",
+      "companySizePlaceholder": "Select a size",
+      "businessModel": "Business model",
+      "businessModelPlaceholder": "Select a model",
+      "growthStage": "Growth stage",
+      "growthStagePlaceholder": "Select a stage",
+      "customerType": "Customer type",
+      "customerTypePlaceholder": "Select a type",
+      "region": "Region",
+      "regionPlaceholder": "e.g. France, Europe"
+    },
+    "industries": {
+      "professionalServices": "Professional services",
+      "technology": "Technology",
+      "finance": "Finance",
+      "marketing": "Marketing",
+      "hr": "Human resources",
+      "other": "Other"
+    },
+    "sizes": {
+      "moreThan": "More than {count}"
+    },
+    "businessModels": {
+      "nonprofit": "Non-profit",
+      "other": "Other"
+    },
+    "growthStages": {
+      "founding": "Founding",
+      "launch": "Launch",
+      "scaleUp": "Scale-up",
+      "maturity": "Maturity",
+      "transformation": "Transformation"
+    },
+    "customerTypes": {
+      "startups": "Startups",
+      "sme": "SMEs",
+      "midMarket": "Mid-market",
+      "enterprise": "Enterprise",
+      "consumer": "Consumer"
+    },
+    "whyTitle": "Why this information?",
+    "whyDescription": "It will be used to tailor the dashboards, templates, reports and suggestions your agents produce.",
+    "cards": {
+      "multiUser": {
+        "title": "Multi-user",
+        "description": "The next steps will let you invite your team members."
+      },
+      "configurable": {
+        "title": "Configurable workspace",
+        "description": "Every organisation can define its own rules and sources."
+      },
+      "companyContext": {
+        "title": "Company context",
+        "description": "Agents can adapt their answers to your organisation."
+      }
+    }
+  },
+
+  "myComputer": {
+    "title": "My computer",
+    "subtitle": "The local folders House of Ichigo can search and read. Cloud spaces connect with governed personal ingestion.",
+    "connected": "Connected",
+    "options": "Computer options",
+    "localFolders": "Local folders",
+    "localFoldersDescription": "House of Ichigo can search the files in the folders you allow. Search works automatically for every folder you add.",
+    "localFoldersHint": "Use each folder's toggle to enable or disable semantic indexing.",
+    "emptyTitle": "No folder added",
+    "emptyDescription": "Add a folder to let your agents read your private files.",
+    "addFolder": "Add a folder",
+    "cards": {
+      "localAccess": {
+        "title": "Local access",
+        "description": "Agents only read the folders that were explicitly allowed."
+      },
+      "personalControl": {
+        "title": "Personal control",
+        "description": "Your personal files stay inside your private perimeter."
+      },
+      "indexing": {
+        "title": "Controlled indexing",
+        "description": "Enable indexing separately for each folder."
+      }
+    }
+  },
+
+  "myContext": {
+    "title": "My context",
+    "subtitle": "Your private knowledge layer, enriched by the company information you have access to.",
+    "tabs": {
+      "home": "Knowledge home",
+      "graph": "Knowledge graph",
+      "memory": "Memory"
+    },
+    "stats": {
+      "companySpaces": {
+        "label": "readable company spaces",
+        "description": "Shared spaces stay read-only inside your context."
+      },
+      "privateItems": {
+        "label": "private items",
+        "description": "Your personal files stay private by default."
+      },
+      "graphNodes": {
+        "label": "reachable graph nodes",
+        "description": "Personal and shared entities feed the context."
+      },
+      "gaps": {
+        "label": "knowledge gaps",
+        "description": "Items that need more context will appear here."
+      }
+    },
+    "baseTitle": "Your personal base",
+    "baseDescription": "Items added here stay private by default.",
+    "baseBadge": "Private by default · Manual sharing",
+    "baseEmpty": "No personal source has been added yet.",
+    "addSource": "Add a source",
+    "exclusionsTitle": "Ingestion exclusions",
+    "exclusionsDescription": "Exclude the items you never want imported into your context.",
+    "exclusionTypes": {
+      "senderDomain": "Sender domain",
+      "filePattern": "File pattern",
+      "folder": "Folder"
+    },
+    "exclusionPlaceholder": "e.g. *.internal.com",
+    "addRule": "Add the rule",
+    "noRules": "No exclusion rule configured."
+  },
+
+  "customization": {
+    "title": "Customization",
+    "subtitle": "Tailor your House of Ichigo experience.",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Choose your preferred visual theme."
+    },
+    "themes": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark",
+      "navyPaper": "Navy Paper",
+      "inkDark": "Ink Dark"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose the interface language.",
+      "label": "Application language",
+      "saving": "Applying language..."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Control how the events in your workspace appear.",
+      "inApp": {
+        "title": "In-app notifications",
+        "description": "Show activity and updates inside House of Ichigo."
+      },
+      "browser": {
+        "title": "Browser notifications",
+        "description": "Receive notifications while the app is inactive."
+      }
+    },
+    "activityFeed": {
+      "title": "Activity feed",
+      "description": "Choose the personal integrations that can feed your activity feed.",
+      "slack": "Messaging · connect Slack to enable this option.",
+      "teams": "Messaging · connect Teams to enable this option.",
+      "gmail": "Email · connect Gmail to enable this option.",
+      "outlook": "Email · connect Outlook to enable this option."
+    }
+  },
+
+  "chat": {
+    "assistantWiki": "Wiki Assistant",
+    "assistantGeneral": "General Assistant",
+    "activeVault": "Active vault: {name}",
+    "privateConversation": "House of Ichigo · Private conversation",
+    "conversationOptions": "Conversation options",
+    "personalContext": "Personal context",
+    "personalContextOn": "Enabled for this conversation",
+    "personalContextOff": "Add my personal context",
+    "personalContextOnHint": "The Assistant can use your personal knowledge.",
+    "personalContextOffHint": "Your personal data stays excluded by default.",
+    "today": "Today",
+    "greeting": "How can I help you?",
+    "sampleQuestion": "Summarise our team's priorities for this week.",
+    "sampleAnswerIntro": "Here is a summary of the priorities identified:",
+    "sampleAnswer": {
+      "one": "Finish the client projects currently in production.",
+      "two": "Check the automations that need supervision.",
+      "three": "Prepare the upcoming meetings and deliverables."
+    },
+    "sourcesCount": "{count, plural, one {# source} other {# sources}}",
+    "sendMessage": "Send the message",
+    "questionSent": "Question sent",
+    "demoAnswerTitle": "Demo answer",
+    "demoAnswer": "The Assistant will analyse the authorised data of the selected vault and display an answer along with its sources.",
+    "scope": "Scope: {name}",
+    "disclaimer": "The assistant can only use the sources and tools allowed in your workspace.",
+    "activeContext": "Active context",
+    "activeContextDescription": "Sources used for this conversation.",
+    "selectedScope": "Selected scope",
+    "vaultHint": "The Assistant will use the authorised data of this vault.",
+    "changeVault": "Change vault",
+    "contextItems": {
+      "myContext": {
+        "title": "My context",
+        "description": "Personal knowledge"
+      },
+      "company": {
+        "title": "Company knowledge",
+        "description": "Authorised company space"
+      },
+      "activity": {
+        "title": "Activity feed",
+        "description": "Recent tasks and events"
+      }
+    },
+    "permissions": "Permissions",
+    "permissionsValue": "Read-only · No automatic sending"
+  },
+
+  "wiki": {
+    "eyebrow": "Knowledge base",
+    "title": "Wiki",
+    "subtitle": "Choose a vault to browse the pages, search the data and work with your Assistant.",
+    "summary": {
+      "vaults": "Accessible vaults",
+      "protected": "Protected data",
+      "access": "Current access",
+      "accessValue": "Read"
+    },
+    "yourVaults": "Your vaults",
+    "yourVaultsDescription": "Select the data perimeter you want to work in.",
+    "searchPlaceholder": "Search for a vault...",
+    "updatedToday": "Updated today",
+    "updatedYesterday": "Updated yesterday",
+    "updatedDaysAgo": "Updated {count, plural, one {# day} other {# days}} ago",
+    "emptyTitle": "No vault found",
+    "emptyDescription": "Try a different search.",
+    "selectedVault": "Selected vault: {name}",
+    "selectPrompt": "Select a vault to get started",
+    "selectDescription": "Once selected, you will be able to browse the Wiki pages, search the data, view the sources and use the Assistant within that perimeter.",
+    "personalContextTitle": "Personal context",
+    "personalContextDescription": "Your personal files stay separate from company data. They can be added explicitly to the Assistant's context.",
+    "categories": {
+      "finance": "Finance",
+      "sales": "Sales",
+      "company": "Company"
+    },
+    "vaultDescriptions": {
+      "comptabilite-2026": "Invoices, credit notes, suppliers, customers and financial data.",
+      "lin-ventes-2026": "LIN sales, products, customers and commercial information.",
+      "prescription-nature": "Product references, purchases, sales and operational knowledge."
+    }
+  },
+
+  "vault": {
+    "back": "Back to vaults",
+    "backToVault": "Back to {name}",
+    "eyebrow": "Selected vault",
+    "unknown": "Unknown vault",
+    "fallbackName": "Vault",
+    "subtitle": "Browse the knowledge, sources and structured data of this vault.",
+    "accessGranted": "Access granted",
+    "searchPlaceholder": "Search pages, sources, tags and data...",
+    "metrics": {
+      "pages": "Pages and documents",
+      "structuredData": "Structured data",
+      "sources": "Sources",
+      "toReview": "To review"
+    },
+    "cards": {
+      "pages": {
+        "title": "Wiki pages",
+        "description": "Browse the knowledge pages and their metadata.",
+        "action": "Explore the pages"
+      },
+      "assistant": {
+        "title": "Wiki Assistant",
+        "description": "Query this vault's knowledge with sourced answers.",
+        "action": "Open the Assistant"
+      },
+      "data": {
+        "title": "Structured data",
+        "description": "Explore invoices, products, customers and other data.",
+        "action": "View the data"
+      },
+      "sources": {
+        "title": "Sources",
+        "description": "Browse the files behind this vault's knowledge.",
+        "action": "Browse the sources"
+      },
+      "search": {
+        "title": "Deep Search",
+        "description": "Search the vault's full content with cited sources.",
+        "action": "Start a search"
+      },
+      "review": {
+        "title": "Human review",
+        "description": "Check the changes proposed after an ingestion.",
+        "action": "Open the review"
+      }
+    },
+    "nextStepTitle": "Next step in this vault",
+    "nextStepDescription": "Once the vault is selected, the user can search, browse, contribute and validate data within that same perimeter."
+  },
+
+  "wikiPages": {
+    "eyebrow": "Knowledge base · {vault}",
+    "title": "Wiki pages",
+    "subtitle": "Search and browse the structured knowledge of this vault.",
+    "searchPlaceholder": "Search by title, path or tag...",
+    "types": {
+      "all": "All types",
+      "document": "Document",
+      "organisation": "Organisation",
+      "category": "Category",
+      "other": "Other"
+    },
+    "searchHint": "Search covers titles, paths and tags. Full-content search will arrive with the Wiki Search Assistant.",
+    "listTitle": "Knowledge pages",
+    "status": {
+      "verified": "Verified",
+      "toVerify": "To verify"
+    },
+    "edit": "Edit the page",
+    "metadataTitle": "Page metadata",
+    "metadataLabels": {
+      "type": "Type",
+      "name": "Name",
+      "identity": "Identity",
+      "source": "Source",
+      "sheet": "Sheet",
+      "rows": "Rows",
+      "page": "Page"
+    },
+    "provenanceTitle": "Provenance",
+    "provenanceDescription": "This page is linked to its original sources. The information shown can be verified before any change.",
+    "empty": "No page found.",
+    "items": {
+      "articles": {
+        "title": "ARTICLES",
+        "description": "Product category holding the articles and their related information."
+      },
+      "clients": {
+        "title": "Customers",
+        "description": "Directory of customers with their commercial and administrative information."
+      },
+      "factures-janvier": {
+        "title": "Invoices — January 2026",
+        "description": "Summary of the invoices recorded during January 2026."
+      },
+      "processus-onboarding": {
+        "title": "Onboarding process",
+        "description": "Description of the steps required to onboard a new team member."
+      }
+    },
+    "tags": {
+      "produit": "product",
+      "référentiel": "reference data",
+      "client": "customer",
+      "commercial": "sales",
+      "facture": "invoice",
+      "finance": "finance",
+      "processus": "process",
+      "équipe": "team"
+    }
+  },
+
+  "data": {
+    "eyebrow": "Vault data · {vault}",
+    "title": "Structured data",
+    "subtitle": "Explore the data extracted and normalised from the vault's sources.",
+    "metrics": {
+      "records": "Records",
+      "invoices": "Invoices",
+      "toVerify": "To verify"
+    },
+    "invoicesTitle": "Invoices",
+    "invoicesDescription": "Data extracted from the accounting reference.",
+    "searchPlaceholder": "Search by number or third party...",
+    "statuses": {
+      "all": "All statuses",
+      "paid": "Paid",
+      "toVerify": "To verify"
+    },
+    "columns": {
+      "number": "Number",
+      "date": "Date",
+      "thirdParty": "Third party",
+      "amount": "Amount incl. tax",
+      "status": "Status",
+      "source": "Source"
+    },
+    "empty": "No data matches your search."
+  },
+
+  "sources": {
+    "eyebrow": "Vault sources · {vault}",
+    "title": "Sources",
+    "subtitle": "Browse the files that feed the Wiki pages and structured data of this vault.",
+    "addSource": "Add a source",
+    "metrics": {
+      "total": "Sources in this vault",
+      "validated": "Validated sources",
+      "pending": "Awaiting validation"
+    },
+    "searchPlaceholder": "Search for a source...",
+    "statuses": {
+      "all": "All statuses",
+      "imported": "Imported",
+      "validated": "Validated",
+      "toValidate": "To validate"
+    },
+    "categories": {
+      "finance": "Finance",
+      "reference": "Reference data",
+      "process": "Process"
+    },
+    "descriptions": {
+      "account-move-2026": "Accounting entries and invoices for the year 2026.",
+      "account-move-reference": "Reference data for articles and product categories.",
+      "process-onboarding": "Documentation of the onboarding process."
+    },
+    "addedBy": "Added by {name}",
+    "empty": "No source matches your search.",
+    "importFolderTitle": "Import a whole folder",
+    "importFolderDescription": "You will be able to import several files at once. Each file is kept as an independent source and tracked through the ingestion process."
+  },
+
+  "contribute": {
+    "back": "Back to sources",
+    "eyebrow": "Contribution · {vault}",
+    "title": "Add knowledge",
+    "subtitle": "Import a source or a folder to enrich this vault's data.",
+    "scopeTitle": "You are contributing to the vault “{vault}”",
+    "scopeDescription": "Imported files will only be analysed within this vault's perimeter.",
+    "fileMode": {
+      "title": "Add a file",
+      "description": "Import a PDF, Excel, CSV, Word, Markdown or other document."
+    },
+    "folderMode": {
+      "title": "Add a folder",
+      "description": "Import several files while keeping their organisation."
+    },
+    "dropFile": "Drop your file here",
+    "dropFolder": "Drop your folder here",
+    "orSelect": "or select it from your computer",
+    "selectFile": "Select a file",
+    "selectFiles": "Select files",
+    "removeAll": "Remove all",
+    "removeFile": "Remove {name}",
+    "unknownType": "Unknown type",
+    "readyTitle": "Files ready to be analysed",
+    "readyDescription": "The analysis will identify the possible Wiki pages and data.",
+    "prepareImport": "Prepare the import",
+    "preparedTitle": "Contribution prepared",
+    "preparedDescription": "The file is ready for analysis. The actual upload and ingestion processing will be connected when the backend is implemented.",
+    "backendNote": "File selection will be connected to the backend when ingestion is implemented.",
+    "afterImportTitle": "What happens after the import",
+    "steps": {
+      "analysis": {
+        "title": "Analysis",
+        "description": "The file is stored and analysed."
+      },
+      "proposal": {
+        "title": "Proposal",
+        "description": "The possible data and pages are identified."
+      },
+      "validation": {
+        "title": "Validation",
+        "description": "Sensitive changes are submitted for review."
+      }
+    },
+    "traceabilityTitle": "Traceability preserved",
+    "traceabilityDescription": "The file name, its author, its date and its provenance will be kept in the vault history.",
+    "fileSize": {
+      "bytes": "{size} bytes",
+      "kilobytes": "{size} KB",
+      "megabytes": "{size} MB"
+    }
+  },
+
+  "review": {
+    "eyebrow": "Data control · {vault}",
+    "title": "Human review",
+    "subtitle": "Review the proposals coming from imports before they are published to the Wiki and the structured data.",
+    "metrics": {
+      "toReview": "To review",
+      "validatedThisWeek": "Validated this week",
+      "contributors": "Active contributors"
+    },
+    "queueTitle": "Review queue",
+    "queueDescription": "Important changes require a human decision.",
+    "statuses": {
+      "toReview": "To review",
+      "validated": "Validated",
+      "all": "All"
+    },
+    "types": {
+      "structuredData": "Structured data",
+      "wikiPage": "Wiki page"
+    },
+    "confidence": {
+      "high": "High confidence",
+      "medium": "Medium confidence",
+      "low": "Low confidence",
+      "validated": "Validated"
+    },
+    "sourceLabel": "Source: {source}",
+    "authorLabel": "Added by: {author}",
+    "examine": "Review",
+    "empty": "No item matches this filter.",
+    "ruleTitle": "Publication rule",
+    "ruleDescription": "Simple, reliable data can be published automatically. Ambiguous or sensitive changes stay in this queue until an authorised user validates them.",
+    "dates": {
+      "todayAt": "Today at {time}",
+      "yesterdayAt": "Yesterday at {time}"
+    },
+    "items": {
+      "review-1": {
+        "title": "12 invoices need verification",
+        "description": "Some extracted information must be confirmed before publication."
+      },
+      "review-2": {
+        "title": "Update to the ARTICLES page",
+        "description": "A new version of the product category has been proposed."
+      },
+      "review-3": {
+        "title": "Onboarding process",
+        "description": "Several passages need validation before integration."
+      },
+      "review-4": {
+        "title": "Reconciliation of 28 accounting entries",
+        "description": "The proposal was verified and integrated into the vault data."
+      }
+    }
+  },
+
+  "reviewDetail": {
+    "back": "Back to the review queue",
+    "notFound": "Review proposal not found.",
+    "badge": "Proposal to review",
+    "decisionRecorded": "Decision recorded in the prototype",
+    "decisionChosen": "Chosen decision: {decision}",
+    "originalSource": "Original source",
+    "addedBy": "Added by {name}",
+    "sourceExcerpt": "Source excerpt",
+    "excerpt": {
+      "number": "Number",
+      "thirdParty": "Third party",
+      "totalAmount": "Total amount",
+      "detectedStatus": "Detected status"
+    },
+    "openSource": "Open the source",
+    "proposedData": "Proposed data",
+    "analysisResult": "Analysis result",
+    "verifyFields": "Check every field before publication.",
+    "publishNotice": "Accepted information will be published in the vault and linked to its original source.",
+    "commentTitle": "Review comment",
+    "commentPlaceholder": "Add a note to explain your decision...",
+    "decisions": {
+      "reject": "Reject",
+      "requestFix": "Request a correction",
+      "accept": "Accept and publish"
+    },
+    "prototypeNote": "Frontend prototype: decisions will be stored in the backend later.",
+    "fields": {
+      "invoiceNumber": "Invoice number",
+      "thirdParty": "Third party",
+      "amount": "Amount incl. tax",
+      "status": "Status",
+      "type": "Type",
+      "name": "Name",
+      "source": "Source",
+      "itemCount": "Item count",
+      "pageName": "Page name",
+      "sourcePages": "Source pages"
+    },
+    "values": {
+      "toVerify": "To verify",
+      "toValidate": "To validate",
+      "onboardingProcess": "Onboarding process",
+      "pageRange": "{from} to {to}"
+    }
+  },
+
+  "deepSearch": {
+    "eyebrow": "Assisted search · {vault}",
+    "title": "Wiki Search Assistant",
+    "subtitle": "Ask a complex question and get an answer grounded in the authorised data and sources.",
+    "scopeTitle": "Search perimeter",
+    "vaultBadge": "Vault: {name}",
+    "personalContextOn": "Personal context enabled",
+    "personalContextOff": "+ Add my personal context",
+    "scopeHint": "The search will only look at the data included in this perimeter.",
+    "defineTitle": "Define your search",
+    "objectivePlaceholder": "e.g. Compare unpaid invoices with the payment terms defined in our procedures...",
+    "modeLabel": "Mode",
+    "modes": {
+      "quick": "Quick search",
+      "deep": "Deep search"
+    },
+    "launch": "Start the search",
+    "examplesTitle": "Example searches",
+    "examplesHint": "To get started quickly",
+    "examples": {
+      "unpaid": "Which invoices are unpaid for the last quarter?",
+      "suppliers": "Who are this year's main suppliers?",
+      "launch": "Summarise the product launch process."
+    },
+    "resultTitle": "Search result",
+    "modeUsed": "Mode used: {mode}",
+    "sourcesConsulted": "{count, plural, one {# source consulted} other {# sources consulted}}",
+    "synthesisTitle": "Summary based on the vault data",
+    "synthesisOne": "The items reviewed indicate that the invoices requiring particular attention are associated with incomplete payment statuses or with information that must be checked against the original source.",
+    "synthesisTwo": "An additional verification is recommended before any final financial decision.",
+    "sourcesTitle": "Sources consulted",
+    "citations": {
+      "invoices": "Invoices and payment statuses",
+      "wikiPage": "Wiki summary page",
+      "procedure": "Payment follow-up procedure"
+    },
+    "prototypeNote": "Frontend prototype: results will be connected to the search engine and the MCP server later."
+  }
+}

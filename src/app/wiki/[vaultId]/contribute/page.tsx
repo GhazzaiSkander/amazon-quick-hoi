@@ -1,35 +1,58 @@
 "use client";
+
 import { type ChangeEvent, useState } from "react";
 import { useParams } from "next/navigation";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
   CheckCircle2,
   FilePlus2,
+  FileText,
   FolderOpen,
   Info,
   Upload,
   X,
-  FileText
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import { getVaultName } from "@/lib/vaults";
 
-const vaultNames: Record<string, string> = {
-  "comptabilite-2026": "Comptabilité 2026",
-  "lin-ventes-2026": "LIN — Ventes 2026",
-  "prescription-nature": "Prescription Nature",
-};
+const workflowStepKeys = ["analysis", "proposal", "validation"] as const;
 
 export default function ContributePage() {
   const params = useParams<{ vaultId: string }>();
-  const vaultName = vaultNames[params.vaultId] ?? "Vault";
+  const t = useTranslations("contribute");
+  const tc = useTranslations("common");
+  const tv = useTranslations("vault");
+  const format = useFormatter();
+
+  const vaultName = getVaultName(params.vaultId, tv("fallbackName"));
+
   const [mode, setMode] = useState<"file" | "folder">("file");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [importPrepared, setImportPrepared] = useState(false);
-function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
-  const files = Array.from(event.target.files ?? []);
-  setSelectedFiles(files);
-}
+
+  function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(event.target.files ?? []);
+    setSelectedFiles(files);
+  }
+
+  /** Sizes go through the locale's number formatter, then a translated unit. */
+  function formatFileSize(bytes: number) {
+    if (bytes < 1024) {
+      return t("fileSize.bytes", { size: format.number(bytes) });
+    }
+
+    if (bytes < 1024 * 1024) {
+      return t("fileSize.kilobytes", {
+        size: format.number(bytes / 1024, { maximumFractionDigits: 1 }),
+      });
+    }
+
+    return t("fileSize.megabytes", {
+      size: format.number(bytes / (1024 * 1024), { maximumFractionDigits: 1 }),
+    });
+  }
 
   return (
     <AppShell>
@@ -39,22 +62,21 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
             href={`/wiki/${params.vaultId}/sources`}
             className="mb-6 inline-flex items-center gap-2 text-sm text-hoi-muted hover:text-hoi-navy"
           >
-            <ArrowLeft size={16} />
-            Retour aux sources
+            <ArrowLeft size={16} className="rtl-flip" />
+            {t("back")}
           </Link>
 
           <header className="mb-8">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              Contribution · {vaultName}
+              {t("eyebrow", { vault: vaultName })}
             </p>
 
             <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              Ajouter des connaissances
+              {t("title")}
             </h1>
 
             <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              Importez une source ou un dossier pour enrichir les données de ce
-              Vault.
+              {t("subtitle")}
             </p>
           </header>
 
@@ -64,12 +86,11 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
 
               <div>
                 <h2 className="font-semibold text-blue-900">
-                  Vous contribuez au Vault « {vaultName} »
+                  {t("scopeTitle", { vault: vaultName })}
                 </h2>
 
                 <p className="mt-1 text-sm leading-6 text-blue-800">
-                  Les fichiers importés seront analysés uniquement dans le
-                  périmètre de ce Vault.
+                  {t("scopeDescription")}
                 </p>
               </div>
             </div>
@@ -79,7 +100,7 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
             <button
               type="button"
               onClick={() => setMode("file")}
-              className={`rounded-card border p-6 text-left transition ${
+              className={`rounded-card border p-6 text-start transition ${
                 mode === "file"
                   ? "border-hoi-accent bg-blue-50 ring-2 ring-hoi-accent/20"
                   : "border-hoi-border bg-hoi-surface hover:border-hoi-accent"
@@ -90,16 +111,16 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
               </div>
 
               <h2 className="text-lg font-semibold text-hoi-navy">
-                Ajouter un fichier
+                {t("fileMode.title")}
               </h2>
 
               <p className="mt-2 text-sm leading-6 text-hoi-muted">
-                Importer un PDF, Excel, CSV, Word, Markdown ou autre document.
+                {t("fileMode.description")}
               </p>
 
               {mode === "file" && (
                 <p className="mt-4 text-sm font-medium text-hoi-accent">
-                  Sélectionné
+                  {tc("selected")}
                 </p>
               )}
             </button>
@@ -107,7 +128,7 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
             <button
               type="button"
               onClick={() => setMode("folder")}
-              className={`rounded-card border p-6 text-left transition ${
+              className={`rounded-card border p-6 text-start transition ${
                 mode === "folder"
                   ? "border-hoi-accent bg-blue-50 ring-2 ring-hoi-accent/20"
                   : "border-hoi-border bg-hoi-surface hover:border-hoi-accent"
@@ -118,16 +139,16 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
               </div>
 
               <h2 className="text-lg font-semibold text-hoi-navy">
-                Ajouter un dossier
+                {t("folderMode.title")}
               </h2>
 
               <p className="mt-2 text-sm leading-6 text-hoi-muted">
-                Importer plusieurs fichiers en conservant leur organisation.
+                {t("folderMode.description")}
               </p>
 
               {mode === "folder" && (
                 <p className="mt-4 text-sm font-medium text-hoi-accent">
-                  Sélectionné
+                  {tc("selected")}
                 </p>
               )}
             </button>
@@ -140,144 +161,138 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
               </div>
 
               <h2 className="mt-5 text-lg font-semibold text-hoi-navy">
-                Déposez votre {mode === "file" ? "fichier" : "dossier"} ici
+                {mode === "file" ? t("dropFile") : t("dropFolder")}
               </h2>
 
-              <p className="mt-2 text-sm text-hoi-muted">
-                ou sélectionnez-le depuis votre ordinateur
-              </p>
-<input
-  id="source-upload"
-  type="file"
-  multiple={mode === "folder"}
-  onChange={handleFileSelection}
-  className="sr-only"
-/>
-<label
-  htmlFor="source-upload"
-  className="mt-6 inline-flex cursor-pointer rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
->
-  Sélectionner {mode === "file" ? "un fichier" : "des fichiers"}
-</label>
-{selectedFiles.length > 0 && (
-  <div className="mx-auto mt-5 max-w-lg rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-left">
-    <div className="mb-3 flex items-center justify-between">
-      <p className="text-sm font-medium text-emerald-800">
-        {selectedFiles.length} fichier(s) sélectionné(s)
-      </p>
+              <p className="mt-2 text-sm text-hoi-muted">{t("orSelect")}</p>
 
-      <button
-        type="button"
-        onClick={() => setSelectedFiles([])}
-        className="text-xs font-medium text-emerald-700 hover:text-emerald-900"
-      >
-        Tout supprimer
-      </button>
-    </div>
+              <input
+                id="source-upload"
+                type="file"
+                multiple={mode === "folder"}
+                onChange={handleFileSelection}
+                className="sr-only"
+              />
 
-    <div className="space-y-2">
-      {selectedFiles.map((file, index) => (
-        <div
-          key={`${file.name}-${file.lastModified}-${index}`}
-          className="flex items-center gap-3 rounded-lg border border-emerald-200 bg-white/60 p-3"
-        >
-          <FileText size={18} className="shrink-0 text-emerald-700" />
+              <label
+                htmlFor="source-upload"
+                className="mt-6 inline-flex cursor-pointer rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
+              >
+                {mode === "file" ? t("selectFile") : t("selectFiles")}
+              </label>
 
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium text-emerald-900">
-              {file.name}
-            </p>
+              {selectedFiles.length > 0 && (
+                <div className="mx-auto mt-5 max-w-lg rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-start">
+                  <div className="mb-3 flex items-center justify-between">
+                    <p className="text-sm font-medium text-emerald-800">
+                      {tc("files", { count: selectedFiles.length })}
+                    </p>
 
-            <p className="mt-1 text-xs text-emerald-700">
-              {file.type || "Type non identifié"} ·{" "}
-              {formatFileSize(file.size)}
-            </p>
-          </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedFiles([])}
+                      className="text-xs font-medium text-emerald-700 hover:text-emerald-900"
+                    >
+                      {t("removeAll")}
+                    </button>
+                  </div>
 
-          <button
-            type="button"
-            aria-label={`Supprimer ${file.name}`}
-            onClick={() =>
-              setSelectedFiles((currentFiles) =>
-                currentFiles.filter((_, fileIndex) => fileIndex !== index),
-              )
-            }
-            className="rounded-md p-1.5 text-emerald-700 hover:bg-emerald-100"
-          >
-            <X size={16} />
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-{selectedFiles.length > 0 && (
-  <div className="mx-auto mt-6 max-w-lg border-t border-hoi-border pt-5">
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <p className="text-sm font-medium text-hoi-navy">
-          Fichiers prêts à être analysés
-        </p>
+                  <div className="space-y-2">
+                    {selectedFiles.map((file, index) => (
+                      <div
+                        key={`${file.name}-${file.lastModified}-${index}`}
+                        className="flex items-center gap-3 rounded-lg border border-emerald-200 bg-white/60 p-3"
+                      >
+                        <FileText
+                          size={18}
+                          className="shrink-0 text-emerald-700"
+                        />
 
-        <p className="mt-1 text-xs text-hoi-muted">
-          L’analyse identifiera les pages Wiki et données possibles.
-        </p>
-      </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-emerald-900">
+                            {file.name}
+                          </p>
 
-      <button
-        type="button"
-        onClick={() => setImportPrepared(true)}
-        className="rounded-lg bg-hoi-navy px-4 py-2.5 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
-      >
-        Préparer l’import
-      </button>
-    </div>
+                          <p className="mt-1 text-xs text-emerald-700">
+                            {file.type || t("unknownType")} ·{" "}
+                            {formatFileSize(file.size)}
+                          </p>
+                        </div>
 
-    {importPrepared && (
-      <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-left">
-        <p className="text-sm font-medium text-blue-900">
-          Contribution préparée
-        </p>
+                        <button
+                          type="button"
+                          aria-label={t("removeFile", { name: file.name })}
+                          onClick={() =>
+                            setSelectedFiles((currentFiles) =>
+                              currentFiles.filter(
+                                (_, fileIndex) => fileIndex !== index,
+                              ),
+                            )
+                          }
+                          className="rounded-md p-1.5 text-emerald-700 hover:bg-emerald-100"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-        <p className="mt-1 text-xs leading-5 text-blue-800">
-          Le fichier est prêt pour l’analyse. L’envoi réel au serveur et le
-          traitement d’ingestion seront connectés lors de l’implémentation du
-          backend.
-        </p>
-      </div>
-    )}
-  </div>
-)}
-              <p className="mt-4 text-xs text-hoi-muted">
-                La sélection de fichiers sera connectée au backend lors de
-                l’implémentation de l’ingestion.
-              </p>
+              {selectedFiles.length > 0 && (
+                <div className="mx-auto mt-6 max-w-lg border-t border-hoi-border pt-5">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-hoi-navy">
+                        {t("readyTitle")}
+                      </p>
+
+                      <p className="mt-1 text-xs text-hoi-muted">
+                        {t("readyDescription")}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setImportPrepared(true)}
+                      className="rounded-lg bg-hoi-navy px-4 py-2.5 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
+                    >
+                      {t("prepareImport")}
+                    </button>
+                  </div>
+
+                  {importPrepared && (
+                    <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-start">
+                      <p className="text-sm font-medium text-blue-900">
+                        {t("preparedTitle")}
+                      </p>
+
+                      <p className="mt-1 text-xs leading-5 text-blue-800">
+                        {t("preparedDescription")}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <p className="mt-4 text-xs text-hoi-muted">{t("backendNote")}</p>
             </div>
           </section>
 
           <section className="mt-8 rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
             <h2 className="font-semibold text-hoi-navy">
-              Ce qui se passe après l’import
+              {t("afterImportTitle")}
             </h2>
 
             <div className="mt-5 grid gap-4 md:grid-cols-3">
-              <WorkflowStep
-                number="1"
-                title="Analyse"
-                description="Le fichier est enregistré et analysé."
-              />
-
-              <WorkflowStep
-                number="2"
-                title="Proposition"
-                description="Les données et pages possibles sont identifiées."
-              />
-
-              <WorkflowStep
-                number="3"
-                title="Validation"
-                description="Les changements sensibles sont soumis à revue."
-              />
+              {workflowStepKeys.map((key, index) => (
+                <WorkflowStep
+                  key={key}
+                  number={format.number(index + 1)}
+                  title={t(`steps.${key}.title`)}
+                  description={t(`steps.${key}.description`)}
+                />
+              ))}
             </div>
           </section>
 
@@ -290,12 +305,11 @@ function handleFileSelection(event: ChangeEvent<HTMLInputElement>) {
 
               <div>
                 <h2 className="font-semibold text-emerald-900">
-                  Traçabilité conservée
+                  {t("traceabilityTitle")}
                 </h2>
 
                 <p className="mt-1 text-sm leading-6 text-emerald-800">
-                  Le nom du fichier, son auteur, sa date d’ajout et sa
-                  provenance seront conservés dans l’historique du Vault.
+                  {t("traceabilityDescription")}
                 </p>
               </div>
             </div>
@@ -327,16 +341,4 @@ function WorkflowStep({
       </div>
     </div>
   );
-}
-
-function formatFileSize(bytes: number) {
-  if (bytes < 1024) {
-    return `${bytes} octets`;
-  }
-
-  if (bytes < 1024 * 1024) {
-    return `${(bytes / 1024).toFixed(1)} Ko`;
-  }
-
-  return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
 }

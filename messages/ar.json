@@ -1,0 +1,943 @@
+{
+  "common": {
+    "appName": "House of Ichigo",
+    "appDescription": "مساحة عمل الذكاء الاصطناعي House of Ichigo",
+    "workspaceEyebrow": "House of Ichigo · مساحة العمل",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "saveDraft": "حفظ كمسودة",
+    "create": "إنشاء",
+    "browse": "تصفّح",
+    "refresh": "تحديث",
+    "connect": "ربط",
+    "configure": "إعداد",
+    "notConfigured": "غير مُعدّ",
+    "gridView": "عرض شبكي",
+    "listView": "عرض قائمة",
+    "all": "الكل",
+    "selected": "محدَّد",
+    "attachFile": "إرفاق ملف",
+    "useMicrophone": "استخدام الميكروفون",
+    "send": "إرسال",
+    "allTools": "كل الأدوات",
+    "smart": "ذكي",
+    "askQuestion": "اطرح سؤالاً...",
+    "results": "{count, plural, =0 {لا توجد نتائج} one {نتيجة واحدة} two {نتيجتان} few {# نتائج} many {# نتيجة} other {# نتيجة}}",
+    "documents": "{count, plural, =0 {لا توجد مستندات} one {مستند واحد} two {مستندان} few {# مستندات} many {# مستنداً} other {# مستند}}",
+    "files": "{count, plural, =0 {لم يتم تحديد أي ملف} one {تم تحديد ملف واحد} two {تم تحديد ملفين} few {تم تحديد # ملفات} many {تم تحديد # ملفاً} other {تم تحديد # ملف}}",
+    "visibility": "مستوى الظهور",
+    "visibilityPrivate": "خاص",
+    "visibilityWorkspace": "مساحة العمل بأكملها",
+    "visibilityShared": "مستخدمون محدَّدون",
+    "description": "الوصف"
+  },
+
+  "sidebar": {
+    "brandInitials": "HOI",
+    "brandTop": "House of",
+    "brandName": "Ichigo",
+    "newChat": "محادثة جديدة",
+    "wiki": "الويكي",
+    "activity": "سجل النشاط",
+    "saved": "المحفوظات",
+    "agents": "الوكلاء والمهارات",
+    "settings": "الإعدادات",
+    "setup": "الإعداد",
+    "capabilities": "القدرات",
+    "myComputer": "جهازي",
+    "myContext": "سياقي",
+    "customization": "التخصيص",
+    "recents": "الأحدث",
+    "editRecents": "تعديل العناصر الأخيرة",
+    "searchRecents": "البحث في العناصر الأخيرة",
+    "noConversations": "لا توجد محادثات بعد",
+    "role": "المالك"
+  },
+
+  "home": {
+    "title": "على ماذا نعمل اليوم؟",
+    "subtitle": "استعلم عن معارفك، وحلّل بياناتك، واستخدم أدواتك المهنية من مكان واحد.",
+    "suggestionsTitle": "اقتراحات",
+    "suggestionsHint": "ابدأ بسرعة",
+    "suggestions": {
+      "launch": "لخّص عملية الإطلاق لدينا",
+      "briefing": "جهّز ملخص اجتماع الغد",
+      "sales": "حلّل أحدث البيانات التجارية",
+      "onboarding": "ارسم خريطة عملية الانضمام لدينا"
+    },
+    "connectTitle": "اربط أدواتك",
+    "cards": {
+      "folders": {
+        "title": "المجلدات المحلية",
+        "description": "السماح بالبحث داخل ملفاتك.",
+        "action": "إضافة مجلد"
+      },
+      "email": {
+        "title": "البريد الإلكتروني",
+        "description": "اربط Gmail أو Outlook.",
+        "action": "ربط"
+      },
+      "messaging": {
+        "title": "المراسلة",
+        "description": "اربط Slack أو Microsoft Teams.",
+        "action": "ربط"
+      }
+    },
+    "workspaceTitle": "مساحة عملك",
+    "workspaceDescription": "ستظهر هنا الاتصالات والوكلاء والأتمتة تدريجياً مع إعداد مساحة عملك."
+  },
+
+  "activity": {
+    "title": "سجل النشاط",
+    "subtitle": "بريدك المهني وتقويمك ومهامك وقنوات فريقك مجتمعة في مسار واحد هادئ.",
+    "tabs": {
+      "inbox": "صندوق الوارد",
+      "calendar": "التقويم",
+      "todos": "المهام",
+      "channels": "القنوات"
+    },
+    "forYou": "من أجلك",
+    "forYouBadge": "استباقي · للقراءة فقط · شخصي",
+    "forYouDescription": "يستخدم الوكلاء المجدولون معارفك الشخصية فقط. فهم يلخّصون، ولا يرسلون أي رسالة أبداً.",
+    "enableMore": "تفعيل المزيد من الوكلاء الاستباقيين",
+    "agents": {
+      "morningDigest": "+ ملخص الصباح",
+      "threadsNeedingReply": "+ محادثات بانتظار الرد",
+      "weekAhead": "+ الأسبوع القادم"
+    },
+    "searchPlaceholder": "ابحث في رسائل البريد...",
+    "refresh": "تحديث",
+    "backfill": "الاستيراد إلى سياقي",
+    "editFeed": "تعديل السجل",
+    "inboxHint": "سيعرض صندوق الوارد الرسائل التي تحتاج انتباهك بعد ربط Gmail أو Outlook.",
+    "latestEmails": "أحدث الرسائل",
+    "connectEmailTitle": "اربط بريدك الإلكتروني",
+    "connectEmailDescription": "أضف Gmail أو Outlook إلى صندوق الوارد لإظهار الرسائل التي تحتاج إلى رد.",
+    "connectGmail": "ربط Gmail",
+    "connectOutlook": "ربط Outlook",
+    "suggestedTasks": "مهام مقترحة",
+    "suggestions": {
+      "deck": {
+        "title": "مراجعة عرض الربع الثالث قبل اجتماع الساعة 15:00",
+        "description": "اجتماع مع فريق المنتج"
+      },
+      "metrics": {
+        "title": "جمع أحدث المؤشرات للاجتماع اليومي",
+        "description": "المراجعة الأسبوعية — 10:00"
+      }
+    }
+  },
+
+  "saved": {
+    "title": "عناصري المحفوظة",
+    "subtitle": "اعثر على إجاباتك ومسوداتك ومواردك القابلة لإعادة الاستخدام في مكان واحد.",
+    "tabAnswers": "الإجابات المحفوظة",
+    "tabResources": "الموارد",
+    "searchPlaceholder": "ابحث في عناصرك المحفوظة...",
+    "newFolder": "مجلد جديد",
+    "sectionTitle": "إجاباتك المحفوظة",
+    "emptyTitle": "لا توجد عناصر محفوظة",
+    "emptyDescription": "احفظ إجابة من المحادثة لتبدأ مجموعتك.",
+    "previewTitle": "فتح عنصر محفوظ",
+    "previewDescription": "اختر إجابة أو مسودة لمعاينتها هنا."
+  },
+
+  "agents": {
+    "title": "الوكلاء والمهارات",
+    "subtitle": "الوكلاء هم زملاء ذكاء اصطناعي يعملون من أجلك. أما المهارات فهي إجراءات قابلة لإعادة الاستخدام يتبعونها لإنجاز مهمة بشكل متسق.",
+    "tabs": {
+      "agents": "الوكلاء",
+      "skills": "المهارات",
+      "marketplace": "المتجر",
+      "browse": "تصفّح"
+    },
+    "searchPlaceholder": "ابحث عن وكيل...",
+    "createFromChat": "إنشاء من المحادثة",
+    "filters": {
+      "all": "الكل",
+      "recent": "الأحدث",
+      "favorites": "المفضلة",
+      "shared": "المشتركة"
+    },
+    "emptyTitle": "لم يتم العثور على أي وكيل",
+    "emptyDescription": "أنشئ وكيلك الأول من المكتبة أو من المحادثة أو عبر إعداد يدوي.",
+    "createAgent": "إنشاء وكيل",
+    "buildTitle": "ابنِ مساعديك",
+    "buildDescription": "يمكن أن يكون لكل وكيل تعليماته ومهاراته ومصادر معرفته وأذوناته الخاصة.",
+    "features": {
+      "instructions": {
+        "title": "تعليمات مخصّصة",
+        "description": "حدّد دور الوكيل وسلوكه."
+      },
+      "tools": {
+        "title": "الأدوات والأذونات",
+        "description": "تحكّم بدقة في الإجراءات المسموح بها."
+      },
+      "knowledge": {
+        "title": "مصادر المعرفة",
+        "description": "اربط المساحات التي يمكن لكل وكيل قراءتها."
+      }
+    }
+  },
+
+  "agentCreate": {
+    "back": "العودة إلى الوكلاء",
+    "eyebrow": "مُعِدّ جديد",
+    "title": "إنشاء وكيل",
+    "subtitle": "حدّد دور مساعدك الذكي ومعارفه وأذوناته.",
+    "general": {
+      "title": "معلومات عامة",
+      "description": "حدّد هوية وكيلك ومهمته.",
+      "nameLabel": "اسم الوكيل",
+      "namePlaceholder": "مثال: مساعد المبيعات",
+      "descriptionPlaceholder": "صِف باختصار ما يقوم به هذا الوكيل."
+    },
+    "instructions": {
+      "title": "تعليمات الوكيل",
+      "description": "اشرح للوكيل كيف يجب أن يفكّر ويجيب.",
+      "placeholder": "مثال:\n\nأنت مساعد متخصص في تحليل العمليات الداخلية.\nأجب بوضوح وبأسلوب منظّم وموجز.\nاذكر دائماً المصادر المستخدمة.\nإذا لم تكن المعلومة متوفرة، فأشر إلى ذلك بوضوح."
+    },
+    "knowledge": {
+      "title": "مصادر المعرفة",
+      "description": "اختر المعلومات التي سيتمكن هذا الوكيل من الوصول إليها.",
+      "personal": {
+        "title": "السياق الشخصي",
+        "description": "المستندات الخاصة والمصادر الشخصية للمستخدم."
+      },
+      "company": {
+        "title": "معارف الشركة",
+        "description": "المساحات المشتركة المتاحة للقراءة فقط."
+      },
+      "local": {
+        "title": "المجلدات المحلية",
+        "description": "الملفات المحلية المصرّح بها صراحةً."
+      }
+    },
+    "tools": {
+      "title": "الأدوات والقدرات",
+      "description": "فعّل الأدوات التي سيتمكن الوكيل من استخدامها.",
+      "readDocuments": "قراءة المستندات",
+      "searchContext": "البحث في السياق",
+      "analyzeData": "تحليل البيانات",
+      "useConnectors": "استخدام الموصلات",
+      "notice": "الأدوات الحساسة، ولا سيما خوادم MCP، يجب أن تُصرَّح دائماً عبر إذن صريح."
+    }
+  },
+
+  "capabilities": {
+    "title": "القدرات",
+    "subtitle": "أدِر الموصلات والجدولات والأدوات وخوادم MCP في مساحة عملك.",
+    "tabs": {
+      "connectors": "الموصلات",
+      "schedules": "الجدولات",
+      "tools": "الأدوات",
+      "mcp": "خوادم MCP"
+    },
+    "searchPlaceholder": "ابحث عن موصل...",
+    "refresh": "تحديث الموصلات",
+    "webConnectors": "موصلات الويب",
+    "webBrowsing": {
+      "title": "تصفّح الويب",
+      "description": "البحث في الصفحات العامة وقراءتها مع حماية SSRF."
+    },
+    "mcpServers": "خوادم MCP",
+    "mcpEmptyTitle": "لا يوجد خادم MCP مُعدّ",
+    "mcpEmptyDescription": "ستتيح خوادم MCP ربط أدوات خارجية بوكلائك مع أذونات مضبوطة.",
+    "createMcp": "إنشاء خادم MCP",
+    "newConnections": "اتصالات جديدة",
+    "readOnlyNotice": "الموصلات الجديدة للقراءة فقط بشكل افتراضي. لا يمكنها إرسال البيانات أو تعديلها أو حذفها أو نشرها دون إذن صريح.",
+    "connections": {
+      "slack": "الرسائل والمناقشات والقنوات ضمن قراءة مضبوطة.",
+      "teams": "القنوات والإشارات والمحادثات المهنية.",
+      "gmail": "الرسائل ومعلومات التقويم المصرّح بها.",
+      "drive": "المستندات والمجلدات التي وافق عليها المستخدم."
+    }
+  },
+
+  "mcpCreate": {
+    "back": "العودة إلى القدرات",
+    "eyebrow": "اتصال جديد",
+    "title": "إضافة خادم MCP",
+    "subtitle": "اربط خادم MCP لإتاحة أدواته لوكلائك مع أذونات مضبوطة.",
+    "server": {
+      "title": "معلومات الخادم",
+      "description": "حدّد هوية خادم MCP ونقطة الاتصال به.",
+      "nameLabel": "اسم الخادم",
+      "namePlaceholder": "مثال: MCP Finance",
+      "visibilityWorkspace": "مساحة العمل",
+      "transportLabel": "نوع النقل",
+      "urlLabel": "رابط الخادم",
+      "descriptionPlaceholder": "صِف البيانات والأدوات التي يقدّمها هذا الخادم."
+    },
+    "auth": {
+      "title": "المصادقة",
+      "description": "اضبط طريقة مصادقة House of Ichigo لدى الخادم.",
+      "methodLabel": "طريقة المصادقة",
+      "methodNone": "بدون مصادقة",
+      "methodBearer": "Bearer token",
+      "methodOauth": "OAuth 2.0",
+      "methodCustom": "ترويسات مخصّصة",
+      "secretNameLabel": "اسم السر",
+      "secretNamePlaceholder": "مثال: MCP_FINANCE_TOKEN",
+      "secretLabel": "السر أو الرمز",
+      "secretPlaceholder": "أدخل سر الاتصال",
+      "notice": "يجب ألا يُكشف السر أبداً في الواجهة الأمامية. سيتم تشفيره واستخدامه من قِبل الخادم الخلفي فقط."
+    },
+    "tools": {
+      "title": "الأدوات المسموح بها",
+      "description": "اختر العمليات التي سيتمكن الوكلاء من استخدامها.",
+      "read": "قراءة البيانات",
+      "search": "البحث",
+      "createItems": "إنشاء عناصر",
+      "updateItems": "تعديل عناصر",
+      "deleteItems": "حذف عناصر",
+      "notice": "يجب أن يؤكّد المسؤول أذونات التعديل والحذف بشكل منفصل."
+    }
+  },
+
+  "setup": {
+    "eyebrow": "إعداد الشركة",
+    "steps": {
+      "basics": "أساسيات الشركة",
+      "organisation": "التنظيم",
+      "tools": "الأدوات المستخدمة",
+      "priorities": "الأولويات",
+      "invites": "الدعوات",
+      "launch": "إطلاق المساحة"
+    },
+    "stepIndicator": "الخطوة {current} من {total}",
+    "title": "أساسيات شركتك",
+    "subtitle": "ستساعد هذه المعلومات وكلاءك على فهم مؤسستك وعملياتك وأولوياتك بشكل أفضل.",
+    "draft": "مسودة",
+    "fields": {
+      "companyName": "اسم الشركة",
+      "companyNamePlaceholder": "مثال: House of Ichigo",
+      "industry": "قطاع النشاط",
+      "industryPlaceholder": "اختر قطاعاً",
+      "subIndustry": "القطاع الفرعي",
+      "subIndustryPlaceholder": "مثال: الأتمتة والاستشارات في الذكاء الاصطناعي",
+      "companySize": "حجم الشركة",
+      "companySizePlaceholder": "اختر حجماً",
+      "businessModel": "نموذج العمل",
+      "businessModelPlaceholder": "اختر نموذجاً",
+      "growthStage": "مرحلة النمو",
+      "growthStagePlaceholder": "اختر مرحلة",
+      "customerType": "نوع العملاء",
+      "customerTypePlaceholder": "اختر نوعاً",
+      "region": "النطاق الجغرافي",
+      "regionPlaceholder": "مثال: فرنسا، أوروبا"
+    },
+    "industries": {
+      "professionalServices": "الخدمات المهنية",
+      "technology": "التكنولوجيا",
+      "finance": "المالية",
+      "marketing": "التسويق",
+      "hr": "الموارد البشرية",
+      "other": "أخرى"
+    },
+    "sizes": {
+      "moreThan": "أكثر من {count}"
+    },
+    "businessModels": {
+      "nonprofit": "جمعية",
+      "other": "أخرى"
+    },
+    "growthStages": {
+      "founding": "التأسيس",
+      "launch": "الإطلاق",
+      "scaleUp": "التوسّع",
+      "maturity": "النضج",
+      "transformation": "التحوّل"
+    },
+    "customerTypes": {
+      "startups": "الشركات الناشئة",
+      "sme": "الشركات الصغيرة والمتوسطة",
+      "midMarket": "الشركات متوسطة الحجم",
+      "enterprise": "الحسابات الكبرى",
+      "consumer": "الجمهور العام"
+    },
+    "whyTitle": "لماذا هذه المعلومات؟",
+    "whyDescription": "ستُستخدم لتخصيص لوحات المعلومات والقوالب والتقارير والاقتراحات التي ينتجها وكلاؤك.",
+    "cards": {
+      "multiUser": {
+        "title": "متعدد المستخدمين",
+        "description": "ستتيح الخطوات التالية دعوة أعضاء فريقك."
+      },
+      "configurable": {
+        "title": "مساحة قابلة للتخصيص",
+        "description": "يمكن لكل مؤسسة تحديد قواعدها ومصادرها الخاصة."
+      },
+      "companyContext": {
+        "title": "سياق الشركة",
+        "description": "يمكن للوكلاء تكييف إجاباتهم مع مؤسستك."
+      }
+    }
+  },
+
+  "myComputer": {
+    "title": "جهازي",
+    "subtitle": "المجلدات المحلية التي يمكن لـ House of Ichigo البحث فيها وقراءتها. أما المساحات السحابية فتُربط عبر استيراد شخصي محكوم.",
+    "connected": "متصل",
+    "options": "خيارات الجهاز",
+    "localFolders": "المجلدات المحلية",
+    "localFoldersDescription": "يمكن لـ House of Ichigo البحث في ملفات المجلدات التي تسمح بها. يعمل البحث تلقائياً لكل مجلد تضيفه.",
+    "localFoldersHint": "استخدم مفتاح كل مجلد لتفعيل الفهرسة الدلالية أو تعطيلها.",
+    "emptyTitle": "لم تتم إضافة أي مجلد",
+    "emptyDescription": "أضف مجلداً للسماح لوكلائك بقراءة ملفاتك الخاصة.",
+    "addFolder": "إضافة مجلد",
+    "cards": {
+      "localAccess": {
+        "title": "وصول محلي",
+        "description": "لا يقرأ الوكلاء سوى المجلدات المصرّح بها صراحةً."
+      },
+      "personalControl": {
+        "title": "تحكّم شخصي",
+        "description": "تبقى ملفاتك الشخصية داخل نطاقك الخاص."
+      },
+      "indexing": {
+        "title": "فهرسة مضبوطة",
+        "description": "فعّل الفهرسة بشكل منفصل لكل مجلد."
+      }
+    }
+  },
+
+  "myContext": {
+    "title": "سياقي",
+    "subtitle": "طبقة معارفك الخاصة، مدعّمة بمعلومات الشركة التي يحق لك الوصول إليها.",
+    "tabs": {
+      "home": "الصفحة الرئيسية للمعارف",
+      "graph": "رسم المعارف",
+      "memory": "الذاكرة"
+    },
+    "stats": {
+      "companySpaces": {
+        "label": "مساحات شركة قابلة للقراءة",
+        "description": "تبقى المساحات المشتركة للقراءة فقط داخل سياقك."
+      },
+      "privateItems": {
+        "label": "عناصر خاصة",
+        "description": "تبقى ملفاتك الشخصية خاصة بشكل افتراضي."
+      },
+      "graphNodes": {
+        "label": "عُقد رسم بيانية متاحة",
+        "description": "تغذّي الكيانات الشخصية والمشتركة السياق."
+      },
+      "gaps": {
+        "label": "فجوات معرفية",
+        "description": "ستظهر هنا العناصر التي تحتاج إلى مزيد من السياق."
+      }
+    },
+    "baseTitle": "قاعدتك الشخصية",
+    "baseDescription": "تبقى العناصر المضافة هنا خاصة بشكل افتراضي.",
+    "baseBadge": "خاص بشكل افتراضي · مشاركة يدوية",
+    "baseEmpty": "لم تتم إضافة أي مصدر شخصي بعد.",
+    "addSource": "إضافة مصدر",
+    "exclusionsTitle": "استثناءات الاستيراد",
+    "exclusionsDescription": "استبعد العناصر التي لا ترغب أبداً في استيرادها إلى سياقك.",
+    "exclusionTypes": {
+      "senderDomain": "نطاق المُرسِل",
+      "filePattern": "نمط الملف",
+      "folder": "المجلد"
+    },
+    "exclusionPlaceholder": "مثال: ‎*.internal.com",
+    "addRule": "إضافة القاعدة",
+    "noRules": "لا توجد قاعدة استثناء مُعدّة."
+  },
+
+  "customization": {
+    "title": "التخصيص",
+    "subtitle": "خصّص تجربتك في House of Ichigo.",
+    "appearance": {
+      "title": "المظهر",
+      "description": "اختر السمة المرئية المفضّلة لديك."
+    },
+    "themes": {
+      "system": "النظام",
+      "light": "فاتح",
+      "dark": "داكن",
+      "navyPaper": "Navy Paper",
+      "inkDark": "Ink Dark"
+    },
+    "language": {
+      "title": "اللغة",
+      "description": "اختر لغة الواجهة.",
+      "label": "لغة التطبيق",
+      "saving": "جارٍ تطبيق اللغة..."
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "description": "تحكّم في طريقة ظهور أحداث مساحة عملك.",
+      "inApp": {
+        "title": "إشعارات داخل التطبيق",
+        "description": "عرض الأنشطة والتحديثات داخل House of Ichigo."
+      },
+      "browser": {
+        "title": "إشعارات المتصفح",
+        "description": "تلقّي الإشعارات عندما يكون التطبيق غير نشط."
+      }
+    },
+    "activityFeed": {
+      "title": "سجل النشاط",
+      "description": "اختر التكاملات الشخصية التي يمكنها تغذية سجل نشاطك.",
+      "slack": "مراسلة · اربط Slack لتفعيل هذا الخيار.",
+      "teams": "مراسلة · اربط Teams لتفعيل هذا الخيار.",
+      "gmail": "بريد · اربط Gmail لتفعيل هذا الخيار.",
+      "outlook": "بريد · اربط Outlook لتفعيل هذا الخيار."
+    }
+  },
+
+  "chat": {
+    "assistantWiki": "مساعد الويكي",
+    "assistantGeneral": "المساعد العام",
+    "activeVault": "الخزنة النشطة: {name}",
+    "privateConversation": "House of Ichigo · محادثة خاصة",
+    "conversationOptions": "خيارات المحادثة",
+    "personalContext": "السياق الشخصي",
+    "personalContextOn": "مُفعّل لهذه المحادثة",
+    "personalContextOff": "إضافة سياقي الشخصي",
+    "personalContextOnHint": "يمكن للمساعد استخدام معارفك الشخصية.",
+    "personalContextOffHint": "تبقى بياناتك الشخصية مستبعدة بشكل افتراضي.",
+    "today": "اليوم",
+    "greeting": "كيف يمكنني مساعدتك؟",
+    "sampleQuestion": "لخّص لي أولويات فريقنا لهذا الأسبوع.",
+    "sampleAnswerIntro": "إليك ملخصاً للأولويات التي تم تحديدها:",
+    "sampleAnswer": {
+      "one": "إنهاء مشاريع العملاء الجارية حالياً في الإنتاج.",
+      "two": "التحقق من عمليات الأتمتة التي تحتاج إلى إشراف.",
+      "three": "تحضير الاجتماعات والمخرجات القادمة."
+    },
+    "sourcesCount": "{count, plural, =0 {لا توجد مصادر} one {مصدر واحد} two {مصدران} few {# مصادر} many {# مصدراً} other {# مصدر}}",
+    "sendMessage": "إرسال الرسالة",
+    "questionSent": "تم إرسال السؤال",
+    "demoAnswerTitle": "إجابة تجريبية",
+    "demoAnswer": "سيحلّل المساعد البيانات المصرّح بها في الخزنة المحددة، ويعرض إجابة مصحوبة بمصادرها.",
+    "scope": "النطاق: {name}",
+    "disclaimer": "لا يمكن للمساعد استخدام سوى المصادر والأدوات المصرّح بها في مساحتك.",
+    "activeContext": "السياق النشط",
+    "activeContextDescription": "المصادر المستخدمة في هذه المحادثة.",
+    "selectedScope": "النطاق المحدَّد",
+    "vaultHint": "سيستخدم المساعد البيانات المصرّح بها في هذه الخزنة.",
+    "changeVault": "تغيير الخزنة",
+    "contextItems": {
+      "myContext": {
+        "title": "سياقي",
+        "description": "المعارف الشخصية"
+      },
+      "company": {
+        "title": "معارف الشركة",
+        "description": "مساحة الشركة المصرّح بها"
+      },
+      "activity": {
+        "title": "سجل النشاط",
+        "description": "المهام والأحداث الأخيرة"
+      }
+    },
+    "permissions": "الأذونات",
+    "permissionsValue": "قراءة فقط · لا إرسال تلقائي"
+  },
+
+  "wiki": {
+    "eyebrow": "قاعدة المعارف",
+    "title": "الويكي",
+    "subtitle": "اختر خزنة لتصفّح الصفحات والبحث في البيانات والعمل مع مساعدك.",
+    "summary": {
+      "vaults": "خزائن متاحة",
+      "protected": "بيانات محمية",
+      "access": "الوصول الحالي",
+      "accessValue": "قراءة"
+    },
+    "yourVaults": "خزائنك",
+    "yourVaultsDescription": "اختر نطاق البيانات الذي ترغب في العمل عليه.",
+    "searchPlaceholder": "ابحث عن خزنة...",
+    "updatedToday": "تم التحديث اليوم",
+    "updatedYesterday": "تم التحديث أمس",
+    "updatedDaysAgo": "تم التحديث قبل {count, plural, one {يوم واحد} two {يومين} few {# أيام} many {# يوماً} other {# يوم}}",
+    "emptyTitle": "لم يتم العثور على أي خزنة",
+    "emptyDescription": "جرّب بحثاً آخر.",
+    "selectedVault": "الخزنة المحدَّدة: {name}",
+    "selectPrompt": "اختر خزنة للبدء",
+    "selectDescription": "بعد هذا الاختيار، ستتمكن من تصفّح صفحات الويكي والبحث في البيانات وعرض المصادر واستخدام المساعد ضمن هذا النطاق.",
+    "personalContextTitle": "السياق الشخصي",
+    "personalContextDescription": "تبقى ملفاتك الشخصية منفصلة عن بيانات الشركة. ويمكن إضافتها صراحةً إلى سياق المساعد.",
+    "categories": {
+      "finance": "المالية",
+      "sales": "التجاري",
+      "company": "الشركة"
+    },
+    "vaultDescriptions": {
+      "comptabilite-2026": "الفواتير وإشعارات الدائن والموردون والعملاء والبيانات المالية.",
+      "lin-ventes-2026": "مبيعات LIN ومنتجاتها وعملاؤها ومعلوماتها التجارية.",
+      "prescription-nature": "مرجعيات المنتجات والمشتريات والمبيعات والمعارف التشغيلية."
+    }
+  },
+
+  "vault": {
+    "back": "العودة إلى الخزائن",
+    "backToVault": "العودة إلى {name}",
+    "eyebrow": "الخزنة المحدَّدة",
+    "unknown": "خزنة غير معروفة",
+    "fallbackName": "خزنة",
+    "subtitle": "تصفّح المعارف والمصادر والبيانات المهيكلة لهذه الخزنة.",
+    "accessGranted": "الوصول مصرَّح به",
+    "searchPlaceholder": "ابحث في الصفحات والمصادر والوسوم والبيانات...",
+    "metrics": {
+      "pages": "الصفحات والمستندات",
+      "structuredData": "بيانات مهيكلة",
+      "sources": "المصادر",
+      "toReview": "بانتظار التحقق"
+    },
+    "cards": {
+      "pages": {
+        "title": "صفحات الويكي",
+        "description": "تصفّح صفحات المعارف وبياناتها الوصفية.",
+        "action": "استكشاف الصفحات"
+      },
+      "assistant": {
+        "title": "مساعد الويكي",
+        "description": "استعلم عن معارف هذه الخزنة بإجابات مدعومة بالمصادر.",
+        "action": "فتح المساعد"
+      },
+      "data": {
+        "title": "البيانات المهيكلة",
+        "description": "استكشف الفواتير والمنتجات والعملاء وبيانات أخرى.",
+        "action": "عرض البيانات"
+      },
+      "sources": {
+        "title": "المصادر",
+        "description": "تصفّح الملفات التي تقف خلف معارف الخزنة.",
+        "action": "تصفّح المصادر"
+      },
+      "search": {
+        "title": "البحث المعمّق",
+        "description": "ابحث في المحتوى الكامل للخزنة مع ذكر المصادر.",
+        "action": "بدء بحث"
+      },
+      "review": {
+        "title": "التحقق البشري",
+        "description": "راجع التغييرات المقترحة بعد عملية الاستيراد.",
+        "action": "فتح المراجعة"
+      }
+    },
+    "nextStepTitle": "الخطوة التالية في هذه الخزنة",
+    "nextStepDescription": "بعد اختيار الخزنة، سيتمكن المستخدم من البحث والتصفّح والمساهمة والتحقق من البيانات ضمن النطاق نفسه."
+  },
+
+  "wikiPages": {
+    "eyebrow": "قاعدة المعارف · {vault}",
+    "title": "صفحات الويكي",
+    "subtitle": "ابحث وتصفّح المعارف المهيكلة لهذه الخزنة.",
+    "searchPlaceholder": "ابحث بالعنوان أو المسار أو الوسم...",
+    "types": {
+      "all": "كل الأنواع",
+      "document": "مستند",
+      "organisation": "مؤسسة",
+      "category": "فئة",
+      "other": "أخرى"
+    },
+    "searchHint": "يشمل البحث العناوين والمسارات والوسوم. أما البحث في المحتوى فسيأتي مع مساعد البحث في الويكي.",
+    "listTitle": "صفحات المعارف",
+    "status": {
+      "verified": "تم التحقق",
+      "toVerify": "بانتظار التحقق"
+    },
+    "edit": "تعديل الصفحة",
+    "metadataTitle": "البيانات الوصفية للصفحة",
+    "metadataLabels": {
+      "type": "النوع",
+      "name": "الاسم",
+      "identity": "المعرّف",
+      "source": "المصدر",
+      "sheet": "الورقة",
+      "rows": "الأسطر",
+      "page": "الصفحة"
+    },
+    "provenanceTitle": "المصدر الأصلي",
+    "provenanceDescription": "هذه الصفحة مرتبطة بمصادرها الأصلية. ويمكن التحقق من المعلومات المعروضة قبل أي تعديل.",
+    "empty": "لم يتم العثور على أي صفحة.",
+    "items": {
+      "articles": {
+        "title": "ARTICLES",
+        "description": "فئة منتجات تضم المقالات والمعلومات المرتبطة بها."
+      },
+      "clients": {
+        "title": "العملاء",
+        "description": "دليل العملاء مع معلوماتهم التجارية والإدارية."
+      },
+      "factures-janvier": {
+        "title": "الفواتير — يناير 2026",
+        "description": "ملخص الفواتير المسجّلة خلال شهر يناير 2026."
+      },
+      "processus-onboarding": {
+        "title": "عملية الانضمام",
+        "description": "وصف الخطوات اللازمة لدمج موظف جديد."
+      }
+    },
+    "tags": {
+      "produit": "منتج",
+      "référentiel": "مرجعية",
+      "client": "عميل",
+      "commercial": "تجاري",
+      "facture": "فاتورة",
+      "finance": "مالية",
+      "processus": "عملية",
+      "équipe": "فريق"
+    }
+  },
+
+  "data": {
+    "eyebrow": "بيانات الخزنة · {vault}",
+    "title": "البيانات المهيكلة",
+    "subtitle": "استكشف البيانات المستخرجة والموحّدة انطلاقاً من مصادر الخزنة.",
+    "metrics": {
+      "records": "السجلات",
+      "invoices": "الفواتير",
+      "toVerify": "بانتظار التحقق"
+    },
+    "invoicesTitle": "الفواتير",
+    "invoicesDescription": "بيانات مستخرجة من المرجعية المحاسبية.",
+    "searchPlaceholder": "ابحث بالرقم أو بالطرف المقابل...",
+    "statuses": {
+      "all": "كل الحالات",
+      "paid": "مدفوعة",
+      "toVerify": "بانتظار التحقق"
+    },
+    "columns": {
+      "number": "الرقم",
+      "date": "التاريخ",
+      "thirdParty": "الطرف المقابل",
+      "amount": "المبلغ شامل الضريبة",
+      "status": "الحالة",
+      "source": "المصدر"
+    },
+    "empty": "لا توجد بيانات تطابق بحثك."
+  },
+
+  "sources": {
+    "eyebrow": "مصادر الخزنة · {vault}",
+    "title": "المصادر",
+    "subtitle": "تصفّح الملفات التي تغذّي صفحات الويكي والبيانات المهيكلة لهذه الخزنة.",
+    "addSource": "إضافة مصدر",
+    "metrics": {
+      "total": "مصادر في هذه الخزنة",
+      "validated": "مصادر مُصادق عليها",
+      "pending": "بانتظار المصادقة"
+    },
+    "searchPlaceholder": "ابحث عن مصدر...",
+    "statuses": {
+      "all": "كل الحالات",
+      "imported": "مستورد",
+      "validated": "مُصادق عليه",
+      "toValidate": "بانتظار المصادقة"
+    },
+    "categories": {
+      "finance": "المالية",
+      "reference": "مرجعية",
+      "process": "عملية"
+    },
+    "descriptions": {
+      "account-move-2026": "القيود المحاسبية والفواتير لسنة 2026.",
+      "account-move-reference": "مرجعية المقالات وفئات المنتجات.",
+      "process-onboarding": "توثيق عملية الانضمام."
+    },
+    "addedBy": "أضافه {name}",
+    "empty": "لا يوجد مصدر يطابق بحثك.",
+    "importFolderTitle": "استيراد مجلد كامل",
+    "importFolderDescription": "ستتمكن من استيراد عدة ملفات دفعة واحدة. وسيُحفظ كل ملف كمصدر مستقل ويُتابَع ضمن عملية الاستيراد."
+  },
+
+  "contribute": {
+    "back": "العودة إلى المصادر",
+    "eyebrow": "مساهمة · {vault}",
+    "title": "إضافة معارف",
+    "subtitle": "استورد مصدراً أو مجلداً لإثراء بيانات هذه الخزنة.",
+    "scopeTitle": "أنت تساهم في الخزنة «{vault}»",
+    "scopeDescription": "لن تُحلَّل الملفات المستوردة إلا ضمن نطاق هذه الخزنة.",
+    "fileMode": {
+      "title": "إضافة ملف",
+      "description": "استورد ملف PDF أو Excel أو CSV أو Word أو Markdown أو أي مستند آخر."
+    },
+    "folderMode": {
+      "title": "إضافة مجلد",
+      "description": "استورد عدة ملفات مع الحفاظ على تنظيمها."
+    },
+    "dropFile": "أفلِت ملفك هنا",
+    "dropFolder": "أفلِت مجلدك هنا",
+    "orSelect": "أو اختره من جهازك",
+    "selectFile": "اختيار ملف",
+    "selectFiles": "اختيار ملفات",
+    "removeAll": "حذف الكل",
+    "removeFile": "حذف {name}",
+    "unknownType": "نوع غير معروف",
+    "readyTitle": "ملفات جاهزة للتحليل",
+    "readyDescription": "سيحدّد التحليل صفحات الويكي والبيانات الممكنة.",
+    "prepareImport": "تحضير الاستيراد",
+    "preparedTitle": "تم تحضير المساهمة",
+    "preparedDescription": "الملف جاهز للتحليل. أما الإرسال الفعلي إلى الخادم ومعالجة الاستيراد فسيتم ربطهما عند تنفيذ الواجهة الخلفية.",
+    "backendNote": "سيتم ربط اختيار الملفات بالواجهة الخلفية عند تنفيذ عملية الاستيراد.",
+    "afterImportTitle": "ما يحدث بعد الاستيراد",
+    "steps": {
+      "analysis": {
+        "title": "التحليل",
+        "description": "يتم حفظ الملف وتحليله."
+      },
+      "proposal": {
+        "title": "الاقتراح",
+        "description": "يتم تحديد البيانات والصفحات الممكنة."
+      },
+      "validation": {
+        "title": "المصادقة",
+        "description": "تُعرض التغييرات الحساسة على المراجعة."
+      }
+    },
+    "traceabilityTitle": "الحفاظ على التتبّع",
+    "traceabilityDescription": "سيُحفظ اسم الملف ومؤلفه وتاريخ إضافته ومصدره ضمن سجل الخزنة.",
+    "fileSize": {
+      "bytes": "{size} بايت",
+      "kilobytes": "{size} ك.ب",
+      "megabytes": "{size} م.ب"
+    }
+  },
+
+  "review": {
+    "eyebrow": "مراقبة البيانات · {vault}",
+    "title": "التحقق البشري",
+    "subtitle": "راجع المقترحات الناتجة عن عمليات الاستيراد قبل نشرها في الويكي والبيانات المهيكلة.",
+    "metrics": {
+      "toReview": "بانتظار المراجعة",
+      "validatedThisWeek": "تمت المصادقة عليها هذا الأسبوع",
+      "contributors": "مساهمون نشطون"
+    },
+    "queueTitle": "قائمة المصادقة",
+    "queueDescription": "تتطلب التعديلات المهمة قراراً بشرياً.",
+    "statuses": {
+      "toReview": "بانتظار المراجعة",
+      "validated": "مُصادق عليها",
+      "all": "الكل"
+    },
+    "types": {
+      "structuredData": "بيانات مهيكلة",
+      "wikiPage": "صفحة ويكي"
+    },
+    "confidence": {
+      "high": "ثقة عالية",
+      "medium": "ثقة متوسطة",
+      "low": "ثقة منخفضة",
+      "validated": "مُصادق عليها"
+    },
+    "sourceLabel": "المصدر: {source}",
+    "authorLabel": "أضافه: {author}",
+    "examine": "مراجعة",
+    "empty": "لا يوجد عنصر يطابق هذا الفلتر.",
+    "ruleTitle": "قاعدة النشر",
+    "ruleDescription": "يمكن نشر البيانات البسيطة والموثوقة تلقائياً. أما التغييرات الغامضة أو الحساسة فتبقى في هذه القائمة حتى يصادق عليها مستخدم مخوَّل.",
+    "dates": {
+      "todayAt": "اليوم عند {time}",
+      "yesterdayAt": "أمس عند {time}"
+    },
+    "items": {
+      "review-1": {
+        "title": "12 فاتورة تحتاج إلى تحقق",
+        "description": "يجب تأكيد بعض المعلومات المستخرجة قبل النشر."
+      },
+      "review-2": {
+        "title": "تحديث صفحة ARTICLES",
+        "description": "تم اقتراح نسخة جديدة من فئة المنتج."
+      },
+      "review-3": {
+        "title": "عملية الانضمام",
+        "description": "تحتاج عدة فقرات إلى مصادقة قبل الدمج."
+      },
+      "review-4": {
+        "title": "تسوية 28 قيداً محاسبياً",
+        "description": "تم التحقق من الاقتراح ودمجه في بيانات الخزنة."
+      }
+    }
+  },
+
+  "reviewDetail": {
+    "back": "العودة إلى قائمة المصادقة",
+    "notFound": "تعذّر العثور على مقترح المصادقة.",
+    "badge": "مقترح بانتظار المراجعة",
+    "decisionRecorded": "تم تسجيل القرار في النموذج الأولي",
+    "decisionChosen": "القرار المختار: {decision}",
+    "originalSource": "المصدر الأصلي",
+    "addedBy": "أضافه {name}",
+    "sourceExcerpt": "مقتطف من المصدر",
+    "excerpt": {
+      "number": "الرقم",
+      "thirdParty": "الطرف المقابل",
+      "totalAmount": "المبلغ الإجمالي",
+      "detectedStatus": "الحالة المكتشفة"
+    },
+    "openSource": "فتح المصدر",
+    "proposedData": "البيانات المقترحة",
+    "analysisResult": "نتيجة التحليل",
+    "verifyFields": "تحقّق من كل حقل قبل النشر.",
+    "publishNotice": "ستُنشر المعلومات المقبولة في الخزنة وتُربط بمصدرها الأصلي.",
+    "commentTitle": "تعليق المصادقة",
+    "commentPlaceholder": "أضف ملاحظة لتوضيح قرارك...",
+    "decisions": {
+      "reject": "رفض",
+      "requestFix": "طلب تصحيح",
+      "accept": "قبول ونشر"
+    },
+    "prototypeNote": "نموذج أولي للواجهة الأمامية: ستُسجَّل القرارات في الواجهة الخلفية لاحقاً.",
+    "fields": {
+      "invoiceNumber": "رقم الفاتورة",
+      "thirdParty": "الطرف المقابل",
+      "amount": "المبلغ شامل الضريبة",
+      "status": "الحالة",
+      "type": "النوع",
+      "name": "الاسم",
+      "source": "المصدر",
+      "itemCount": "عدد العناصر",
+      "pageName": "اسم الصفحة",
+      "sourcePages": "صفحات المصدر"
+    },
+    "values": {
+      "toVerify": "بانتظار التحقق",
+      "toValidate": "بانتظار المصادقة",
+      "onboardingProcess": "عملية الانضمام",
+      "pageRange": "{from} إلى {to}"
+    }
+  },
+
+  "deepSearch": {
+    "eyebrow": "بحث مدعوم · {vault}",
+    "title": "مساعد البحث في الويكي",
+    "subtitle": "اطرح سؤالاً معقّداً واحصل على إجابة مبنية على البيانات والمصادر المصرّح بها.",
+    "scopeTitle": "نطاق البحث",
+    "vaultBadge": "الخزنة: {name}",
+    "personalContextOn": "تم تفعيل السياق الشخصي",
+    "personalContextOff": "+ إضافة سياقي الشخصي",
+    "scopeHint": "لن يطّلع البحث إلا على البيانات المشمولة في هذا النطاق.",
+    "defineTitle": "حدّد بحثك",
+    "objectivePlaceholder": "مثال: قارن الفواتير غير المدفوعة بشروط الدفع المنصوص عليها في إجراءاتنا...",
+    "modeLabel": "الوضع",
+    "modes": {
+      "quick": "بحث سريع",
+      "deep": "بحث معمّق"
+    },
+    "launch": "بدء البحث",
+    "examplesTitle": "أمثلة على عمليات البحث",
+    "examplesHint": "للبدء بسرعة",
+    "examples": {
+      "unpaid": "ما هي الفواتير غير المدفوعة في الربع الأخير؟",
+      "suppliers": "من هم الموردون الرئيسيون لهذه السنة؟",
+      "launch": "لخّص عملية إطلاق المنتج."
+    },
+    "resultTitle": "نتيجة البحث",
+    "modeUsed": "الوضع المستخدم: {mode}",
+    "sourcesConsulted": "{count, plural, =0 {لم يتم الاطلاع على أي مصدر} one {تم الاطلاع على مصدر واحد} two {تم الاطلاع على مصدرين} few {تم الاطلاع على # مصادر} many {تم الاطلاع على # مصدراً} other {تم الاطلاع على # مصدر}}",
+    "synthesisTitle": "ملخّص مبني على بيانات الخزنة",
+    "synthesisOne": "تشير العناصر التي تم الاطلاع عليها إلى أن الفواتير التي تتطلب اهتماماً خاصاً مرتبطة بحالات دفع غير مكتملة أو بمعلومات يجب التحقق منها في المصدر الأصلي.",
+    "synthesisTwo": "يُنصح بإجراء تحقق إضافي قبل اتخاذ أي قرار مالي نهائي.",
+    "sourcesTitle": "المصادر التي تم الاطلاع عليها",
+    "citations": {
+      "invoices": "الفواتير وحالات الدفع",
+      "wikiPage": "صفحة ويكي تلخيصية",
+      "procedure": "إجراء متابعة المدفوعات"
+    },
+    "prototypeNote": "نموذج أولي للواجهة الأمامية: ستُربط النتائج بمحرك البحث وبخادم MCP لاحقاً."
+  }
+}

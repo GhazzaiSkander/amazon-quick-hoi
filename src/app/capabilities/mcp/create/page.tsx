@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,15 +13,18 @@ import {
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 
-const toolOptions = [
-  "Lire les données",
-  "Rechercher",
-  "Créer des éléments",
-  "Modifier des éléments",
-  "Supprimer des éléments",
-];
+const toolKeys = [
+  "read",
+  "search",
+  "createItems",
+  "updateItems",
+  "deleteItems",
+] as const;
 
 export default function CreateMcpServerPage() {
+  const t = useTranslations("mcpCreate");
+  const tc = useTranslations("common");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -29,8 +33,8 @@ export default function CreateMcpServerPage() {
             href="/capabilities"
             className="inline-flex items-center gap-2 text-sm font-medium text-hoi-muted transition hover:text-hoi-navy"
           >
-            <ChevronLeft size={17} />
-            Retour aux capacités
+            <ChevronLeft size={17} className="rtl-flip" />
+            {t("back")}
           </Link>
 
           <header className="mt-6 border-b border-hoi-border pb-6">
@@ -41,16 +45,15 @@ export default function CreateMcpServerPage() {
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-hoi-muted">
-                  Nouvelle connexion
+                  {t("eyebrow")}
                 </p>
 
                 <h1 className="mt-3 text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Ajouter un serveur MCP
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 max-w-2xl text-base leading-7 text-hoi-muted">
-                  Connectez un serveur MCP afin de rendre ses outils disponibles
-                  pour vos agents avec des permissions contrôlées.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -60,28 +63,30 @@ export default function CreateMcpServerPage() {
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<Server size={20} />}
-                title="Informations du serveur"
-                description="Définissez l’identité et le point de connexion du serveur MCP."
+                title={t("server.title")}
+                description={t("server.description")}
               />
 
               <div className="mt-6 grid gap-6 md:grid-cols-2">
-                <FormField label="Nom du serveur">
+                <FormField label={t("server.nameLabel")}>
                   <input
                     type="text"
-                    placeholder="Ex. MCP Finance"
+                    placeholder={t("server.namePlaceholder")}
                     className="form-input"
                   />
                 </FormField>
 
-                <FormField label="Visibilité">
+                <FormField label={tc("visibility")}>
                   <select className="form-input" defaultValue="workspace">
-                    <option value="private">Privé</option>
-                    <option value="workspace">Espace de travail</option>
-                    <option value="selected">Utilisateurs sélectionnés</option>
+                    <option value="private">{tc("visibilityPrivate")}</option>
+                    <option value="workspace">
+                      {t("server.visibilityWorkspace")}
+                    </option>
+                    <option value="selected">{tc("visibilityShared")}</option>
                   </select>
                 </FormField>
 
-                <FormField label="Type de transport">
+                <FormField label={t("server.transportLabel")}>
                   <select className="form-input" defaultValue="streamable-http">
                     <option value="streamable-http">Streamable HTTP</option>
                     <option value="sse">SSE</option>
@@ -89,7 +94,7 @@ export default function CreateMcpServerPage() {
                   </select>
                 </FormField>
 
-                <FormField label="URL du serveur">
+                <FormField label={t("server.urlLabel")}>
                   <input
                     type="url"
                     placeholder="https://mcp.example.com"
@@ -98,9 +103,9 @@ export default function CreateMcpServerPage() {
                 </FormField>
 
                 <div className="md:col-span-2">
-                  <FormField label="Description">
+                  <FormField label={tc("description")}>
                     <textarea
-                      placeholder="Décrivez les données et les outils proposés par ce serveur."
+                      placeholder={t("server.descriptionPlaceholder")}
                       className="min-h-28 w-full resize-y rounded-xl border border-hoi-border bg-white p-4 text-sm leading-6 text-hoi-navy outline-none placeholder:text-hoi-muted/60 focus:border-hoi-navy"
                     />
                   </FormField>
@@ -111,33 +116,33 @@ export default function CreateMcpServerPage() {
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<LockKeyhole size={20} />}
-                title="Authentification"
-                description="Configurez la manière dont House of Ichigo s’authentifiera auprès du serveur."
+                title={t("auth.title")}
+                description={t("auth.description")}
               />
 
               <div className="mt-6 grid gap-6 md:grid-cols-2">
-                <FormField label="Méthode d’authentification">
+                <FormField label={t("auth.methodLabel")}>
                   <select className="form-input" defaultValue="bearer">
-                    <option value="none">Aucune authentification</option>
-                    <option value="bearer">Bearer token</option>
-                    <option value="oauth">OAuth 2.0</option>
-                    <option value="custom">En-têtes personnalisés</option>
+                    <option value="none">{t("auth.methodNone")}</option>
+                    <option value="bearer">{t("auth.methodBearer")}</option>
+                    <option value="oauth">{t("auth.methodOauth")}</option>
+                    <option value="custom">{t("auth.methodCustom")}</option>
                   </select>
                 </FormField>
 
-                <FormField label="Nom du secret">
+                <FormField label={t("auth.secretNameLabel")}>
                   <input
                     type="text"
-                    placeholder="Ex. MCP_FINANCE_TOKEN"
+                    placeholder={t("auth.secretNamePlaceholder")}
                     className="form-input"
                   />
                 </FormField>
 
                 <div className="md:col-span-2">
-                  <FormField label="Secret ou token">
+                  <FormField label={t("auth.secretLabel")}>
                     <input
                       type="password"
-                      placeholder="Saisissez le secret de connexion"
+                      placeholder={t("auth.secretPlaceholder")}
                       className="form-input"
                     />
                   </FormField>
@@ -151,8 +156,7 @@ export default function CreateMcpServerPage() {
                 />
 
                 <p className="text-sm leading-6 text-hoi-muted">
-                  Le secret ne devra jamais être exposé dans le frontend. Il
-                  sera chiffré et utilisé uniquement par le serveur backend.
+                  {t("auth.notice")}
                 </p>
               </div>
             </section>
@@ -160,12 +164,12 @@ export default function CreateMcpServerPage() {
             <section className="rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
               <SectionHeader
                 icon={<Wrench size={20} />}
-                title="Outils autorisés"
-                description="Choisissez les opérations que les agents pourront utiliser."
+                title={t("tools.title")}
+                description={t("tools.description")}
               />
 
               <div className="mt-6 grid gap-3 md:grid-cols-2">
-                {toolOptions.map((tool, index) => (
+                {toolKeys.map((tool, index) => (
                   <label
                     key={tool}
                     className="flex cursor-pointer items-center gap-3 rounded-xl border border-hoi-border bg-white p-4"
@@ -177,21 +181,17 @@ export default function CreateMcpServerPage() {
                     />
 
                     <span className="text-sm font-medium text-hoi-navy">
-                      {tool}
+                      {t(`tools.${tool}`)}
                     </span>
                   </label>
                 ))}
               </div>
 
               <div className="mt-6 flex items-start gap-3 rounded-xl border border-hoi-border bg-white p-4">
-                <Info
-                  size={18}
-                  className="mt-0.5 shrink-0 text-hoi-navy"
-                />
+                <Info size={18} className="mt-0.5 shrink-0 text-hoi-navy" />
 
                 <p className="text-sm leading-6 text-hoi-muted">
-                  Les permissions de modification et de suppression devront
-                  être confirmées séparément par l’administrateur.
+                  {t("tools.notice")}
                 </p>
               </div>
             </section>
@@ -201,7 +201,7 @@ export default function CreateMcpServerPage() {
                 href="/capabilities"
                 className="rounded-lg border border-hoi-border bg-white px-5 py-3 text-sm font-medium text-hoi-muted transition hover:border-hoi-navy hover:text-hoi-navy"
               >
-                Annuler
+                {tc("cancel")}
               </Link>
 
               <div className="flex gap-3">
@@ -210,15 +210,15 @@ export default function CreateMcpServerPage() {
                   className="flex items-center gap-2 rounded-lg border border-hoi-border bg-white px-5 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
                 >
                   <Save size={17} />
-                  Enregistrer comme brouillon
+                  {tc("saveDraft")}
                 </button>
 
                 <button
                   type="button"
                   className="flex items-center gap-2 rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
                 >
-                  Continuer
-                  <ChevronRight size={17} />
+                  {tc("continue")}
+                  <ChevronRight size={17} className="rtl-flip" />
                 </button>
               </div>
             </div>
@@ -240,9 +240,7 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="rounded-lg bg-hoi-cream p-2.5 text-hoi-navy">
-        {icon}
-      </div>
+      <div className="rounded-lg bg-hoi-cream p-2.5 text-hoi-navy">{icon}</div>
 
       <div>
         <h2 className="font-semibold text-hoi-navy">{title}</h2>

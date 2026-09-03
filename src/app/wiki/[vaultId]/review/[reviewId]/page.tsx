@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -15,126 +16,163 @@ import {
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
 
+type FieldKey =
+  | "invoiceNumber"
+  | "thirdParty"
+  | "amount"
+  | "status"
+  | "type"
+  | "name"
+  | "source"
+  | "itemCount"
+  | "pageName"
+  | "sourcePages";
+
+/**
+ * A field value is either raw business data (`raw`), a keyed label from
+ * `reviewDetail.values`, a currency amount, or a locale-formatted number.
+ */
+type FieldValue =
+  | { kind: "raw"; value: string }
+  | { kind: "key"; key: string }
+  | { kind: "currency"; amount: number; currency: string }
+  | { kind: "number"; value: number }
+  | { kind: "pageRange"; from: number; to: number };
+
 const reviewDetails: Record<
   string,
   {
-    title: string;
-    type: string;
+    typeKey: "structuredData" | "wikiPage";
     source: string;
     author: string;
-    description: string;
-    extractedFields: { field: string; value: string; confidence: string }[];
+    extractedFields: {
+      fieldKey: FieldKey;
+      value: FieldValue;
+      confidence: number;
+    }[];
   }
 > = {
   "review-1": {
-    title: "12 factures nécessitent une vérification",
-    type: "Données structurées",
+    typeKey: "structuredData",
     source: "account_move_2026.csv",
     author: "Skander",
-    description:
-      "Certaines informations extraites doivent être confirmées avant publication.",
     extractedFields: [
       {
-        field: "Numéro de facture",
-        value: "FA2510110",
-        confidence: "94 %",
+        fieldKey: "invoiceNumber",
+        value: { kind: "raw", value: "FA2510110" },
+        confidence: 0.94,
       },
       {
-        field: "Tiers",
-        value: "Avenir Énergie",
-        confidence: "81 %",
+        fieldKey: "thirdParty",
+        value: { kind: "raw", value: "Avenir Énergie" },
+        confidence: 0.81,
       },
       {
-        field: "Montant TTC",
-        value: "3 420,00 €",
-        confidence: "96 %",
+        fieldKey: "amount",
+        value: { kind: "currency", amount: 3420, currency: "EUR" },
+        confidence: 0.96,
       },
       {
-        field: "Statut",
-        value: "À vérifier",
-        confidence: "62 %",
+        fieldKey: "status",
+        value: { kind: "key", key: "toVerify" },
+        confidence: 0.62,
       },
     ],
   },
   "review-2": {
-    title: "Mise à jour de la page ARTICLES",
-    type: "Page Wiki",
+    typeKey: "wikiPage",
     source: "account_move_reference.xlsx",
     author: "Sabri",
-    description:
-      "Une nouvelle version de la catégorie produit a été proposée.",
     extractedFields: [
       {
-        field: "Type",
-        value: "categorie",
-        confidence: "99 %",
+        fieldKey: "type",
+        value: { kind: "raw", value: "categorie" },
+        confidence: 0.99,
       },
       {
-        field: "Nom",
-        value: "ARTICLES",
-        confidence: "99 %",
+        fieldKey: "name",
+        value: { kind: "raw", value: "ARTICLES" },
+        confidence: 0.99,
       },
       {
-        field: "Source",
-        value: "account_move_reference.xlsx",
-        confidence: "97 %",
+        fieldKey: "source",
+        value: { kind: "raw", value: "account_move_reference.xlsx" },
+        confidence: 0.97,
       },
       {
-        field: "Nombre d’éléments",
-        value: "2 157",
-        confidence: "88 %",
+        fieldKey: "itemCount",
+        value: { kind: "number", value: 2157 },
+        confidence: 0.88,
       },
     ],
   },
   "review-3": {
-    title: "Processus d’onboarding",
-    type: "Page Wiki",
+    typeKey: "wikiPage",
     source: "process_onboarding.pdf",
     author: "Camille",
-    description:
-      "Plusieurs passages nécessitent une validation avant intégration.",
     extractedFields: [
       {
-        field: "Nom de la page",
-        value: "Processus d’onboarding",
-        confidence: "96 %",
+        fieldKey: "pageName",
+        value: { kind: "key", key: "onboardingProcess" },
+        confidence: 0.96,
       },
       {
-        field: "Type",
-        value: "process",
-        confidence: "91 %",
+        fieldKey: "type",
+        value: { kind: "raw", value: "process" },
+        confidence: 0.91,
       },
       {
-        field: "Pages source",
-        value: "12 à 18",
-        confidence: "74 %",
+        fieldKey: "sourcePages",
+        value: { kind: "pageRange", from: 12, to: 18 },
+        confidence: 0.74,
       },
       {
-        field: "Statut",
-        value: "À valider",
-        confidence: "69 %",
+        fieldKey: "status",
+        value: { kind: "key", key: "toValidate" },
+        confidence: 0.69,
       },
     ],
   },
 };
 
+type DecisionKey = "reject" | "requestFix" | "accept";
+
 export default function ReviewDetailPage() {
-  const params = useParams<{
-    vaultId: string;
-    reviewId: string;
-  }>();
+  const params = useParams<{ vaultId: string; reviewId: string }>();
+  const t = useTranslations("reviewDetail");
+  const tr = useTranslations("review");
+  const format = useFormatter();
 
   const review = reviewDetails[params.reviewId];
-  const [decision, setDecision] = useState<string | null>(null);
+  const [decision, setDecision] = useState<DecisionKey | null>(null);
 
   if (!review) {
     return (
       <AppShell>
-        <div className="p-12 text-center text-hoi-muted">
-          Proposition de validation introuvable.
-        </div>
+        <div className="p-12 text-center text-hoi-muted">{t("notFound")}</div>
       </AppShell>
     );
+  }
+
+  function renderFieldValue(value: FieldValue) {
+    switch (value.kind) {
+      case "raw":
+        return value.value;
+      case "key":
+        return t(`values.${value.key}`);
+      case "currency":
+        return format.number(value.amount, {
+          style: "currency",
+          currency: value.currency,
+        });
+      case "number":
+        return format.number(value.value);
+      case "pageRange":
+        return t("values.pageRange", {
+          from: format.number(value.from),
+          to: format.number(value.to),
+        });
+    }
   }
 
   return (
@@ -145,40 +183,39 @@ export default function ReviewDetailPage() {
             href={`/wiki/${params.vaultId}/review`}
             className="mb-6 inline-flex items-center gap-2 text-sm text-hoi-muted hover:text-hoi-navy"
           >
-            <ArrowLeft size={16} />
-            Retour à la file de validation
+            <ArrowLeft size={16} className="rtl-flip" />
+            {t("back")}
           </Link>
 
           <header className="mb-8">
             <div className="mb-3 flex items-center gap-2 text-sm text-amber-700">
               <AlertTriangle size={17} />
-              Proposition à examiner
+              {t("badge")}
             </div>
 
             <h1 className="text-3xl font-semibold tracking-tight text-hoi-navy">
-              {review.title}
+              {tr(`items.${params.reviewId}.title`)}
             </h1>
 
             <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              {review.description}
+              {tr(`items.${params.reviewId}.description`)}
             </p>
           </header>
 
           {decision && (
             <section className="mb-8 rounded-card border border-emerald-200 bg-emerald-50 p-5">
               <div className="flex items-start gap-3">
-                <CheckCircle2
-                  size={20}
-                  className="mt-0.5 text-emerald-700"
-                />
+                <CheckCircle2 size={20} className="mt-0.5 text-emerald-700" />
 
                 <div>
                   <p className="font-medium text-emerald-900">
-                    Décision enregistrée dans le prototype
+                    {t("decisionRecorded")}
                   </p>
 
                   <p className="mt-1 text-sm text-emerald-800">
-                    Décision choisie : {decision}
+                    {t("decisionChosen", {
+                      decision: t(`decisions.${decision}`),
+                    })}
                   </p>
                 </div>
               </div>
@@ -194,7 +231,7 @@ export default function ReviewDetailPage() {
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-hoi-muted">
-                    Source originale
+                    {t("originalSource")}
                   </p>
 
                   <h2 className="mt-1 font-semibold text-hoi-navy">
@@ -202,31 +239,38 @@ export default function ReviewDetailPage() {
                   </h2>
 
                   <p className="mt-1 text-sm text-hoi-muted">
-                    Ajoutée par {review.author}
+                    {t("addedBy", { name: review.author })}
                   </p>
                 </div>
               </div>
 
               <div className="rounded-xl border border-hoi-border bg-hoi-cream/50 p-5">
                 <p className="text-xs font-semibold uppercase tracking-wide text-hoi-muted">
-                  Extrait de la source
+                  {t("sourceExcerpt")}
                 </p>
 
                 <div className="mt-4 space-y-3 text-sm leading-6 text-hoi-navy">
                   <p>
-                    Numéro : <strong>FA2510110</strong>
+                    {t("excerpt.number")} : <strong>FA2510110</strong>
                   </p>
 
                   <p>
-                    Tiers : <strong>Avenir Énergie</strong>
+                    {t("excerpt.thirdParty")} : <strong>Avenir Énergie</strong>
                   </p>
 
                   <p>
-                    Montant total : <strong>3 420,00 €</strong>
+                    {t("excerpt.totalAmount")} :{" "}
+                    <strong>
+                      {format.number(3420, {
+                        style: "currency",
+                        currency: "EUR",
+                      })}
+                    </strong>
                   </p>
 
                   <p>
-                    Statut détecté : <strong>À vérifier</strong>
+                    {t("excerpt.detectedStatus")} :{" "}
+                    <strong>{t("values.toVerify")}</strong>
                   </p>
                 </div>
               </div>
@@ -236,7 +280,7 @@ export default function ReviewDetailPage() {
                 className="mt-5 inline-flex items-center gap-2 rounded-lg border border-hoi-border px-4 py-2 text-sm font-medium text-hoi-navy hover:bg-hoi-cream"
               >
                 <FileText size={16} />
-                Ouvrir la source
+                {t("openSource")}
               </button>
             </section>
 
@@ -248,15 +292,15 @@ export default function ReviewDetailPage() {
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-hoi-muted">
-                    Données proposées
+                    {t("proposedData")}
                   </p>
 
                   <h2 className="mt-1 font-semibold text-hoi-navy">
-                    Résultat de l’analyse
+                    {t("analysisResult")}
                   </h2>
 
                   <p className="mt-1 text-sm text-hoi-muted">
-                    Vérifiez chaque champ avant publication.
+                    {t("verifyFields")}
                   </p>
                 </div>
               </div>
@@ -264,19 +308,19 @@ export default function ReviewDetailPage() {
               <div className="divide-y divide-hoi-border rounded-xl border border-hoi-border">
                 {review.extractedFields.map((field) => (
                   <div
-                    key={field.field}
+                    key={field.fieldKey}
                     className="grid gap-2 p-4 md:grid-cols-[1fr_1.2fr_auto]"
                   >
                     <span className="text-sm text-hoi-muted">
-                      {field.field}
+                      {t(`fields.${field.fieldKey}`)}
                     </span>
 
                     <span className="text-sm font-medium text-hoi-navy">
-                      {field.value}
+                      {renderFieldValue(field.value)}
                     </span>
 
                     <span className="text-xs text-hoi-muted">
-                      {field.confidence}
+                      {format.number(field.confidence, { style: "percent" })}
                     </span>
                   </div>
                 ))}
@@ -284,8 +328,7 @@ export default function ReviewDetailPage() {
 
               <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
                 <p className="text-sm leading-6 text-blue-900">
-                  Les informations acceptées seront publiées dans le Vault et
-                  liées à leur source originale.
+                  {t("publishNotice")}
                 </p>
               </div>
             </section>
@@ -299,11 +342,11 @@ export default function ReviewDetailPage() {
 
               <div className="flex-1">
                 <h2 className="font-semibold text-hoi-navy">
-                  Commentaire de validation
+                  {t("commentTitle")}
                 </h2>
 
                 <textarea
-                  placeholder="Ajouter une remarque pour expliquer votre décision..."
+                  placeholder={t("commentPlaceholder")}
                   className="form-input mt-4 min-h-24 w-full resize-y"
                 />
               </div>
@@ -313,35 +356,34 @@ export default function ReviewDetailPage() {
           <section className="mt-6 flex flex-col justify-end gap-3 sm:flex-row">
             <button
               type="button"
-              onClick={() => setDecision("Refuser")}
+              onClick={() => setDecision("reject")}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-200 px-5 py-3 text-sm font-medium text-red-700 hover:bg-red-50"
             >
               <X size={17} />
-              Refuser
+              {t("decisions.reject")}
             </button>
 
             <button
               type="button"
-              onClick={() => setDecision("Demander une correction")}
+              onClick={() => setDecision("requestFix")}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-hoi-border px-5 py-3 text-sm font-medium text-hoi-navy hover:bg-hoi-cream"
             >
               <MessageSquare size={17} />
-              Demander une correction
+              {t("decisions.requestFix")}
             </button>
 
             <button
               type="button"
-              onClick={() => setDecision("Accepter")}
+              onClick={() => setDecision("accept")}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white hover:bg-hoi-navy-soft"
             >
               <Check size={17} />
-              Accepter et publier
+              {t("decisions.accept")}
             </button>
           </section>
 
-          <p className="mt-4 text-right text-xs text-hoi-muted">
-            Prototype frontend : les décisions seront enregistrées dans le
-            backend ultérieurement.
+          <p className="mt-4 text-end text-xs text-hoi-muted">
+            {t("prototypeNote")}
           </p>
         </div>
       </div>

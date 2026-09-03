@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import {
   Bot,
   Grid2X2,
@@ -12,13 +13,20 @@ import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
 
 const tabs = [
-  { label: "Agents", icon: Bot },
-  { label: "Compétences", icon: Sparkles },
-  { label: "Marketplace", icon: Store },
-  { label: "Parcourir", icon: Search },
-];
+  { key: "agents", icon: Bot },
+  { key: "skills", icon: Sparkles },
+  { key: "marketplace", icon: Store },
+  { key: "browse", icon: Search },
+] as const;
+
+const filterKeys = ["all", "recent", "favorites", "shared"] as const;
+
+const featureKeys = ["instructions", "tools", "knowledge"] as const;
 
 export default function AgentsSkillsPage() {
+  const t = useTranslations("agents");
+  const tc = useTranslations("common");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -31,13 +39,11 @@ export default function AgentsSkillsPage() {
 
               <div>
                 <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Agents et compétences
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 max-w-3xl text-base leading-7 text-hoi-muted">
-                  Les agents sont des coéquipiers IA qui travaillent pour vous.
-                  Les compétences sont des procédures réutilisables qu’ils
-                  suivent pour accomplir une tâche de manière cohérente.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -49,7 +55,7 @@ export default function AgentsSkillsPage() {
 
                 return (
                   <button
-                    key={tab.label}
+                    key={tab.key}
                     type="button"
                     className={`flex items-center gap-2 border-b-2 pb-3 text-sm font-medium transition ${
                       active
@@ -58,7 +64,7 @@ export default function AgentsSkillsPage() {
                     }`}
                   >
                     <Icon size={16} />
-                    {tab.label}
+                    {t(`tabs.${tab.key}`)}
                   </button>
                 );
               })}
@@ -72,7 +78,7 @@ export default function AgentsSkillsPage() {
 
                 <input
                   type="search"
-                  placeholder="Rechercher un agent..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full bg-transparent text-sm text-hoi-navy outline-none placeholder:text-hoi-muted/60"
                 />
               </div>
@@ -80,7 +86,7 @@ export default function AgentsSkillsPage() {
               <button
                 type="button"
                 className="rounded-lg border border-hoi-border bg-hoi-surface p-3 text-hoi-muted transition hover:text-hoi-navy"
-                aria-label="Affichage en grille"
+                aria-label={tc("gridView")}
               >
                 <Grid2X2 size={18} />
               </button>
@@ -88,7 +94,7 @@ export default function AgentsSkillsPage() {
               <button
                 type="button"
                 className="rounded-lg border border-hoi-border bg-hoi-surface p-3 text-hoi-muted transition hover:text-hoi-navy"
-                aria-label="Affichage en liste"
+                aria-label={tc("listView")}
               >
                 <List size={18} />
               </button>
@@ -97,41 +103,39 @@ export default function AgentsSkillsPage() {
                 type="button"
                 className="rounded-lg border border-hoi-border bg-hoi-surface px-4 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
               >
-                Parcourir
+                {tc("browse")}
               </button>
 
-             <Link
-  href="/agents-skills/create"
-  className="flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
->
-  <Plus size={17} />
-  Créer
-</Link>
+              <Link
+                href="/agents-skills/create"
+                className="flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
+              >
+                <Plus size={17} />
+                {tc("create")}
+              </Link>
 
               <button
                 type="button"
                 className="rounded-lg border border-hoi-border bg-hoi-surface px-4 py-3 text-sm font-medium text-hoi-navy transition hover:border-hoi-navy"
               >
-                Créer depuis le chat
+                {t("createFromChat")}
               </button>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              {["Tous", "Récents", "Favoris", "Partagés"].map(
-                (filter, index) => (
-                  <button
-                    key={filter}
-                    type="button"
-                    className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                      index === 0
-                        ? "border-hoi-navy bg-white text-hoi-navy"
-                        : "border-hoi-border bg-hoi-surface text-hoi-muted hover:text-hoi-navy"
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                ),
-              )}
+              {filterKeys.map((filter, index) => (
+                <button
+                  key={filter}
+                  type="button"
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                    index === 0
+                      ? "border-hoi-navy bg-white text-hoi-navy"
+                      : "border-hoi-border bg-hoi-surface text-hoi-muted hover:text-hoi-navy"
+                  }`}
+                >
+                  {t(`filters.${filter}`)}
+                </button>
+              ))}
             </div>
           </section>
 
@@ -143,21 +147,20 @@ export default function AgentsSkillsPage() {
                 </div>
 
                 <h2 className="mt-5 font-semibold text-hoi-navy">
-                  Aucun agent trouvé
+                  {t("emptyTitle")}
                 </h2>
 
                 <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-hoi-muted">
-                  Créez votre premier agent depuis la bibliothèque, le chat ou
-                  une configuration manuelle.
+                  {t("emptyDescription")}
                 </p>
 
-                <button
-                  type="button"
+                <Link
+                  href="/agents-skills/create"
                   className="mt-5 inline-flex items-center gap-2 rounded-lg bg-hoi-navy px-4 py-2 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
                 >
                   <Plus size={17} />
-                  Créer un agent
-                </button>
+                  {t("createAgent")}
+                </Link>
               </div>
             </div>
 
@@ -167,41 +170,27 @@ export default function AgentsSkillsPage() {
               </div>
 
               <h2 className="mt-5 text-lg font-semibold text-hoi-navy">
-                Construisez vos assistants
+                {t("buildTitle")}
               </h2>
 
               <p className="mt-2 text-sm leading-6 text-hoi-muted">
-                Chaque agent pourra avoir ses propres instructions, compétences,
-                sources de connaissances et permissions.
+                {t("buildDescription")}
               </p>
 
               <div className="mt-6 space-y-3">
-                <div className="rounded-lg border border-hoi-border bg-white p-4">
-                  <p className="text-sm font-medium text-hoi-navy">
-                    Instructions personnalisées
-                  </p>
-                  <p className="mt-1 text-xs text-hoi-muted">
-                    Définissez le rôle et le comportement de l’agent.
-                  </p>
-                </div>
-
-                <div className="rounded-lg border border-hoi-border bg-white p-4">
-                  <p className="text-sm font-medium text-hoi-navy">
-                    Outils et permissions
-                  </p>
-                  <p className="mt-1 text-xs text-hoi-muted">
-                    Contrôlez précisément les actions autorisées.
-                  </p>
-                </div>
-
-                <div className="rounded-lg border border-hoi-border bg-white p-4">
-                  <p className="text-sm font-medium text-hoi-navy">
-                    Sources de connaissances
-                  </p>
-                  <p className="mt-1 text-xs text-hoi-muted">
-                    Connectez les espaces lisibles par chaque agent.
-                  </p>
-                </div>
+                {featureKeys.map((key) => (
+                  <div
+                    key={key}
+                    className="rounded-lg border border-hoi-border bg-white p-4"
+                  >
+                    <p className="text-sm font-medium text-hoi-navy">
+                      {t(`features.${key}.title`)}
+                    </p>
+                    <p className="mt-1 text-xs text-hoi-muted">
+                      {t(`features.${key}.description`)}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>

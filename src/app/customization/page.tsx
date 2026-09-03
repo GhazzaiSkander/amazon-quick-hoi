@@ -1,15 +1,24 @@
-import {
-  Bell,
-  Check,
-  Languages,
-  ListChecks,
-  Palette,
-} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Bell, Check, Languages, ListChecks, Palette } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import LanguageSelector from "@/components/LanguageSelector";
 
-const themes = ["Système", "Clair", "Sombre", "Navy Paper", "Ink Dark"];
+const themeKeys = ["system", "light", "dark", "navyPaper", "inkDark"] as const;
+const activeTheme = "navyPaper";
+
+const integrationKeys = ["slack", "teams", "gmail", "outlook"] as const;
+
+/** Integration display names are product names, not UI copy. */
+const integrationNames: Record<(typeof integrationKeys)[number], string> = {
+  slack: "Slack",
+  teams: "Microsoft Teams",
+  gmail: "Gmail",
+  outlook: "Outlook",
+};
 
 export default function CustomizationPage() {
+  const t = useTranslations("customization");
+
   return (
     <AppShell>
       <div className="min-h-screen px-6 py-8 lg:px-12">
@@ -22,11 +31,11 @@ export default function CustomizationPage() {
 
               <div>
                 <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  Personnalisation
+                  {t("title")}
                 </h1>
 
                 <p className="mt-2 text-base leading-7 text-hoi-muted">
-                  Personnalisez votre expérience House of Ichigo.
+                  {t("subtitle")}
                 </p>
               </div>
             </div>
@@ -40,22 +49,22 @@ export default function CustomizationPage() {
 
               <div>
                 <h2 className="text-lg font-semibold text-hoi-navy">
-                  Apparence
+                  {t("appearance.title")}
                 </h2>
 
                 <p className="mt-1 text-sm text-hoi-muted">
-                  Choisissez votre thème visuel préféré.
+                  {t("appearance.description")}
                 </p>
               </div>
             </div>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {themes.map((theme) => {
-                const active = theme === "Navy Paper";
+              {themeKeys.map((themeKey) => {
+                const active = themeKey === activeTheme;
 
                 return (
                   <button
-                    key={theme}
+                    key={themeKey}
                     type="button"
                     className={`flex items-center justify-between rounded-xl border px-4 py-4 text-sm font-medium transition ${
                       active
@@ -63,7 +72,7 @@ export default function CustomizationPage() {
                         : "border-hoi-border bg-white text-hoi-navy hover:border-hoi-navy"
                     }`}
                   >
-                    {theme}
+                    {t(`themes.${themeKey}`)}
 
                     {active && <Check size={17} />}
                   </button>
@@ -80,32 +89,16 @@ export default function CustomizationPage() {
 
               <div>
                 <h2 className="text-lg font-semibold text-hoi-navy">
-                  Langue
+                  {t("language.title")}
                 </h2>
 
                 <p className="mt-1 text-sm text-hoi-muted">
-                  Choisissez la langue de l’interface.
+                  {t("language.description")}
                 </p>
               </div>
             </div>
 
-            <div className="mt-6 max-w-md">
-              <label
-                htmlFor="language"
-                className="mb-2 block text-sm font-medium text-hoi-navy"
-              >
-                Langue de l’application
-              </label>
-
-              <select
-                id="language"
-                defaultValue="fr"
-                className="w-full rounded-lg border border-hoi-border bg-white px-4 py-3 text-sm text-hoi-navy outline-none focus:border-hoi-navy"
-              >
-                <option value="fr">Français</option>
-                <option value="en">English</option>
-              </select>
-            </div>
+            <LanguageSelector />
           </section>
 
           <section className="mt-6 rounded-card border border-hoi-border bg-hoi-surface p-6 shadow-sm">
@@ -116,26 +109,25 @@ export default function CustomizationPage() {
 
               <div>
                 <h2 className="text-lg font-semibold text-hoi-navy">
-                  Notifications
+                  {t("notifications.title")}
                 </h2>
 
                 <p className="mt-1 text-sm text-hoi-muted">
-                  Contrôlez la manière dont les événements de votre espace
-                  apparaissent.
+                  {t("notifications.description")}
                 </p>
               </div>
             </div>
 
             <div className="mt-6 divide-y divide-hoi-border">
               <NotificationRow
-                title="Notifications dans l’application"
-                description="Afficher les activités et mises à jour dans House of Ichigo."
+                title={t("notifications.inApp.title")}
+                description={t("notifications.inApp.description")}
                 enabled
               />
 
               <NotificationRow
-                title="Notifications du navigateur"
-                description="Recevoir des notifications lorsque l’application est inactive."
+                title={t("notifications.browser.title")}
+                description={t("notifications.browser.description")}
                 enabled={false}
               />
             </div>
@@ -149,36 +141,23 @@ export default function CustomizationPage() {
 
               <div>
                 <h2 className="text-lg font-semibold text-hoi-navy">
-                  Activity Feed
+                  {t("activityFeed.title")}
                 </h2>
 
                 <p className="mt-1 text-sm text-hoi-muted">
-                  Choisissez les intégrations personnelles qui peuvent alimenter
-                  votre fil d’activité.
+                  {t("activityFeed.description")}
                 </p>
               </div>
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <IntegrationRow
-                title="Slack"
-                description="Messagerie · connectez Slack pour activer cette option."
-              />
-
-              <IntegrationRow
-                title="Microsoft Teams"
-                description="Messagerie · connectez Teams pour activer cette option."
-              />
-
-              <IntegrationRow
-                title="Gmail"
-                description="Email · connectez Gmail pour activer cette option."
-              />
-
-              <IntegrationRow
-                title="Outlook"
-                description="Email · connectez Outlook pour activer cette option."
-              />
+              {integrationKeys.map((key) => (
+                <IntegrationRow
+                  key={key}
+                  title={integrationNames[key]}
+                  description={t(`activityFeed.${key}`)}
+                />
+              ))}
             </div>
           </section>
         </div>
@@ -210,7 +189,7 @@ function NotificationRow({
       >
         <div
           className={`h-4 w-4 rounded-full bg-white transition ${
-            enabled ? "ml-5" : "ml-0"
+            enabled ? "ms-5" : "ms-0"
           }`}
         />
       </div>

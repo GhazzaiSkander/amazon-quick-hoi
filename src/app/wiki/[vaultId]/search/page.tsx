@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   BookOpen,
@@ -12,25 +13,27 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import { getVaultName } from "@/lib/vaults";
 
-const vaultNames: Record<string, string> = {
-  "comptabilite-2026": "Comptabilité 2026",
-  "lin-ventes-2026": "LIN — Ventes 2026",
-  "prescription-nature": "Prescription Nature",
-};
+const exampleKeys = ["unpaid", "suppliers", "launch"] as const;
+const modeKeys = ["quick", "deep"] as const;
 
-const suggestions = [
-  "Quelles sont les factures impayées du dernier trimestre ?",
-  "Quels sont les principaux fournisseurs de cette année ?",
-  "Résume le processus de lancement produit.",
-];
+/** Citation names are source identifiers; only their detail line is translated. */
+const citations = [
+  { key: "invoices", name: "account_move_2026.csv" },
+  { key: "wikiPage", name: "Factures — Janvier 2026" },
+  { key: "procedure", name: "process_paiement.pdf" },
+] as const;
 
 export default function DeepSearchPage() {
   const params = useParams<{ vaultId: string }>();
-  const vaultName = vaultNames[params.vaultId] ?? "Vault";
+  const t = useTranslations("deepSearch");
+  const tv = useTranslations("vault");
+
+  const vaultName = getVaultName(params.vaultId, tv("fallbackName"));
 
   const [objective, setObjective] = useState("");
-  const [mode, setMode] = useState("Recherche approfondie");
+  const [mode, setMode] = useState<(typeof modeKeys)[number]>("deep");
   const [includePersonalContext, setIncludePersonalContext] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
@@ -50,22 +53,21 @@ export default function DeepSearchPage() {
             href={`/wiki/${params.vaultId}`}
             className="mb-6 inline-flex items-center gap-2 text-sm text-hoi-muted hover:text-hoi-navy"
           >
-            <ArrowLeft size={16} />
-            Retour à {vaultName}
+            <ArrowLeft size={16} className="rtl-flip" />
+            {tv("backToVault", { name: vaultName })}
           </Link>
 
           <header className="mb-8">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              Recherche assistée · {vaultName}
+              {t("eyebrow", { vault: vaultName })}
             </p>
 
             <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              Assistant Recherche Wiki
+              {t("title")}
             </h1>
 
             <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              Posez une question complexe et obtenez une réponse fondée sur
-              les données et les sources autorisées.
+              {t("subtitle")}
             </p>
           </header>
 
@@ -75,12 +77,12 @@ export default function DeepSearchPage() {
 
               <div>
                 <h2 className="font-semibold text-blue-900">
-                  Périmètre de recherche
+                  {t("scopeTitle")}
                 </h2>
 
                 <div className="mt-3 flex flex-wrap gap-2">
                   <span className="rounded-full bg-blue-700 px-3 py-1 text-xs font-medium text-white">
-                    Vault : {vaultName}
+                    {t("vaultBadge", { name: vaultName })}
                   </span>
 
                   <button
@@ -95,14 +97,13 @@ export default function DeepSearchPage() {
                     }`}
                   >
                     {includePersonalContext
-                      ? "Contexte personnel activé"
-                      : "+ Ajouter mon contexte personnel"}
+                      ? t("personalContextOn")
+                      : t("personalContextOff")}
                   </button>
                 </div>
 
                 <p className="mt-3 text-xs leading-5 text-blue-800">
-                  La recherche ne consultera que les données incluses dans ce
-                  périmètre.
+                  {t("scopeHint")}
                 </p>
               </div>
             </div>
@@ -113,34 +114,36 @@ export default function DeepSearchPage() {
               <Sparkles size={19} className="text-hoi-accent" />
 
               <h2 className="font-semibold text-hoi-navy">
-                Définir votre recherche
+                {t("defineTitle")}
               </h2>
             </div>
 
             <textarea
               value={objective}
               onChange={(event) => setObjective(event.target.value)}
-              placeholder="Ex. Compare les factures impayées avec les conditions de paiement prévues dans nos procédures..."
+              placeholder={t("objectivePlaceholder")}
               className="form-input min-h-32 w-full resize-y"
             />
 
             <div className="mt-4 flex flex-col gap-4 border-t border-hoi-border pt-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
-                <label
-                  htmlFor="search-mode"
-                  className="text-sm text-hoi-muted"
-                >
-                  Mode
+                <label htmlFor="search-mode" className="text-sm text-hoi-muted">
+                  {t("modeLabel")}
                 </label>
 
                 <select
                   id="search-mode"
                   value={mode}
-                  onChange={(event) => setMode(event.target.value)}
+                  onChange={(event) =>
+                    setMode(event.target.value as (typeof modeKeys)[number])
+                  }
                   className="form-input w-auto"
                 >
-                  <option>Recherche rapide</option>
-                  <option>Recherche approfondie</option>
+                  {modeKeys.map((key) => (
+                    <option key={key} value={key}>
+                      {t(`modes.${key}`)}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -151,7 +154,7 @@ export default function DeepSearchPage() {
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-hoi-navy px-5 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Search size={17} />
-                Lancer la recherche
+                {t("launch")}
               </button>
             </div>
           </section>
@@ -160,23 +163,23 @@ export default function DeepSearchPage() {
             <section className="mt-8">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="font-semibold text-hoi-navy">
-                  Exemples de recherches
+                  {t("examplesTitle")}
                 </h2>
 
                 <span className="text-xs text-hoi-muted">
-                  Pour commencer rapidement
+                  {t("examplesHint")}
                 </span>
               </div>
 
               <div className="grid gap-3 md:grid-cols-3">
-                {suggestions.map((suggestion) => (
+                {exampleKeys.map((key) => (
                   <button
-                    key={suggestion}
+                    key={key}
                     type="button"
-                    onClick={() => setObjective(suggestion)}
-                    className="rounded-card border border-hoi-border bg-hoi-surface p-4 text-left text-sm text-hoi-navy shadow-sm transition hover:border-hoi-accent"
+                    onClick={() => setObjective(t(`examples.${key}`))}
+                    className="rounded-card border border-hoi-border bg-hoi-surface p-4 text-start text-sm text-hoi-navy shadow-sm transition hover:border-hoi-accent"
                   >
-                    {suggestion}
+                    {t(`examples.${key}`)}
                   </button>
                 ))}
               </div>
@@ -188,16 +191,16 @@ export default function DeepSearchPage() {
               <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h2 className="text-xl font-semibold text-hoi-navy">
-                    Résultat de la recherche
+                    {t("resultTitle")}
                   </h2>
 
                   <p className="mt-1 text-sm text-hoi-muted">
-                    Mode utilisé : {mode}
+                    {t("modeUsed", { mode: t(`modes.${mode}`) })}
                   </p>
                 </div>
 
                 <span className="text-xs text-hoi-muted">
-                  3 sources consultées
+                  {t("sourcesConsulted", { count: citations.length })}
                 </span>
               </div>
 
@@ -210,43 +213,32 @@ export default function DeepSearchPage() {
 
                   <div>
                     <h3 className="text-lg font-semibold text-hoi-navy">
-                      Synthèse basée sur les données du Vault
+                      {t("synthesisTitle")}
                     </h3>
 
                     <p className="mt-4 text-sm leading-7 text-hoi-navy">
-                      Les éléments consultés indiquent que les factures
-                      nécessitant une attention particulière sont associées à
-                      des statuts de paiement incomplets ou à des informations
-                      qui doivent être vérifiées dans la source originale.
+                      {t("synthesisOne")}
                     </p>
 
                     <p className="mt-4 text-sm leading-7 text-hoi-navy">
-                      Une vérification complémentaire est recommandée avant
-                      toute décision financière définitive.
+                      {t("synthesisTwo")}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-6 border-t border-hoi-border pt-5">
                   <h3 className="mb-3 text-sm font-semibold text-hoi-navy">
-                    Sources consultées
+                    {t("sourcesTitle")}
                   </h3>
 
                   <div className="space-y-2">
-                    <SourceCitation
-                      name="account_move_2026.csv"
-                      detail="Factures et statuts de paiement"
-                    />
-
-                    <SourceCitation
-                      name="Factures — Janvier 2026"
-                      detail="Page Wiki de synthèse"
-                    />
-
-                    <SourceCitation
-                      name="process_paiement.pdf"
-                      detail="Procédure de suivi des paiements"
-                    />
+                    {citations.map((citation) => (
+                      <SourceCitation
+                        key={citation.key}
+                        name={citation.name}
+                        detail={t(`citations.${citation.key}`)}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -254,8 +246,7 @@ export default function DeepSearchPage() {
           )}
 
           <p className="mt-6 text-center text-xs text-hoi-muted">
-            Prototype frontend : les résultats seront connectés au moteur de
-            recherche et au serveur MCP ultérieurement.
+            {t("prototypeNote")}
           </p>
         </div>
       </div>
@@ -263,13 +254,7 @@ export default function DeepSearchPage() {
   );
 }
 
-function SourceCitation({
-  name,
-  detail,
-}: {
-  name: string;
-  detail: string;
-}) {
+function SourceCitation({ name, detail }: { name: string; detail: string }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-hoi-border p-3">
       <FileText size={17} className="shrink-0 text-hoi-navy" />

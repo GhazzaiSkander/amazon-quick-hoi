@@ -1,0 +1,943 @@
+{
+  "common": {
+    "appName": "House of Ichigo",
+    "appDescription": "Espace de travail IA House of Ichigo",
+    "workspaceEyebrow": "House of Ichigo · Workspace",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "saveDraft": "Enregistrer comme brouillon",
+    "create": "Créer",
+    "browse": "Parcourir",
+    "refresh": "Actualiser",
+    "connect": "Se connecter",
+    "configure": "Configurer",
+    "notConfigured": "Non configuré",
+    "gridView": "Affichage en grille",
+    "listView": "Affichage en liste",
+    "all": "Tous",
+    "selected": "Sélectionné",
+    "attachFile": "Ajouter une pièce jointe",
+    "useMicrophone": "Utiliser le microphone",
+    "send": "Envoyer",
+    "allTools": "Tous les outils",
+    "smart": "Smart",
+    "askQuestion": "Posez une question...",
+    "results": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
+    "documents": "{count, plural, one {# document} other {# documents}}",
+    "files": "{count, plural, one {# fichier sélectionné} other {# fichiers sélectionnés}}",
+    "visibility": "Visibilité",
+    "visibilityPrivate": "Privé",
+    "visibilityWorkspace": "Tout l’espace de travail",
+    "visibilityShared": "Utilisateurs sélectionnés",
+    "description": "Description"
+  },
+
+  "sidebar": {
+    "brandInitials": "HOI",
+    "brandTop": "House of",
+    "brandName": "Ichigo",
+    "newChat": "Nouvelle conversation",
+    "wiki": "Wiki",
+    "activity": "Fil d’activité",
+    "saved": "Enregistrés",
+    "agents": "Agents et compétences",
+    "settings": "Paramètres",
+    "setup": "Configuration",
+    "capabilities": "Capacités",
+    "myComputer": "Mon ordinateur",
+    "myContext": "Mon contexte",
+    "customization": "Personnalisation",
+    "recents": "Récents",
+    "editRecents": "Modifier les récents",
+    "searchRecents": "Rechercher dans les récents",
+    "noConversations": "Aucune conversation pour le moment",
+    "role": "Propriétaire"
+  },
+
+  "home": {
+    "title": "Sur quoi travaillons-nous aujourd’hui ?",
+    "subtitle": "Interrogez vos connaissances, analysez vos données et utilisez vos outils professionnels depuis un espace unique.",
+    "suggestionsTitle": "Suggestions",
+    "suggestionsHint": "Démarrer rapidement",
+    "suggestions": {
+      "launch": "Résumer notre processus de lancement",
+      "briefing": "Préparer le briefing de la réunion de demain",
+      "sales": "Analyser les dernières données commerciales",
+      "onboarding": "Cartographier notre processus d’onboarding"
+    },
+    "connectTitle": "Connecter vos outils",
+    "cards": {
+      "folders": {
+        "title": "Dossiers locaux",
+        "description": "Autoriser la recherche dans vos fichiers.",
+        "action": "Ajouter un dossier"
+      },
+      "email": {
+        "title": "Email",
+        "description": "Connecter Gmail ou Outlook.",
+        "action": "Connecter"
+      },
+      "messaging": {
+        "title": "Messagerie",
+        "description": "Connecter Slack ou Microsoft Teams.",
+        "action": "Connecter"
+      }
+    },
+    "workspaceTitle": "Votre espace de travail",
+    "workspaceDescription": "Les connexions, agents et automatisations apparaîtront ici au fur et à mesure de la configuration de votre espace."
+  },
+
+  "activity": {
+    "title": "Fil d’activité",
+    "subtitle": "Votre email professionnel, calendrier, tâches et canaux d’équipe réunis dans une seule file calme.",
+    "tabs": {
+      "inbox": "Boîte de réception",
+      "calendar": "Calendrier",
+      "todos": "Tâches",
+      "channels": "Canaux"
+    },
+    "forYou": "Pour vous",
+    "forYouBadge": "Proactif · lecture seule · personnel",
+    "forYouDescription": "Les agents programmés utilisent uniquement vos connaissances personnelles. Ils résument, mais n’envoient jamais de message.",
+    "enableMore": "Activer davantage d’agents proactifs",
+    "agents": {
+      "morningDigest": "+ Résumé du matin",
+      "threadsNeedingReply": "+ Fils en attente de réponse",
+      "weekAhead": "+ Semaine à venir"
+    },
+    "searchPlaceholder": "Rechercher dans les emails...",
+    "refresh": "Actualiser",
+    "backfill": "Importer dans Mon contexte",
+    "editFeed": "Modifier le fil",
+    "inboxHint": "Votre boîte de réception affichera les emails nécessitant votre attention après la connexion de Gmail ou Outlook.",
+    "latestEmails": "Derniers emails",
+    "connectEmailTitle": "Connectez votre email",
+    "connectEmailDescription": "Ajoutez Gmail ou Outlook à votre boîte de réception pour faire apparaître les emails nécessitant une réponse.",
+    "connectGmail": "Connecter Gmail",
+    "connectOutlook": "Connecter Outlook",
+    "suggestedTasks": "Tâches suggérées",
+    "suggestions": {
+      "deck": {
+        "title": "Relire le deck du T3 avant la réunion de 15 h",
+        "description": "Réunion avec l’équipe produit"
+      },
+      "metrics": {
+        "title": "Récupérer les derniers indicateurs pour le point d’équipe",
+        "description": "Revue hebdomadaire — 10 h"
+      }
+    }
+  },
+
+  "saved": {
+    "title": "Mes éléments enregistrés",
+    "subtitle": "Retrouvez vos réponses, brouillons et ressources réutilisables au même endroit.",
+    "tabAnswers": "Réponses enregistrées",
+    "tabResources": "Ressources",
+    "searchPlaceholder": "Rechercher dans vos éléments enregistrés...",
+    "newFolder": "Nouveau dossier",
+    "sectionTitle": "Vos réponses enregistrées",
+    "emptyTitle": "Aucun élément enregistré",
+    "emptyDescription": "Enregistrez une réponse depuis le chat pour commencer votre collection.",
+    "previewTitle": "Ouvrir un élément enregistré",
+    "previewDescription": "Sélectionnez une réponse ou un brouillon pour le prévisualiser ici."
+  },
+
+  "agents": {
+    "title": "Agents et compétences",
+    "subtitle": "Les agents sont des coéquipiers IA qui travaillent pour vous. Les compétences sont des procédures réutilisables qu’ils suivent pour accomplir une tâche de manière cohérente.",
+    "tabs": {
+      "agents": "Agents",
+      "skills": "Compétences",
+      "marketplace": "Marketplace",
+      "browse": "Parcourir"
+    },
+    "searchPlaceholder": "Rechercher un agent...",
+    "createFromChat": "Créer depuis le chat",
+    "filters": {
+      "all": "Tous",
+      "recent": "Récents",
+      "favorites": "Favoris",
+      "shared": "Partagés"
+    },
+    "emptyTitle": "Aucun agent trouvé",
+    "emptyDescription": "Créez votre premier agent depuis la bibliothèque, le chat ou une configuration manuelle.",
+    "createAgent": "Créer un agent",
+    "buildTitle": "Construisez vos assistants",
+    "buildDescription": "Chaque agent pourra avoir ses propres instructions, compétences, sources de connaissances et permissions.",
+    "features": {
+      "instructions": {
+        "title": "Instructions personnalisées",
+        "description": "Définissez le rôle et le comportement de l’agent."
+      },
+      "tools": {
+        "title": "Outils et permissions",
+        "description": "Contrôlez précisément les actions autorisées."
+      },
+      "knowledge": {
+        "title": "Sources de connaissances",
+        "description": "Connectez les espaces lisibles par chaque agent."
+      }
+    }
+  },
+
+  "agentCreate": {
+    "back": "Retour aux agents",
+    "eyebrow": "Nouveau configurateur",
+    "title": "Créer un agent",
+    "subtitle": "Définissez le rôle, les connaissances et les permissions de votre assistant IA.",
+    "general": {
+      "title": "Informations générales",
+      "description": "Définissez l’identité et la mission de votre agent.",
+      "nameLabel": "Nom de l’agent",
+      "namePlaceholder": "Ex. Assistant commercial",
+      "descriptionPlaceholder": "Décrivez brièvement ce que fait cet agent."
+    },
+    "instructions": {
+      "title": "Instructions de l’agent",
+      "description": "Expliquez à l’agent comment il doit raisonner et répondre.",
+      "placeholder": "Exemple :\n\nTu es un assistant spécialisé dans l’analyse des processus internes.\nRéponds de manière claire, structurée et concise.\nCite toujours les sources utilisées.\nSi l’information n’est pas disponible, indique-le clairement."
+    },
+    "knowledge": {
+      "title": "Sources de connaissances",
+      "description": "Choisissez les informations auxquelles cet agent pourra accéder.",
+      "personal": {
+        "title": "Contexte personnel",
+        "description": "Documents privés et sources personnelles de l’utilisateur."
+      },
+      "company": {
+        "title": "Connaissances de l’entreprise",
+        "description": "Espaces partagés accessibles en lecture seule."
+      },
+      "local": {
+        "title": "Dossiers locaux",
+        "description": "Fichiers locaux explicitement autorisés."
+      }
+    },
+    "tools": {
+      "title": "Outils et capacités",
+      "description": "Activez les outils que l’agent pourra utiliser.",
+      "readDocuments": "Lire les documents",
+      "searchContext": "Rechercher dans le contexte",
+      "analyzeData": "Analyser les données",
+      "useConnectors": "Utiliser les connecteurs",
+      "notice": "Les outils sensibles, notamment les serveurs MCP, devront toujours être autorisés par une permission explicite."
+    }
+  },
+
+  "capabilities": {
+    "title": "Capacités",
+    "subtitle": "Gérez les connecteurs, les planifications, les outils et les serveurs MCP de votre espace de travail.",
+    "tabs": {
+      "connectors": "Connecteurs",
+      "schedules": "Planifications",
+      "tools": "Outils",
+      "mcp": "Serveurs MCP"
+    },
+    "searchPlaceholder": "Rechercher un connecteur...",
+    "refresh": "Actualiser les connecteurs",
+    "webConnectors": "Connecteurs web",
+    "webBrowsing": {
+      "title": "Navigation web",
+      "description": "Rechercher et consulter des pages publiques avec une protection SSRF."
+    },
+    "mcpServers": "Serveurs MCP",
+    "mcpEmptyTitle": "Aucun serveur MCP configuré",
+    "mcpEmptyDescription": "Les serveurs MCP permettront de connecter des outils externes à vos agents avec des permissions contrôlées.",
+    "createMcp": "Créer un serveur MCP",
+    "newConnections": "Nouvelles connexions",
+    "readOnlyNotice": "Les nouveaux connecteurs sont en lecture seule par défaut. Ils ne peuvent pas envoyer, modifier, supprimer ou publier des données sans permission explicite.",
+    "connections": {
+      "slack": "Messages, discussions et canaux en lecture contrôlée.",
+      "teams": "Canaux, mentions et conversations professionnelles.",
+      "gmail": "Emails et informations de calendrier autorisés.",
+      "drive": "Documents et dossiers approuvés par l’utilisateur."
+    }
+  },
+
+  "mcpCreate": {
+    "back": "Retour aux capacités",
+    "eyebrow": "Nouvelle connexion",
+    "title": "Ajouter un serveur MCP",
+    "subtitle": "Connectez un serveur MCP afin de rendre ses outils disponibles pour vos agents avec des permissions contrôlées.",
+    "server": {
+      "title": "Informations du serveur",
+      "description": "Définissez l’identité et le point de connexion du serveur MCP.",
+      "nameLabel": "Nom du serveur",
+      "namePlaceholder": "Ex. MCP Finance",
+      "visibilityWorkspace": "Espace de travail",
+      "transportLabel": "Type de transport",
+      "urlLabel": "URL du serveur",
+      "descriptionPlaceholder": "Décrivez les données et les outils proposés par ce serveur."
+    },
+    "auth": {
+      "title": "Authentification",
+      "description": "Configurez la manière dont House of Ichigo s’authentifiera auprès du serveur.",
+      "methodLabel": "Méthode d’authentification",
+      "methodNone": "Aucune authentification",
+      "methodBearer": "Bearer token",
+      "methodOauth": "OAuth 2.0",
+      "methodCustom": "En-têtes personnalisés",
+      "secretNameLabel": "Nom du secret",
+      "secretNamePlaceholder": "Ex. MCP_FINANCE_TOKEN",
+      "secretLabel": "Secret ou token",
+      "secretPlaceholder": "Saisissez le secret de connexion",
+      "notice": "Le secret ne devra jamais être exposé dans le frontend. Il sera chiffré et utilisé uniquement par le serveur backend."
+    },
+    "tools": {
+      "title": "Outils autorisés",
+      "description": "Choisissez les opérations que les agents pourront utiliser.",
+      "read": "Lire les données",
+      "search": "Rechercher",
+      "createItems": "Créer des éléments",
+      "updateItems": "Modifier des éléments",
+      "deleteItems": "Supprimer des éléments",
+      "notice": "Les permissions de modification et de suppression devront être confirmées séparément par l’administrateur."
+    }
+  },
+
+  "setup": {
+    "eyebrow": "Configuration de l’entreprise",
+    "steps": {
+      "basics": "Bases de l’entreprise",
+      "organisation": "Organisation",
+      "tools": "Outils utilisés",
+      "priorities": "Priorités",
+      "invites": "Invitations",
+      "launch": "Lancer l’espace"
+    },
+    "stepIndicator": "Étape {current} sur {total}",
+    "title": "Les bases de votre entreprise",
+    "subtitle": "Ces informations permettront à vos agents de mieux comprendre votre organisation, vos processus et vos priorités.",
+    "draft": "Brouillon",
+    "fields": {
+      "companyName": "Nom de l’entreprise",
+      "companyNamePlaceholder": "Ex. House of Ichigo",
+      "industry": "Secteur d’activité",
+      "industryPlaceholder": "Sélectionner un secteur",
+      "subIndustry": "Sous-secteur",
+      "subIndustryPlaceholder": "Ex. Automatisation et conseil IA",
+      "companySize": "Taille de l’entreprise",
+      "companySizePlaceholder": "Sélectionner une taille",
+      "businessModel": "Modèle économique",
+      "businessModelPlaceholder": "Sélectionner un modèle",
+      "growthStage": "Phase de croissance",
+      "growthStagePlaceholder": "Sélectionner une phase",
+      "customerType": "Type de clients",
+      "customerTypePlaceholder": "Sélectionner un type",
+      "region": "Zone géographique",
+      "regionPlaceholder": "Ex. France, Europe"
+    },
+    "industries": {
+      "professionalServices": "Services professionnels",
+      "technology": "Technologie",
+      "finance": "Finance",
+      "marketing": "Marketing",
+      "hr": "Ressources humaines",
+      "other": "Autre"
+    },
+    "sizes": {
+      "moreThan": "Plus de {count}"
+    },
+    "businessModels": {
+      "nonprofit": "Association",
+      "other": "Autre"
+    },
+    "growthStages": {
+      "founding": "Création",
+      "launch": "Lancement",
+      "scaleUp": "Scale-up",
+      "maturity": "Maturité",
+      "transformation": "Transformation"
+    },
+    "customerTypes": {
+      "startups": "Startups",
+      "sme": "PME",
+      "midMarket": "ETI",
+      "enterprise": "Grands comptes",
+      "consumer": "Grand public"
+    },
+    "whyTitle": "Pourquoi ces informations ?",
+    "whyDescription": "Elles serviront à personnaliser les tableaux de bord, les modèles, les rapports et les suggestions de vos agents.",
+    "cards": {
+      "multiUser": {
+        "title": "Multi-utilisateur",
+        "description": "Les étapes suivantes permettront d’inviter les membres de votre équipe."
+      },
+      "configurable": {
+        "title": "Espace configurable",
+        "description": "Chaque organisation pourra définir ses propres règles et sources."
+      },
+      "companyContext": {
+        "title": "Contexte entreprise",
+        "description": "Les agents pourront adapter leurs réponses à votre organisation."
+      }
+    }
+  },
+
+  "myComputer": {
+    "title": "Mon ordinateur",
+    "subtitle": "Les dossiers locaux que House of Ichigo peut rechercher et lire. Les espaces cloud se connectent avec une ingestion personnelle gouvernée.",
+    "connected": "Connecté",
+    "options": "Options de l’ordinateur",
+    "localFolders": "Dossiers locaux",
+    "localFoldersDescription": "House of Ichigo peut rechercher les fichiers des dossiers que vous autorisez. La recherche fonctionne automatiquement pour chaque dossier ajouté.",
+    "localFoldersHint": "Utilisez les interrupteurs de chaque dossier pour activer ou désactiver l’indexation sémantique.",
+    "emptyTitle": "Aucun dossier ajouté",
+    "emptyDescription": "Ajoutez un dossier pour permettre à vos agents de lire vos fichiers privés.",
+    "addFolder": "Ajouter un dossier",
+    "cards": {
+      "localAccess": {
+        "title": "Accès local",
+        "description": "Les agents ne lisent que les dossiers explicitement autorisés."
+      },
+      "personalControl": {
+        "title": "Contrôle personnel",
+        "description": "Vos fichiers personnels restent dans votre périmètre privé."
+      },
+      "indexing": {
+        "title": "Indexation contrôlée",
+        "description": "Activez l’indexation séparément pour chaque dossier."
+      }
+    }
+  },
+
+  "myContext": {
+    "title": "Mon contexte",
+    "subtitle": "Votre couche de connaissances privée, enrichie par les informations d’entreprise auxquelles vous avez accès.",
+    "tabs": {
+      "home": "Accueil des connaissances",
+      "graph": "Graphe de connaissances",
+      "memory": "Mémoire"
+    },
+    "stats": {
+      "companySpaces": {
+        "label": "espaces d’entreprise lisibles",
+        "description": "Les espaces partagés restent en lecture seule dans votre contexte."
+      },
+      "privateItems": {
+        "label": "éléments privés",
+        "description": "Vos fichiers personnels restent privés par défaut."
+      },
+      "graphNodes": {
+        "label": "nœuds du graphe accessibles",
+        "description": "Les entités personnelles et partagées alimentent le contexte."
+      },
+      "gaps": {
+        "label": "lacunes de connaissance",
+        "description": "Les éléments nécessitant davantage de contexte apparaîtront ici."
+      }
+    },
+    "baseTitle": "Votre base personnelle",
+    "baseDescription": "Les éléments ajoutés ici restent privés par défaut.",
+    "baseBadge": "Privé par défaut · Partage manuel",
+    "baseEmpty": "Aucune source personnelle n’a encore été ajoutée.",
+    "addSource": "Ajouter une source",
+    "exclusionsTitle": "Exclusions d’ingestion",
+    "exclusionsDescription": "Excluez les éléments que vous ne souhaitez jamais importer dans votre contexte.",
+    "exclusionTypes": {
+      "senderDomain": "Domaine de l’expéditeur",
+      "filePattern": "Motif de fichier",
+      "folder": "Dossier"
+    },
+    "exclusionPlaceholder": "Ex. *.interne.com",
+    "addRule": "Ajouter la règle",
+    "noRules": "Aucune règle d’exclusion configurée."
+  },
+
+  "customization": {
+    "title": "Personnalisation",
+    "subtitle": "Personnalisez votre expérience House of Ichigo.",
+    "appearance": {
+      "title": "Apparence",
+      "description": "Choisissez votre thème visuel préféré."
+    },
+    "themes": {
+      "system": "Système",
+      "light": "Clair",
+      "dark": "Sombre",
+      "navyPaper": "Navy Paper",
+      "inkDark": "Ink Dark"
+    },
+    "language": {
+      "title": "Langue",
+      "description": "Choisissez la langue de l’interface.",
+      "label": "Langue de l’application",
+      "saving": "Application de la langue..."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Contrôlez la manière dont les événements de votre espace apparaissent.",
+      "inApp": {
+        "title": "Notifications dans l’application",
+        "description": "Afficher les activités et mises à jour dans House of Ichigo."
+      },
+      "browser": {
+        "title": "Notifications du navigateur",
+        "description": "Recevoir des notifications lorsque l’application est inactive."
+      }
+    },
+    "activityFeed": {
+      "title": "Fil d’activité",
+      "description": "Choisissez les intégrations personnelles qui peuvent alimenter votre fil d’activité.",
+      "slack": "Messagerie · connectez Slack pour activer cette option.",
+      "teams": "Messagerie · connectez Teams pour activer cette option.",
+      "gmail": "Email · connectez Gmail pour activer cette option.",
+      "outlook": "Email · connectez Outlook pour activer cette option."
+    }
+  },
+
+  "chat": {
+    "assistantWiki": "Assistant Wiki",
+    "assistantGeneral": "Assistant général",
+    "activeVault": "Vault actif : {name}",
+    "privateConversation": "House of Ichigo · Conversation privée",
+    "conversationOptions": "Options de la conversation",
+    "personalContext": "Contexte personnel",
+    "personalContextOn": "Activé pour cette conversation",
+    "personalContextOff": "Ajouter mon contexte personnel",
+    "personalContextOnHint": "L’Assistant peut utiliser vos connaissances personnelles.",
+    "personalContextOffHint": "Vos données personnelles restent exclues par défaut.",
+    "today": "Aujourd’hui",
+    "greeting": "Comment puis-je vous aider ?",
+    "sampleQuestion": "Résume-moi les priorités de notre équipe pour cette semaine.",
+    "sampleAnswerIntro": "Voici une synthèse des priorités identifiées :",
+    "sampleAnswer": {
+      "one": "Finaliser les projets clients actuellement en production.",
+      "two": "Vérifier les automatisations nécessitant une supervision.",
+      "three": "Préparer les prochaines réunions et livrables."
+    },
+    "sourcesCount": "{count, plural, one {# source} other {# sources}}",
+    "sendMessage": "Envoyer le message",
+    "questionSent": "Question envoyée",
+    "demoAnswerTitle": "Réponse de démonstration",
+    "demoAnswer": "L’Assistant analysera les données autorisées du Vault sélectionné et affichera une réponse accompagnée de ses sources.",
+    "scope": "Périmètre : {name}",
+    "disclaimer": "L’assistant peut utiliser uniquement les sources et outils autorisés dans votre espace.",
+    "activeContext": "Contexte actif",
+    "activeContextDescription": "Sources utilisées pour cette conversation.",
+    "selectedScope": "Périmètre sélectionné",
+    "vaultHint": "L’Assistant utilisera les données autorisées de ce Vault.",
+    "changeVault": "Changer de Vault",
+    "contextItems": {
+      "myContext": {
+        "title": "Mon contexte",
+        "description": "Connaissances personnelles"
+      },
+      "company": {
+        "title": "Connaissances de l’entreprise",
+        "description": "Espace d’entreprise autorisé"
+      },
+      "activity": {
+        "title": "Fil d’activité",
+        "description": "Tâches et événements récents"
+      }
+    },
+    "permissions": "Permissions",
+    "permissionsValue": "Lecture seule · Aucun envoi automatique"
+  },
+
+  "wiki": {
+    "eyebrow": "Base de connaissances",
+    "title": "Wiki",
+    "subtitle": "Choisissez un Vault pour consulter les pages, rechercher les données et travailler avec votre Assistant.",
+    "summary": {
+      "vaults": "Vaults accessibles",
+      "protected": "Données protégées",
+      "access": "Accès actuel",
+      "accessValue": "Lecture"
+    },
+    "yourVaults": "Vos Vaults",
+    "yourVaultsDescription": "Sélectionnez le périmètre de données sur lequel vous souhaitez travailler.",
+    "searchPlaceholder": "Rechercher un Vault...",
+    "updatedToday": "Mis à jour aujourd’hui",
+    "updatedYesterday": "Mis à jour hier",
+    "updatedDaysAgo": "Mis à jour il y a {count, plural, one {# jour} other {# jours}}",
+    "emptyTitle": "Aucun Vault trouvé",
+    "emptyDescription": "Essayez une autre recherche.",
+    "selectedVault": "Vault sélectionné : {name}",
+    "selectPrompt": "Sélectionnez un Vault pour commencer",
+    "selectDescription": "Après cette sélection, vous pourrez consulter les pages Wiki, rechercher dans les données, voir les sources et utiliser l’Assistant dans ce périmètre.",
+    "personalContextTitle": "Contexte personnel",
+    "personalContextDescription": "Vos fichiers personnels restent séparés des données de l’entreprise. Ils pourront être ajoutés explicitement au contexte de l’Assistant.",
+    "categories": {
+      "finance": "Finance",
+      "sales": "Commercial",
+      "company": "Entreprise"
+    },
+    "vaultDescriptions": {
+      "comptabilite-2026": "Factures, avoirs, fournisseurs, clients et données financières.",
+      "lin-ventes-2026": "Ventes, produits, clients et informations commerciales de LIN.",
+      "prescription-nature": "Référentiels produits, achats, ventes et connaissances opérationnelles."
+    }
+  },
+
+  "vault": {
+    "back": "Retour aux Vaults",
+    "backToVault": "Retour à {name}",
+    "eyebrow": "Vault sélectionné",
+    "unknown": "Vault inconnu",
+    "fallbackName": "Vault",
+    "subtitle": "Consultez les connaissances, les sources et les données structurées de ce Vault.",
+    "accessGranted": "Accès autorisé",
+    "searchPlaceholder": "Rechercher dans les pages, sources, tags et données...",
+    "metrics": {
+      "pages": "Pages et documents",
+      "structuredData": "Données structurées",
+      "sources": "Sources",
+      "toReview": "À valider"
+    },
+    "cards": {
+      "pages": {
+        "title": "Pages Wiki",
+        "description": "Consulter les pages de connaissances et leurs métadonnées.",
+        "action": "Explorer les pages"
+      },
+      "assistant": {
+        "title": "Assistant Wiki",
+        "description": "Interroger les connaissances de ce Vault avec des réponses sourcées.",
+        "action": "Ouvrir l’Assistant"
+      },
+      "data": {
+        "title": "Données structurées",
+        "description": "Explorer les factures, produits, clients et autres données.",
+        "action": "Voir les données"
+      },
+      "sources": {
+        "title": "Sources",
+        "description": "Consulter les fichiers à l’origine des connaissances du Vault.",
+        "action": "Consulter les sources"
+      },
+      "search": {
+        "title": "Deep Search",
+        "description": "Rechercher dans le contenu complet du Vault avec des sources citées.",
+        "action": "Lancer une recherche"
+      },
+      "review": {
+        "title": "Validation humaine",
+        "description": "Vérifier les changements proposés après une ingestion.",
+        "action": "Ouvrir la revue"
+      }
+    },
+    "nextStepTitle": "Prochaine étape dans ce Vault",
+    "nextStepDescription": "Après la sélection du Vault, l’utilisateur pourra rechercher, consulter, contribuer et valider les données dans ce même périmètre."
+  },
+
+  "wikiPages": {
+    "eyebrow": "Base de connaissances · {vault}",
+    "title": "Pages Wiki",
+    "subtitle": "Recherchez et consultez les connaissances structurées de ce Vault.",
+    "searchPlaceholder": "Rechercher par titre, chemin ou tag...",
+    "types": {
+      "all": "Tous les types",
+      "document": "Document",
+      "organisation": "Organisation",
+      "category": "Catégorie",
+      "other": "Autre"
+    },
+    "searchHint": "La recherche porte sur les titres, chemins et tags. La recherche dans le contenu viendra avec Assistant Recherche Wiki.",
+    "listTitle": "Pages de connaissances",
+    "status": {
+      "verified": "Vérifiée",
+      "toVerify": "À vérifier"
+    },
+    "edit": "Modifier la page",
+    "metadataTitle": "Métadonnées de la page",
+    "metadataLabels": {
+      "type": "Type",
+      "name": "Nom",
+      "identity": "Identité",
+      "source": "Source",
+      "sheet": "Feuille",
+      "rows": "Lignes",
+      "page": "Page"
+    },
+    "provenanceTitle": "Provenance",
+    "provenanceDescription": "Cette page est liée à ses sources originales. Les informations affichées pourront être vérifiées avant toute modification.",
+    "empty": "Aucune page trouvée.",
+    "items": {
+      "articles": {
+        "title": "ARTICLES",
+        "description": "Catégorie de produit contenant les articles et leurs informations associées."
+      },
+      "clients": {
+        "title": "Clients",
+        "description": "Répertoire des clients avec leurs informations commerciales et administratives."
+      },
+      "factures-janvier": {
+        "title": "Factures — Janvier 2026",
+        "description": "Synthèse des factures enregistrées pendant le mois de janvier 2026."
+      },
+      "processus-onboarding": {
+        "title": "Processus d’onboarding",
+        "description": "Description des étapes nécessaires pour intégrer un nouveau collaborateur."
+      }
+    },
+    "tags": {
+      "produit": "produit",
+      "référentiel": "référentiel",
+      "client": "client",
+      "commercial": "commercial",
+      "facture": "facture",
+      "finance": "finance",
+      "processus": "processus",
+      "équipe": "équipe"
+    }
+  },
+
+  "data": {
+    "eyebrow": "Données du Vault · {vault}",
+    "title": "Données structurées",
+    "subtitle": "Explorez les données extraites et normalisées à partir des sources du Vault.",
+    "metrics": {
+      "records": "Enregistrements",
+      "invoices": "Factures",
+      "toVerify": "À vérifier"
+    },
+    "invoicesTitle": "Factures",
+    "invoicesDescription": "Données extraites du référentiel comptable.",
+    "searchPlaceholder": "Rechercher par numéro ou tiers...",
+    "statuses": {
+      "all": "Tous les statuts",
+      "paid": "Payée",
+      "toVerify": "À vérifier"
+    },
+    "columns": {
+      "number": "Numéro",
+      "date": "Date",
+      "thirdParty": "Tiers",
+      "amount": "Montant TTC",
+      "status": "Statut",
+      "source": "Source"
+    },
+    "empty": "Aucune donnée ne correspond à votre recherche."
+  },
+
+  "sources": {
+    "eyebrow": "Sources du Vault · {vault}",
+    "title": "Sources",
+    "subtitle": "Consultez les fichiers qui alimentent les pages Wiki et les données structurées de ce Vault.",
+    "addSource": "Ajouter une source",
+    "metrics": {
+      "total": "Sources dans ce Vault",
+      "validated": "Sources validées",
+      "pending": "En attente de validation"
+    },
+    "searchPlaceholder": "Rechercher une source...",
+    "statuses": {
+      "all": "Tous les statuts",
+      "imported": "Importé",
+      "validated": "Validé",
+      "toValidate": "À valider"
+    },
+    "categories": {
+      "finance": "Finance",
+      "reference": "Référentiel",
+      "process": "Processus"
+    },
+    "descriptions": {
+      "account-move-2026": "Écritures comptables et factures de l’année 2026.",
+      "account-move-reference": "Référentiel des articles et catégories de produits.",
+      "process-onboarding": "Documentation du processus d’onboarding."
+    },
+    "addedBy": "Ajouté par {name}",
+    "empty": "Aucune source ne correspond à votre recherche.",
+    "importFolderTitle": "Importer un dossier complet",
+    "importFolderDescription": "Vous pourrez importer plusieurs fichiers en une seule fois. Chaque fichier sera conservé comme source indépendante et suivi dans le processus d’ingestion."
+  },
+
+  "contribute": {
+    "back": "Retour aux sources",
+    "eyebrow": "Contribution · {vault}",
+    "title": "Ajouter des connaissances",
+    "subtitle": "Importez une source ou un dossier pour enrichir les données de ce Vault.",
+    "scopeTitle": "Vous contribuez au Vault « {vault} »",
+    "scopeDescription": "Les fichiers importés seront analysés uniquement dans le périmètre de ce Vault.",
+    "fileMode": {
+      "title": "Ajouter un fichier",
+      "description": "Importer un PDF, Excel, CSV, Word, Markdown ou autre document."
+    },
+    "folderMode": {
+      "title": "Ajouter un dossier",
+      "description": "Importer plusieurs fichiers en conservant leur organisation."
+    },
+    "dropFile": "Déposez votre fichier ici",
+    "dropFolder": "Déposez votre dossier ici",
+    "orSelect": "ou sélectionnez-le depuis votre ordinateur",
+    "selectFile": "Sélectionner un fichier",
+    "selectFiles": "Sélectionner des fichiers",
+    "removeAll": "Tout supprimer",
+    "removeFile": "Supprimer {name}",
+    "unknownType": "Type non identifié",
+    "readyTitle": "Fichiers prêts à être analysés",
+    "readyDescription": "L’analyse identifiera les pages Wiki et données possibles.",
+    "prepareImport": "Préparer l’import",
+    "preparedTitle": "Contribution préparée",
+    "preparedDescription": "Le fichier est prêt pour l’analyse. L’envoi réel au serveur et le traitement d’ingestion seront connectés lors de l’implémentation du backend.",
+    "backendNote": "La sélection de fichiers sera connectée au backend lors de l’implémentation de l’ingestion.",
+    "afterImportTitle": "Ce qui se passe après l’import",
+    "steps": {
+      "analysis": {
+        "title": "Analyse",
+        "description": "Le fichier est enregistré et analysé."
+      },
+      "proposal": {
+        "title": "Proposition",
+        "description": "Les données et pages possibles sont identifiées."
+      },
+      "validation": {
+        "title": "Validation",
+        "description": "Les changements sensibles sont soumis à revue."
+      }
+    },
+    "traceabilityTitle": "Traçabilité conservée",
+    "traceabilityDescription": "Le nom du fichier, son auteur, sa date d’ajout et sa provenance seront conservés dans l’historique du Vault.",
+    "fileSize": {
+      "bytes": "{size} octets",
+      "kilobytes": "{size} Ko",
+      "megabytes": "{size} Mo"
+    }
+  },
+
+  "review": {
+    "eyebrow": "Contrôle des données · {vault}",
+    "title": "Validation humaine",
+    "subtitle": "Examinez les propositions issues des imports avant leur publication dans le Wiki et les données structurées.",
+    "metrics": {
+      "toReview": "À examiner",
+      "validatedThisWeek": "Validées cette semaine",
+      "contributors": "Contributeurs actifs"
+    },
+    "queueTitle": "File de validation",
+    "queueDescription": "Les modifications importantes nécessitent une décision humaine.",
+    "statuses": {
+      "toReview": "À examiner",
+      "validated": "Validée",
+      "all": "Toutes"
+    },
+    "types": {
+      "structuredData": "Données structurées",
+      "wikiPage": "Page Wiki"
+    },
+    "confidence": {
+      "high": "Confiance élevée",
+      "medium": "Confiance moyenne",
+      "low": "Confiance faible",
+      "validated": "Validée"
+    },
+    "sourceLabel": "Source : {source}",
+    "authorLabel": "Ajouté par : {author}",
+    "examine": "Examiner",
+    "empty": "Aucun élément ne correspond à ce filtre.",
+    "ruleTitle": "Règle de publication",
+    "ruleDescription": "Les données simples et fiables pourront être publiées automatiquement. Les changements ambigus ou sensibles resteront dans cette file jusqu’à leur validation par un utilisateur autorisé.",
+    "dates": {
+      "todayAt": "Aujourd’hui à {time}",
+      "yesterdayAt": "Hier à {time}"
+    },
+    "items": {
+      "review-1": {
+        "title": "12 factures nécessitent une vérification",
+        "description": "Certaines informations extraites doivent être confirmées avant publication."
+      },
+      "review-2": {
+        "title": "Mise à jour de la page ARTICLES",
+        "description": "Une nouvelle version de la catégorie produit a été proposée."
+      },
+      "review-3": {
+        "title": "Processus d’onboarding",
+        "description": "Plusieurs passages nécessitent une validation avant intégration."
+      },
+      "review-4": {
+        "title": "Réconciliation de 28 pièces comptables",
+        "description": "La proposition a été vérifiée et intégrée aux données du Vault."
+      }
+    }
+  },
+
+  "reviewDetail": {
+    "back": "Retour à la file de validation",
+    "notFound": "Proposition de validation introuvable.",
+    "badge": "Proposition à examiner",
+    "decisionRecorded": "Décision enregistrée dans le prototype",
+    "decisionChosen": "Décision choisie : {decision}",
+    "originalSource": "Source originale",
+    "addedBy": "Ajoutée par {name}",
+    "sourceExcerpt": "Extrait de la source",
+    "excerpt": {
+      "number": "Numéro",
+      "thirdParty": "Tiers",
+      "totalAmount": "Montant total",
+      "detectedStatus": "Statut détecté"
+    },
+    "openSource": "Ouvrir la source",
+    "proposedData": "Données proposées",
+    "analysisResult": "Résultat de l’analyse",
+    "verifyFields": "Vérifiez chaque champ avant publication.",
+    "publishNotice": "Les informations acceptées seront publiées dans le Vault et liées à leur source originale.",
+    "commentTitle": "Commentaire de validation",
+    "commentPlaceholder": "Ajouter une remarque pour expliquer votre décision...",
+    "decisions": {
+      "reject": "Refuser",
+      "requestFix": "Demander une correction",
+      "accept": "Accepter et publier"
+    },
+    "prototypeNote": "Prototype frontend : les décisions seront enregistrées dans le backend ultérieurement.",
+    "fields": {
+      "invoiceNumber": "Numéro de facture",
+      "thirdParty": "Tiers",
+      "amount": "Montant TTC",
+      "status": "Statut",
+      "type": "Type",
+      "name": "Nom",
+      "source": "Source",
+      "itemCount": "Nombre d’éléments",
+      "pageName": "Nom de la page",
+      "sourcePages": "Pages source"
+    },
+    "values": {
+      "toVerify": "À vérifier",
+      "toValidate": "À valider",
+      "onboardingProcess": "Processus d’onboarding",
+      "pageRange": "{from} à {to}"
+    }
+  },
+
+  "deepSearch": {
+    "eyebrow": "Recherche assistée · {vault}",
+    "title": "Assistant Recherche Wiki",
+    "subtitle": "Posez une question complexe et obtenez une réponse fondée sur les données et les sources autorisées.",
+    "scopeTitle": "Périmètre de recherche",
+    "vaultBadge": "Vault : {name}",
+    "personalContextOn": "Contexte personnel activé",
+    "personalContextOff": "+ Ajouter mon contexte personnel",
+    "scopeHint": "La recherche ne consultera que les données incluses dans ce périmètre.",
+    "defineTitle": "Définir votre recherche",
+    "objectivePlaceholder": "Ex. Compare les factures impayées avec les conditions de paiement prévues dans nos procédures...",
+    "modeLabel": "Mode",
+    "modes": {
+      "quick": "Recherche rapide",
+      "deep": "Recherche approfondie"
+    },
+    "launch": "Lancer la recherche",
+    "examplesTitle": "Exemples de recherches",
+    "examplesHint": "Pour commencer rapidement",
+    "examples": {
+      "unpaid": "Quelles sont les factures impayées du dernier trimestre ?",
+      "suppliers": "Quels sont les principaux fournisseurs de cette année ?",
+      "launch": "Résume le processus de lancement produit."
+    },
+    "resultTitle": "Résultat de la recherche",
+    "modeUsed": "Mode utilisé : {mode}",
+    "sourcesConsulted": "{count, plural, one {# source consultée} other {# sources consultées}}",
+    "synthesisTitle": "Synthèse basée sur les données du Vault",
+    "synthesisOne": "Les éléments consultés indiquent que les factures nécessitant une attention particulière sont associées à des statuts de paiement incomplets ou à des informations qui doivent être vérifiées dans la source originale.",
+    "synthesisTwo": "Une vérification complémentaire est recommandée avant toute décision financière définitive.",
+    "sourcesTitle": "Sources consultées",
+    "citations": {
+      "invoices": "Factures et statuts de paiement",
+      "wikiPage": "Page Wiki de synthèse",
+      "procedure": "Procédure de suivi des paiements"
+    },
+    "prototypeNote": "Prototype frontend : les résultats seront connectés au moteur de recherche et au serveur MCP ultérieurement."
+  }
+}
