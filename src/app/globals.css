@@ -57,3 +57,19 @@ textarea,
 select {
   font: inherit;
 }
+
+.form-input {
+  width: 100%;
+  border: 1px solid var(--hoi-border);
+  border-radius: 0.75rem;
+  background: white;
+  padding: 0.8rem 1rem;
+  font-size: 0.875rem;
+  color: var(--hoi-navy);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--hoi-navy);
+  box-shadow: 0 0 0 3px rgb(23 43 77 / 10%);
+}
