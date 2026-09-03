@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
+  BookOpen,
   Bot,
   Cable,
   CheckSquare,
@@ -30,6 +31,11 @@ const mainNavigation: NavigationItem[] = [
     href: "/chat",
     icon: MessageSquarePlus,
   },
+  {
+  label: "Wiki",
+  href: "/wiki",
+  icon: BookOpen,
+},
   {
     label: "Activity feed",
     href: "/activity",
