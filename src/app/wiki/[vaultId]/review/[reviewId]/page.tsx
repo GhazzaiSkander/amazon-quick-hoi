@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
+import VaultSelector from "@/components/VaultSelector";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import { getVaultName, type VaultId } from "@/lib/vaults";
 
 type FieldKey =
   | "invoiceNumber"
@@ -139,8 +141,10 @@ type DecisionKey = "reject" | "requestFix" | "accept";
 
 export default function ReviewDetailPage() {
   const params = useParams<{ vaultId: string; reviewId: string }>();
+  const router = useRouter();
   const t = useTranslations("reviewDetail");
   const tr = useTranslations("review");
+  const tv = useTranslations("vault");
   const format = useFormatter();
 
   const review = reviewDetails[params.reviewId];
@@ -201,7 +205,15 @@ export default function ReviewDetailPage() {
               {tr(`items.${params.reviewId}.description`)}
             </p>
           </header>
-
+<div className="mb-6 flex justify-end">
+  <VaultSelector
+    value={params.vaultId as VaultId}
+    label={tv("eyebrow")}
+    onChange={(nextVaultId) => {
+      router.push(`/wiki/${nextVaultId}/review`);
+    }}
+  />
+</div>
           {decision && (
             <section className="mb-8 rounded-card border border-emerald-200 bg-emerald-50 p-5">
               <div className="flex items-start gap-3">

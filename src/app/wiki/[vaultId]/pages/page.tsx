@@ -1,12 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import VaultSelector from "@/components/VaultSelector";
 import { useFormatter, useTranslations } from "next-intl";
 import { ArrowLeft, CheckCircle2, FileText, Search, Tag } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName } from "@/lib/vaults";
+import { getVaultName, type VaultId } from "@/lib/vaults";
 
 type PageTypeKey = "document" | "organisation" | "category" | "other";
 type PageStatusKey = "verified" | "toVerify";
@@ -99,6 +100,7 @@ const typeFilterKeys = [
 ] as const;
 
 export default function WikiPagesPage() {
+  const router = useRouter();
   const params = useParams<{ vaultId: string }>();
   const t = useTranslations("wikiPages");
   const tc = useTranslations("common");
@@ -159,6 +161,15 @@ export default function WikiPagesPage() {
               {t("subtitle")}
             </p>
           </header>
+          <div className="mb-6 flex justify-end">
+  <VaultSelector
+    value={params.vaultId as VaultId}
+    label={tv("eyebrow")}
+    onChange={(nextVaultId) => {
+      router.push(`/wiki/${nextVaultId}/pages`);
+    }}
+  />
+</div>
 
           <section className="mb-6 rounded-card border border-hoi-border bg-hoi-surface p-4 shadow-sm">
             <div className="flex flex-col gap-3 lg:flex-row">

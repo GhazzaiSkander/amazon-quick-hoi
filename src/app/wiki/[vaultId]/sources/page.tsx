@@ -1,5 +1,5 @@
 "use client";
-
+import VaultSelector from "@/components/VaultSelector";
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
@@ -14,8 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName } from "@/lib/vaults";
-
+import { getVaultName, type VaultId } from "@/lib/vaults";
 type SourceStatusKey = "imported" | "validated" | "toValidate";
 type SourceCategoryKey = "finance" | "reference" | "process";
 
@@ -153,7 +152,15 @@ export default function SourcesPage() {
               </button>
             </div>
           </header>
-
+<div className="mb-6 flex justify-end">
+  <VaultSelector
+    value={params.vaultId as VaultId}
+    label={tv("eyebrow")}
+    onChange={(nextVaultId) => {
+      router.push(`/wiki/${nextVaultId}/sources`);
+    }}
+  />
+</div>
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<File size={20} />}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
@@ -13,7 +13,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName } from "@/lib/vaults";
+import VaultSelector from "@/components/VaultSelector";
+import { getVaultName, type VaultId } from "@/lib/vaults";
+
 
 const exampleKeys = ["unpaid", "suppliers", "launch"] as const;
 const modeKeys = ["quick", "deep"] as const;
@@ -27,6 +29,7 @@ const citations = [
 
 export default function DeepSearchPage() {
   const params = useParams<{ vaultId: string }>();
+  const router = useRouter();
   const t = useTranslations("deepSearch");
   const tv = useTranslations("vault");
 
@@ -70,7 +73,15 @@ export default function DeepSearchPage() {
               {t("subtitle")}
             </p>
           </header>
-
+<div className="mb-6 flex justify-end">
+  <VaultSelector
+    value={params.vaultId as VaultId}
+    label={tv("eyebrow")}
+    onChange={(nextVaultId) => {
+      router.push(`/wiki/${nextVaultId}/search`);
+    }}
+  />
+</div>
           <section className="mb-6 rounded-card border border-blue-200 bg-blue-50 p-5">
             <div className="flex items-start gap-3">
               <BookOpen className="mt-0.5 shrink-0 text-blue-700" size={20} />

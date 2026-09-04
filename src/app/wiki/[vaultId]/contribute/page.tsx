@@ -1,7 +1,8 @@
 "use client";
 
 import { type ChangeEvent, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import VaultSelector from "@/components/VaultSelector";
 import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
@@ -15,12 +16,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName } from "@/lib/vaults";
+import { getVaultName, type VaultId } from "@/lib/vaults";
+
 
 const workflowStepKeys = ["analysis", "proposal", "validation"] as const;
 
 export default function ContributePage() {
   const params = useParams<{ vaultId: string }>();
+  const router = useRouter();
   const t = useTranslations("contribute");
   const tc = useTranslations("common");
   const tv = useTranslations("vault");
@@ -79,7 +82,15 @@ export default function ContributePage() {
               {t("subtitle")}
             </p>
           </header>
-
+<div className="mb-6 flex justify-end">
+  <VaultSelector
+    value={params.vaultId as VaultId}
+    label={tv("eyebrow")}
+    onChange={(nextVaultId) => {
+      router.push(`/wiki/${nextVaultId}/contribute`);
+    }}
+  />
+</div>
           <section className="mb-8 rounded-card border border-blue-200 bg-blue-50 p-5">
             <div className="flex items-start gap-3">
               <Info className="mt-0.5 shrink-0 text-blue-700" size={20} />

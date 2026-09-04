@@ -15,7 +15,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
-import { vaultNames, vaults } from "@/lib/vaults";
+import VaultSelector from "@/components/VaultSelector";
+import { isVaultId, vaultNames } from "@/lib/vaults";
 
 const contextItemKeys = ["myContext", "company", "activity"] as const;
 
@@ -27,8 +28,10 @@ export default function ChatPage() {
   const format = useFormatter();
 
   // The ?vaultId= query param scopes the conversation and must survive i18n.
-  const vaultId = searchParams.get("vaultId");
-  const activeVault = vaultId ? (vaultNames[vaultId] ?? null) : null;
+  // It is untrusted input, so an unknown id is treated as "no vault selected".
+  const rawVaultId = searchParams.get("vaultId");
+  const vaultId = isVaultId(rawVaultId) ? rawVaultId : null;
+  const activeVault = vaultId ? vaultNames[vaultId] : null;
 
   const [includePersonalContext, setIncludePersonalContext] = useState(false);
   const [question, setQuestion] = useState("");
@@ -278,23 +281,14 @@ export default function ChatPage() {
 
             {activeVault && (
               <div className="mb-5 mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">
-                  {t("selectedScope")}
-                </p>
-
-                <select
-                  value={vaultId ?? ""}
-                  onChange={(event) => {
-                    router.push(`/chat?vaultId=${event.target.value}`);
+                <VaultSelector
+                  id="chat-vault-selector"
+                  value={vaultId}
+                  label={t("selectedScope")}
+                  onChange={(nextVaultId) => {
+                    router.push(`/chat?vaultId=${nextVaultId}`);
                   }}
-                  className="mt-2 w-full rounded-lg border border-blue-200 bg-white px-3 py-2 text-sm font-medium text-blue-900 outline-none focus:border-blue-500"
-                >
-                  {vaults.map((vault) => (
-                    <option key={vault.id} value={vault.id}>
-                      {vault.name}
-                    </option>
-                  ))}
-                </select>
+                />
 
                 <p className="mt-1 text-xs leading-5 text-blue-800">
                   {t("vaultHint")}
