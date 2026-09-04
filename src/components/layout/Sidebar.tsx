@@ -79,7 +79,12 @@ export default function Sidebar() {
   return (
     <aside className="flex h-screen w-[280px] shrink-0 flex-col bg-hoi-navy text-white">
       <div className="border-b border-white/10 px-5 py-5">
-        <div className="flex items-center gap-3">
+        {/* The brand block is the way back to the landing page: no other link
+            in the interface points at "/". */}
+        <Link
+          href="/"
+          className="flex items-center gap-3 transition hover:opacity-80"
+        >
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-sm font-semibold">
             {t("brandInitials")}
           </div>
@@ -92,7 +97,7 @@ export default function Sidebar() {
               {t("brandName")}
             </p>
           </div>
-        </div>
+        </Link>
       </div>
 
       <nav className="space-y-1 px-3 py-4">

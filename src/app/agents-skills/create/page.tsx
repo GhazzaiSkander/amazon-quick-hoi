@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
@@ -12,6 +11,8 @@ import {
   Wrench,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import FormField from "@/components/ui/FormField";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 const toolKeys = [
   "readDocuments",
@@ -196,45 +197,6 @@ export default function CreateAgentPage() {
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function SectionHeader({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="rounded-lg bg-hoi-cream p-2.5 text-hoi-navy">{icon}</div>
-
-      <div>
-        <h2 className="font-semibold text-hoi-navy">{title}</h2>
-        <p className="mt-1 text-sm text-hoi-muted">{description}</p>
-      </div>
-    </div>
-  );
-}
-
-function FormField({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-hoi-muted">
-        {label}
-      </span>
-
-      {children}
-    </label>
   );
 }
 

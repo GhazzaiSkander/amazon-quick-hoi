@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import EmptyState from "@/components/ui/EmptyState";
+import MetricCard from "@/components/ui/MetricCard";
 import { vaults, type Vault } from "@/lib/vaults";
 
 export default function WikiPage() {
@@ -82,19 +83,19 @@ export default function WikiPage() {
           </header>
 
           <section className="mb-8 grid gap-4 md:grid-cols-3">
-            <SummaryCard
+            <MetricCard
               icon={<Database size={20} />}
               value={format.number(vaults.length)}
               label={t("summary.vaults")}
             />
 
-            <SummaryCard
+            <MetricCard
               icon={<ShieldCheck size={20} />}
               value={format.number(1, { style: "percent" })}
               label={t("summary.protected")}
             />
 
-            <SummaryCard
+            <MetricCard
               icon={<KeyRound size={20} />}
               value={t("summary.accessValue")}
               label={t("summary.access")}
@@ -240,26 +241,5 @@ export default function WikiPage() {
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function SummaryCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
-        {icon}
-      </div>
-
-      <p className="text-2xl font-semibold text-hoi-navy">{value}</p>
-      <p className="mt-1 text-sm text-hoi-muted">{label}</p>
-    </div>
   );
 }

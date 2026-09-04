@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import {
   CheckCircle2,
@@ -10,6 +9,7 @@ import {
   Shield,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import InfoCard from "@/components/ui/InfoCard";
 
 const infoCardKeys = ["localAccess", "personalControl", "indexing"] as const;
 const infoCardIcons = {
@@ -129,27 +129,5 @@ export default function MyComputerPage() {
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function InfoCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
-        {icon}
-      </div>
-
-      <h2 className="mt-4 font-semibold text-hoi-navy">{title}</h2>
-
-      <p className="mt-2 text-sm leading-6 text-hoi-muted">{description}</p>
-    </div>
   );
 }

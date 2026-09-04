@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Building2, Check, ChevronRight, Rocket, Users } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import FormField from "@/components/ui/FormField";
+import InfoCard from "@/components/ui/InfoCard";
 
 const stepKeys = [
   "basics",
@@ -285,45 +286,5 @@ export default function SetupPage() {
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function FormField({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-hoi-muted">
-        {label}
-      </span>
-
-      {children}
-    </label>
-  );
-}
-
-function InfoCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
-        {icon}
-      </div>
-
-      <h2 className="mt-4 font-semibold text-hoi-navy">{title}</h2>
-
-      <p className="mt-2 text-sm leading-6 text-hoi-muted">{description}</p>
-    </div>
   );
 }
