@@ -16,14 +16,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName } from "@/lib/vaults";
-
-const metrics = {
-  pages: 49920,
-  structuredData: 12480,
-  sources: 248,
-  toReview: 12,
-};
+import {
+  getVaultName,
+  isVaultId,
+  vaultAccess,
+  vaultOverviewMetrics,
+} from "@/lib/mock-data";
 
 export default async function VaultPage({
   params,
@@ -34,6 +32,7 @@ export default async function VaultPage({
   const t = await getTranslations("vault");
   const format = await getFormatter();
   const vaultName = getVaultName(vaultId, t("unknown"));
+  const access = isVaultId(vaultId) ? vaultAccess[vaultId] : null;
 
   return (
     <AppShell>
@@ -52,10 +51,12 @@ export default async function VaultPage({
             title={vaultName}
             description={t("subtitle")}
             actions={
-              <div className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
-                <ShieldCheck size={16} />
-                {t("accessGranted")}
-              </div>
+              access === "granted" ? (
+                <div className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
+                  <ShieldCheck size={16} />
+                  {t("accessGranted")}
+                </div>
+              ) : null
             }
           />
 
@@ -66,25 +67,25 @@ export default async function VaultPage({
           <section className="mb-8 grid gap-4 md:grid-cols-4">
             <MetricCard
               icon={<FileText size={20} />}
-              value={format.number(metrics.pages)}
+              value={format.number(vaultOverviewMetrics.pages)}
               label={t("metrics.pages")}
             />
 
             <MetricCard
               icon={<Database size={20} />}
-              value={format.number(metrics.structuredData)}
+              value={format.number(vaultOverviewMetrics.structuredData)}
               label={t("metrics.structuredData")}
             />
 
             <MetricCard
               icon={<FolderOpen size={20} />}
-              value={format.number(metrics.sources)}
+              value={format.number(vaultOverviewMetrics.sources)}
               label={t("metrics.sources")}
             />
 
             <MetricCard
               icon={<FileCheck2 size={20} />}
-              value={format.number(metrics.toReview)}
+              value={format.number(vaultOverviewMetrics.toReview)}
               label={t("metrics.toReview")}
             />
           </section>

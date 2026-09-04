@@ -58,6 +58,11 @@ export const vaultNames: Record<string, string> = Object.fromEntries(
   vaults.map((vault) => [vault.id, vault.name]),
 );
 
+/** Narrows an untrusted id (query param, storage) to a known vault. */
+export function isVaultId(value: string | null | undefined): value is VaultId {
+  return value != null && value in vaultNames;
+}
+
 /** Vault names are data, so the fallback is the caller's localised label. */
 export function getVaultName(vaultId: string, fallback: string): string {
   return vaultNames[vaultId] ?? fallback;

@@ -17,70 +17,18 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName } from "@/lib/vaults";
+import {
+  getSourceName,
+  getVaultName,
+  invoices,
+  structuredDataMetrics,
+} from "@/lib/mock-data";
+import type { InvoiceStatus } from "@/types";
 
-type InvoiceStatusKey = "paid" | "toVerify";
-
-/**
- * Invoice records are business data: numbers, dates, amounts and third parties
- * stay verbatim. `statusKey` is the stable internal status; only its label is
- * translated. Amounts and dates are formatted per locale at render time.
- */
-const invoices: {
-  id: string;
-  number: string;
-  date: string;
-  thirdParty: string;
-  amount: number;
-  currency: string;
-  statusKey: InvoiceStatusKey;
-  source: string;
-}[] = [
-  {
-    id: "FA2515312",
-    number: "FA2515312",
-    date: "2026-01-08",
-    thirdParty: "Vanhoeve Dylan",
-    amount: 1245,
-    currency: "EUR",
-    statusKey: "paid",
-    source: "account_move_2026.csv",
-  },
-  {
-    id: "FA2514447",
-    number: "FA2514447",
-    date: "2026-01-16",
-    thirdParty: "Lixxball",
-    amount: 860.5,
-    currency: "EUR",
-    statusKey: "paid",
-    source: "account_move_2026.csv",
-  },
-  {
-    id: "FA2510110",
-    number: "FA2510110",
-    date: "2026-02-22",
-    thirdParty: "Avenir Énergie",
-    amount: 3420,
-    currency: "EUR",
-    statusKey: "toVerify",
-    source: "account_move_2026.csv",
-  },
-  {
-    id: "FA2504135",
-    number: "FA2504135",
-    date: "2026-03-17",
-    thirdParty: "Ciblex Express",
-    amount: 2180.75,
-    currency: "EUR",
-    statusKey: "paid",
-    source: "account_move_2026.csv",
-  },
-];
-
-const statusFilterKeys = ["all", "paid", "toVerify"] as const;
-
-const metrics = { records: 49920, invoices: 4238, toVerify: 12 };
+const statusFilterKeys = ["all", "paid", "toVerify"] as const satisfies (
+  | "all"
+  | InvoiceStatus
+)[];
 
 export default function StructuredDataPage() {
   const params = useParams<{ vaultId: string }>();
@@ -101,12 +49,14 @@ export default function StructuredDataPage() {
     return invoices.filter((invoice) => {
       const matchesQuery =
         !normalizedQuery ||
-        `${invoice.number} ${invoice.thirdParty} ${invoice.source}`
+        `${invoice.number} ${invoice.thirdParty} ${getSourceName(
+          invoice.sourceId,
+        )}`
           .toLowerCase()
           .includes(normalizedQuery);
 
       const matchesStatus =
-        statusFilter === "all" || invoice.statusKey === statusFilter;
+        statusFilter === "all" || invoice.status === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
@@ -133,19 +83,19 @@ export default function StructuredDataPage() {
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<Database size={20} />}
-              value={format.number(metrics.records)}
+              value={format.number(structuredDataMetrics.records)}
               label={t("metrics.records")}
             />
 
             <MetricCard
               icon={<FileText size={20} />}
-              value={format.number(metrics.invoices)}
+              value={format.number(structuredDataMetrics.invoices)}
               label={t("metrics.invoices")}
             />
 
             <MetricCard
               icon={<CircleAlert size={20} />}
-              value={format.number(metrics.toVerify)}
+              value={format.number(structuredDataMetrics.toVerify)}
               label={t("metrics.toVerify")}
             />
           </section>
@@ -228,7 +178,7 @@ export default function StructuredDataPage() {
                       </td>
 
                       <td className="px-4 py-4 text-hoi-muted">
-                        {format.dateTime(new Date(invoice.date), {
+                        {format.dateTime(new Date(invoice.issuedAt), {
                           dateStyle: "medium",
                         })}
                       </td>
@@ -247,22 +197,22 @@ export default function StructuredDataPage() {
                       <td className="px-4 py-4">
                         <StatusBadge
                           tone={
-                            invoice.statusKey === "paid" ? "success" : "warning"
+                            invoice.status === "paid" ? "success" : "warning"
                           }
                           icon={
-                            invoice.statusKey === "paid" ? (
+                            invoice.status === "paid" ? (
                               <CheckCircle2 size={13} />
                             ) : (
                               <CircleAlert size={13} />
                             )
                           }
                         >
-                          {t(`statuses.${invoice.statusKey}`)}
+                          {t(`statuses.${invoice.status}`)}
                         </StatusBadge>
                       </td>
 
                       <td className="px-4 py-4 text-xs text-hoi-muted">
-                        {invoice.source}
+                        {getSourceName(invoice.sourceId)}
                       </td>
                     </tr>
                   ))}

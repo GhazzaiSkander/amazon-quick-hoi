@@ -16,128 +16,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import type { VaultId } from "@/lib/vaults";
-
-type FieldKey =
-  | "invoiceNumber"
-  | "thirdParty"
-  | "amount"
-  | "status"
-  | "type"
-  | "name"
-  | "source"
-  | "itemCount"
-  | "pageName"
-  | "sourcePages";
-
-/**
- * A field value is either raw business data (`raw`), a keyed label from
- * `reviewDetail.values`, a currency amount, or a locale-formatted number.
- */
-type FieldValue =
-  | { kind: "raw"; value: string }
-  | { kind: "key"; key: string }
-  | { kind: "currency"; amount: number; currency: string }
-  | { kind: "number"; value: number }
-  | { kind: "pageRange"; from: number; to: number };
-
-const reviewDetails: Record<
-  string,
-  {
-    typeKey: "structuredData" | "wikiPage";
-    source: string;
-    author: string;
-    extractedFields: {
-      fieldKey: FieldKey;
-      value: FieldValue;
-      confidence: number;
-    }[];
-  }
-> = {
-  "review-1": {
-    typeKey: "structuredData",
-    source: "account_move_2026.csv",
-    author: "Skander",
-    extractedFields: [
-      {
-        fieldKey: "invoiceNumber",
-        value: { kind: "raw", value: "FA2510110" },
-        confidence: 0.94,
-      },
-      {
-        fieldKey: "thirdParty",
-        value: { kind: "raw", value: "Avenir Énergie" },
-        confidence: 0.81,
-      },
-      {
-        fieldKey: "amount",
-        value: { kind: "currency", amount: 3420, currency: "EUR" },
-        confidence: 0.96,
-      },
-      {
-        fieldKey: "status",
-        value: { kind: "key", key: "toVerify" },
-        confidence: 0.62,
-      },
-    ],
-  },
-  "review-2": {
-    typeKey: "wikiPage",
-    source: "account_move_reference.xlsx",
-    author: "Sabri",
-    extractedFields: [
-      {
-        fieldKey: "type",
-        value: { kind: "raw", value: "categorie" },
-        confidence: 0.99,
-      },
-      {
-        fieldKey: "name",
-        value: { kind: "raw", value: "ARTICLES" },
-        confidence: 0.99,
-      },
-      {
-        fieldKey: "source",
-        value: { kind: "raw", value: "account_move_reference.xlsx" },
-        confidence: 0.97,
-      },
-      {
-        fieldKey: "itemCount",
-        value: { kind: "number", value: 2157 },
-        confidence: 0.88,
-      },
-    ],
-  },
-  "review-3": {
-    typeKey: "wikiPage",
-    source: "process_onboarding.pdf",
-    author: "Camille",
-    extractedFields: [
-      {
-        fieldKey: "pageName",
-        value: { kind: "key", key: "onboardingProcess" },
-        confidence: 0.96,
-      },
-      {
-        fieldKey: "type",
-        value: { kind: "raw", value: "process" },
-        confidence: 0.91,
-      },
-      {
-        fieldKey: "sourcePages",
-        value: { kind: "pageRange", from: 12, to: 18 },
-        confidence: 0.74,
-      },
-      {
-        fieldKey: "status",
-        value: { kind: "key", key: "toValidate" },
-        confidence: 0.69,
-      },
-    ],
-  },
-};
-
-type DecisionKey = "reject" | "requestFix" | "accept";
+import {
+  findInvoice,
+  findReviewDetail,
+  findReviewItem,
+  getSourceName,
+  getUserName,
+  reviewExcerptInvoiceId,
+} from "@/lib/mock-data";
+import type { ReviewDecision, ReviewFieldValue, VaultId } from "@/types";
 
 export default function ReviewDetailPage() {
   const params = useParams<{ vaultId: string; reviewId: string }>();
@@ -147,10 +34,12 @@ export default function ReviewDetailPage() {
   const tv = useTranslations("vault");
   const format = useFormatter();
 
-  const review = reviewDetails[params.reviewId];
-  const [decision, setDecision] = useState<DecisionKey | null>(null);
+  const review = findReviewDetail(params.reviewId);
+  const reviewItem = findReviewItem(params.reviewId);
+  const excerptInvoice = findInvoice(reviewExcerptInvoiceId);
+  const [decision, setDecision] = useState<ReviewDecision | null>(null);
 
-  if (!review) {
+  if (!review || !reviewItem) {
     return (
       <AppShell>
         <div className="p-12 text-center text-hoi-muted">{t("notFound")}</div>
@@ -158,7 +47,7 @@ export default function ReviewDetailPage() {
     );
   }
 
-  function renderFieldValue(value: FieldValue) {
+  function renderFieldValue(value: ReviewFieldValue) {
     switch (value.kind) {
       case "raw":
         return value.value;
@@ -249,45 +138,51 @@ export default function ReviewDetailPage() {
                   </p>
 
                   <h2 className="mt-1 font-semibold text-hoi-navy">
-                    {review.source}
+                    {getSourceName(reviewItem.sourceId)}
                   </h2>
 
                   <p className="mt-1 text-sm text-hoi-muted">
-                    {t("addedBy", { name: review.author })}
+                    {t("addedBy", {
+                      name: getUserName(reviewItem.submittedByUserId),
+                    })}
                   </p>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-hoi-border bg-hoi-cream/50 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wide text-hoi-muted">
-                  {t("sourceExcerpt")}
-                </p>
-
-                <div className="mt-4 space-y-3 text-sm leading-6 text-hoi-navy">
-                  <p>
-                    {t("excerpt.number")} : <strong>FA2510110</strong>
+              {excerptInvoice && (
+                <div className="rounded-xl border border-hoi-border bg-hoi-cream/50 p-5">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-hoi-muted">
+                    {t("sourceExcerpt")}
                   </p>
 
-                  <p>
-                    {t("excerpt.thirdParty")} : <strong>Avenir Énergie</strong>
-                  </p>
+                  <div className="mt-4 space-y-3 text-sm leading-6 text-hoi-navy">
+                    <p>
+                      {t("excerpt.number")} :{" "}
+                      <strong>{excerptInvoice.number}</strong>
+                    </p>
 
-                  <p>
-                    {t("excerpt.totalAmount")} :{" "}
-                    <strong>
-                      {format.number(3420, {
-                        style: "currency",
-                        currency: "EUR",
-                      })}
-                    </strong>
-                  </p>
+                    <p>
+                      {t("excerpt.thirdParty")} :{" "}
+                      <strong>{excerptInvoice.thirdParty}</strong>
+                    </p>
 
-                  <p>
-                    {t("excerpt.detectedStatus")} :{" "}
-                    <strong>{t("values.toVerify")}</strong>
-                  </p>
+                    <p>
+                      {t("excerpt.totalAmount")} :{" "}
+                      <strong>
+                        {format.number(excerptInvoice.amount, {
+                          style: "currency",
+                          currency: excerptInvoice.currency,
+                        })}
+                      </strong>
+                    </p>
+
+                    <p>
+                      {t("excerpt.detectedStatus")} :{" "}
+                      <strong>{t(`values.${excerptInvoice.status}`)}</strong>
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <button
                 type="button"
@@ -322,11 +217,11 @@ export default function ReviewDetailPage() {
               <div className="divide-y divide-hoi-border rounded-xl border border-hoi-border">
                 {review.extractedFields.map((field) => (
                   <div
-                    key={field.fieldKey}
+                    key={field.key}
                     className="grid gap-2 p-4 md:grid-cols-[1fr_1.2fr_auto]"
                   >
                     <span className="text-sm text-hoi-muted">
-                      {t(`fields.${field.fieldKey}`)}
+                      {t(`fields.${field.key}`)}
                     </span>
 
                     <span className="text-sm font-medium text-hoi-navy">

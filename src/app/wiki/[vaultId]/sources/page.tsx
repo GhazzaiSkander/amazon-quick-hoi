@@ -18,65 +18,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName, type VaultId } from "@/lib/vaults";
-type SourceStatusKey = "imported" | "validated" | "toValidate";
-type SourceCategoryKey = "finance" | "reference" | "process";
-
-/**
- * Source records are business data. Filenames, formats, sizes, contributors and
- * dates stay verbatim; only the category and status labels are translated, and
- * the date is formatted per locale.
- */
-const sources: {
-  id: string;
-  name: string;
-  type: string;
-  categoryKey: SourceCategoryKey;
-  sizeBytes: number;
-  addedBy: string;
-  date: string;
-  statusKey: SourceStatusKey;
-}[] = [
-  {
-    id: "account-move-2026",
-    name: "account_move_2026.csv",
-    type: "CSV",
-    categoryKey: "finance",
-    sizeBytes: 202 * 1024 * 1024,
-    addedBy: "Skander",
-    date: "2026-09-03",
-    statusKey: "imported",
-  },
-  {
-    id: "account-move-reference",
-    name: "account_move_reference.xlsx",
-    type: "Excel",
-    categoryKey: "reference",
-    sizeBytes: 14 * 1024 * 1024,
-    addedBy: "Sabri",
-    date: "2026-09-01",
-    statusKey: "validated",
-  },
-  {
-    id: "process-onboarding",
-    name: "process_onboarding.pdf",
-    type: "PDF",
-    categoryKey: "process",
-    sizeBytes: Math.round(2.4 * 1024 * 1024),
-    addedBy: "Camille",
-    date: "2026-08-30",
-    statusKey: "toValidate",
-  },
-];
+import {
+  getUserName,
+  getVaultName,
+  sourceMetrics,
+  sources,
+} from "@/lib/mock-data";
+import type { SourceStatus, VaultId } from "@/types";
 
 const statusFilterKeys = [
   "all",
   "imported",
   "validated",
   "toValidate",
-] as const;
-
-const metrics = { total: 248, validated: 236, pending: 12 };
+] as const satisfies ("all" | SourceStatus)[];
 
 export default function SourcesPage() {
   const params = useParams<{ vaultId: string }>();
@@ -98,12 +53,12 @@ export default function SourcesPage() {
     return sources.filter((source) => {
       const matchesQuery =
         !normalizedQuery ||
-        `${source.name} ${source.type} ${source.addedBy}`
+        `${source.name} ${source.format} ${getUserName(source.addedByUserId)}`
           .toLowerCase()
           .includes(normalizedQuery);
 
       const matchesStatus =
-        statusFilter === "all" || source.statusKey === statusFilter;
+        statusFilter === "all" || source.status === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
@@ -157,19 +112,19 @@ export default function SourcesPage() {
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<File size={20} />}
-              value={format.number(metrics.total)}
+              value={format.number(sourceMetrics.total)}
               label={t("metrics.total")}
             />
 
             <MetricCard
               icon={<CheckCircle2 size={20} />}
-              value={format.number(metrics.validated)}
+              value={format.number(sourceMetrics.validated)}
               label={t("metrics.validated")}
             />
 
             <MetricCard
               icon={<Clock3 size={20} />}
-              value={format.number(metrics.pending)}
+              value={format.number(sourceMetrics.pending)}
               label={t("metrics.pending")}
             />
           </section>
@@ -223,11 +178,11 @@ export default function SourcesPage() {
 
                         <div className="mt-3 flex flex-wrap gap-2 text-xs text-hoi-muted">
                           <span className="rounded-full bg-hoi-cream px-3 py-1">
-                            {source.type}
+                            {source.format}
                           </span>
 
                           <span className="rounded-full bg-hoi-cream px-3 py-1">
-                            {t(`categories.${source.categoryKey}`)}
+                            {t(`categories.${source.category}`)}
                           </span>
 
                           <span className="rounded-full bg-hoi-cream px-3 py-1">
@@ -240,27 +195,27 @@ export default function SourcesPage() {
                     <div className="flex flex-col items-start gap-2 text-sm lg:items-end">
                       <StatusBadge
                         tone={
-                          source.statusKey === "toValidate"
-                            ? "warning"
-                            : "success"
+                          source.status === "toValidate" ? "warning" : "success"
                         }
                         icon={
-                          source.statusKey === "toValidate" ? (
+                          source.status === "toValidate" ? (
                             <Clock3 size={13} />
                           ) : (
                             <CheckCircle2 size={13} />
                           )
                         }
                       >
-                        {t(`statuses.${source.statusKey}`)}
+                        {t(`statuses.${source.status}`)}
                       </StatusBadge>
 
                       <p className="text-xs text-hoi-muted">
-                        {t("addedBy", { name: source.addedBy })}
+                        {t("addedBy", {
+                          name: getUserName(source.addedByUserId),
+                        })}
                       </p>
 
                       <p className="text-xs text-hoi-muted">
-                        {format.dateTime(new Date(source.date), {
+                        {format.dateTime(new Date(source.createdAt), {
                           dateStyle: "long",
                         })}
                       </p>

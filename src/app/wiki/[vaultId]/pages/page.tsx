@@ -10,89 +10,8 @@ import { useFormatter, useTranslations } from "next-intl";
 import { ArrowLeft, CheckCircle2, FileText, Tag } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName, type VaultId } from "@/lib/vaults";
-
-type PageTypeKey = "document" | "organisation" | "category" | "other";
-type PageStatusKey = "verified" | "toVerify";
-type MetadataLabelKey =
-  | "type"
-  | "name"
-  | "identity"
-  | "source"
-  | "sheet"
-  | "rows"
-  | "page";
-
-/**
- * Page records are business data. Only `typeKey`, `statusKey`, tag slugs and
- * metadata label keys are translated; paths, identifiers and source filenames
- * stay verbatim.
- */
-const pages: {
-  id: string;
-  typeKey: PageTypeKey;
-  path: string;
-  tags: string[];
-  statusKey: PageStatusKey;
-  metadata: { labelKey: MetadataLabelKey; value: string }[];
-}[] = [
-  {
-    id: "articles",
-    typeKey: "category",
-    path: "wiki/entities/categories/articles.md",
-    tags: ["produit", "référentiel"],
-    statusKey: "verified",
-    metadata: [
-      { labelKey: "type", value: "categorie" },
-      { labelKey: "name", value: "ARTICLES" },
-      { labelKey: "identity", value: "name:articles" },
-      { labelKey: "source", value: "account_move_reference.xlsx" },
-      { labelKey: "sheet", value: "Factures" },
-    ],
-  },
-  {
-    id: "clients",
-    typeKey: "organisation",
-    path: "wiki/entities/organisations/clients.md",
-    tags: ["client", "commercial"],
-    statusKey: "verified",
-    metadata: [
-      { labelKey: "type", value: "organisation" },
-      { labelKey: "name", value: "Clients" },
-      { labelKey: "identity", value: "entity:clients" },
-      { labelKey: "source", value: "customers_2026.xlsx" },
-      { labelKey: "sheet", value: "Clients" },
-    ],
-  },
-  {
-    id: "factures-janvier",
-    typeKey: "document",
-    path: "wiki/finance/factures/2026-01.md",
-    tags: ["facture", "finance"],
-    statusKey: "toVerify",
-    metadata: [
-      { labelKey: "type", value: "factures" },
-      { labelKey: "name", value: "Factures — Janvier 2026" },
-      { labelKey: "identity", value: "finance:invoices:2026-01" },
-      { labelKey: "source", value: "account_move_2026.csv" },
-      { labelKey: "rows", value: "4238" },
-    ],
-  },
-  {
-    id: "processus-onboarding",
-    typeKey: "other",
-    path: "wiki/processes/onboarding.md",
-    tags: ["processus", "équipe"],
-    statusKey: "verified",
-    metadata: [
-      { labelKey: "type", value: "process" },
-      { labelKey: "name", value: "Processus d’onboarding" },
-      { labelKey: "identity", value: "process:onboarding" },
-      { labelKey: "source", value: "processes_company.pdf" },
-      { labelKey: "page", value: "12-18" },
-    ],
-  },
-];
+import { getVaultName, wikiPages } from "@/lib/mock-data";
+import type { VaultId, WikiPageType } from "@/types";
 
 const typeFilterKeys = [
   "all",
@@ -100,7 +19,7 @@ const typeFilterKeys = [
   "organisation",
   "category",
   "other",
-] as const;
+] as const satisfies ("all" | WikiPageType)[];
 
 export default function WikiPagesPage() {
   const router = useRouter();
@@ -120,7 +39,7 @@ export default function WikiPagesPage() {
   const filteredPages = useMemo(() => {
     const normalizedQuery = query.toLowerCase().trim();
 
-    return pages.filter((page) => {
+    return wikiPages.filter((page) => {
       const title = t(`items.${page.id}.title`);
       const tags = page.tags.map((tag) => t(`tags.${tag}`)).join(" ");
 
@@ -130,14 +49,14 @@ export default function WikiPagesPage() {
           .toLowerCase()
           .includes(normalizedQuery);
 
-      const matchesType = typeFilter === "all" || page.typeKey === typeFilter;
+      const matchesType = typeFilter === "all" || page.type === typeFilter;
 
       return matchesQuery && matchesType;
     });
   }, [query, typeFilter, t]);
 
   const selectedPage =
-    pages.find((page) => page.id === selectedId) ?? filteredPages[0];
+    wikiPages.find((page) => page.id === selectedId) ?? filteredPages[0];
 
   return (
     <AppShell>
@@ -235,8 +154,8 @@ export default function WikiPagesPage() {
                           </p>
 
                           <p className="mt-1 text-xs text-hoi-muted">
-                            {t(`types.${page.typeKey}`)} ·{" "}
-                            {t(`status.${page.statusKey}`)}
+                            {t(`types.${page.type}`)} ·{" "}
+                            {t(`status.${page.status}`)}
                           </p>
                         </div>
                       </div>
@@ -255,12 +174,12 @@ export default function WikiPagesPage() {
                         <CheckCircle2
                           size={15}
                           className={
-                            selectedPage.statusKey === "verified"
+                            selectedPage.status === "verified"
                               ? "text-emerald-600"
                               : "text-amber-600"
                           }
                         />
-                        {t(`status.${selectedPage.statusKey}`)}
+                        {t(`status.${selectedPage.status}`)}
                       </div>
 
                       <p className="break-all text-xs text-hoi-muted">
@@ -302,21 +221,23 @@ export default function WikiPagesPage() {
                     </h3>
 
                     <div className="mt-4 divide-y divide-hoi-border">
-                      {selectedPage.metadata.map((entry) => (
-                        <div
-                          key={entry.labelKey}
-                          className="grid gap-2 py-3 text-sm md:grid-cols-[160px_1fr]"
-                        >
-                          <span className="text-hoi-muted">
-                            {t(`metadataLabels.${entry.labelKey}`)}
-                          </span>
-                          <span className="font-medium text-hoi-navy">
-                            {entry.labelKey === "rows"
-                              ? format.number(Number(entry.value))
-                              : entry.value}
-                          </span>
-                        </div>
-                      ))}
+                      {Object.entries(selectedPage.metadata).map(
+                        ([labelKey, value]) => (
+                          <div
+                            key={labelKey}
+                            className="grid gap-2 py-3 text-sm md:grid-cols-[160px_1fr]"
+                          >
+                            <span className="text-hoi-muted">
+                              {t(`metadataLabels.${labelKey}`)}
+                            </span>
+                            <span className="font-medium text-hoi-navy">
+                              {typeof value === "number"
+                                ? format.number(value)
+                                : value}
+                            </span>
+                          </div>
+                        ),
+                      )}
                     </div>
                   </div>
 

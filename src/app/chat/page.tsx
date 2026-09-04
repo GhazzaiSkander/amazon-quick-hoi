@@ -16,9 +16,15 @@ import {
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import VaultSelector from "@/components/VaultSelector";
-import { isVaultId, vaultNames } from "@/lib/vaults";
+import { demoConversation, isVaultId, vaultNames } from "@/lib/mock-data";
+import type { ChatContextKey, ChatMessage } from "@/types";
 
-const contextItemKeys = ["myContext", "company", "activity"] as const;
+/** Context surfaces offered in the side panel. */
+const contextItemKeys = [
+  "myContext",
+  "company",
+  "activity",
+] as const satisfies ChatContextKey[];
 
 export default function ChatPage() {
   const router = useRouter();
@@ -32,6 +38,8 @@ export default function ChatPage() {
   const rawVaultId = searchParams.get("vaultId");
   const vaultId = isVaultId(rawVaultId) ? rawVaultId : null;
   const activeVault = vaultId ? vaultNames[vaultId] : null;
+
+  const messages: ChatMessage[] = demoConversation.messages;
 
   const [includePersonalContext, setIncludePersonalContext] = useState(false);
   const [question, setQuestion] = useState("");
@@ -128,50 +136,55 @@ export default function ChatPage() {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="flex justify-end">
-                    <div className="max-w-xl rounded-2xl rounded-ee-md bg-hoi-navy px-5 py-4 text-sm leading-6 text-white">
-                      {t("sampleQuestion")}
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-hoi-cream text-hoi-navy">
-                      <Sparkles size={18} />
-                    </div>
-
-                    <div className="max-w-2xl rounded-2xl rounded-ss-md border border-hoi-border bg-hoi-surface px-5 py-4">
-                      <p className="text-sm leading-7 text-hoi-navy">
-                        {t("sampleAnswerIntro")}
-                      </p>
-
-                      <ol className="mt-3 space-y-3 text-sm leading-6 text-hoi-navy">
-                        {(["one", "two", "three"] as const).map(
-                          (key, index) => (
-                            <li key={key}>
-                              <span className="font-semibold">
-                                {format.number(index + 1)}.
-                              </span>{" "}
-                              {t(`sampleAnswer.${key}`)}
-                            </li>
-                          ),
-                        )}
-                      </ol>
-
-                      <div className="mt-5 flex flex-wrap gap-2 border-t border-hoi-border pt-4">
-                        <span className="rounded-full bg-hoi-cream px-3 py-1 text-xs text-hoi-navy">
-                          {t("contextItems.myContext.title")}
-                        </span>
-
-                        <span className="rounded-full bg-hoi-cream px-3 py-1 text-xs text-hoi-navy">
-                          {t("contextItems.activity.title")}
-                        </span>
-
-                        <span className="rounded-full bg-hoi-cream px-3 py-1 text-xs text-hoi-navy">
-                          {t("sourcesCount", { count: 3 })}
-                        </span>
+                  {messages.map((message) =>
+                    message.role === "user" ? (
+                      <div key={message.id} className="flex justify-end">
+                        <div className="max-w-xl rounded-2xl rounded-ee-md bg-hoi-navy px-5 py-4 text-sm leading-6 text-white">
+                          {t(message.bodyKey)}
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    ) : (
+                      <div key={message.id} className="flex items-start gap-3">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-hoi-cream text-hoi-navy">
+                          <Sparkles size={18} />
+                        </div>
+
+                        <div className="max-w-2xl rounded-2xl rounded-ss-md border border-hoi-border bg-hoi-surface px-5 py-4">
+                          <p className="text-sm leading-7 text-hoi-navy">
+                            {t(message.bodyKey)}
+                          </p>
+
+                          <ol className="mt-3 space-y-3 text-sm leading-6 text-hoi-navy">
+                            {message.pointKeys.map((pointKey, index) => (
+                              <li key={pointKey}>
+                                <span className="font-semibold">
+                                  {format.number(index + 1)}.
+                                </span>{" "}
+                                {t(pointKey)}
+                              </li>
+                            ))}
+                          </ol>
+
+                          <div className="mt-5 flex flex-wrap gap-2 border-t border-hoi-border pt-4">
+                            {message.contextKeys.map((contextKey) => (
+                              <span
+                                key={contextKey}
+                                className="rounded-full bg-hoi-cream px-3 py-1 text-xs text-hoi-navy"
+                              >
+                                {t(`contextItems.${contextKey}.title`)}
+                              </span>
+                            ))}
+
+                            <span className="rounded-full bg-hoi-cream px-3 py-1 text-xs text-hoi-navy">
+                              {t("sourcesCount", {
+                                count: message.citationCount,
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ),
+                  )}
                 </div>
               </div>
             </div>

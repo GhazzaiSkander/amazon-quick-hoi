@@ -18,71 +18,19 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
-import { getVaultName, type VaultId } from "@/lib/vaults";
+import {
+  getSourceName,
+  getUserName,
+  getVaultName,
+  reviewItems,
+  reviewMetrics,
+} from "@/lib/mock-data";
+import type { ReviewItem, ReviewStatus, VaultId } from "@/types";
 
-type ReviewStatusKey = "toReview" | "validated";
-type ReviewTypeKey = "structuredData" | "wikiPage";
-type ConfidenceKey = "high" | "medium" | "low" | "validated";
-
-type ReviewDate =
-  | { kind: "todayAt"; time: string }
-  | { kind: "yesterdayAt"; time: string }
-  | { kind: "absolute"; date: string };
-
-/**
- * Review items are business data. Source filenames and author names stay
- * verbatim; status, type, confidence and the relative date are keyed.
- */
-const reviewItems: {
-  id: string;
-  typeKey: ReviewTypeKey;
-  source: string;
-  author: string;
-  date: ReviewDate;
-  confidenceKey: ConfidenceKey;
-  statusKey: ReviewStatusKey;
-}[] = [
-  {
-    id: "review-1",
-    typeKey: "structuredData",
-    source: "account_move_2026.csv",
-    author: "Skander",
-    date: { kind: "todayAt", time: "09:42" },
-    confidenceKey: "medium",
-    statusKey: "toReview",
-  },
-  {
-    id: "review-2",
-    typeKey: "wikiPage",
-    source: "account_move_reference.xlsx",
-    author: "Sabri",
-    date: { kind: "yesterdayAt", time: "16:20" },
-    confidenceKey: "high",
-    statusKey: "toReview",
-  },
-  {
-    id: "review-3",
-    typeKey: "wikiPage",
-    source: "process_onboarding.pdf",
-    author: "Camille",
-    date: { kind: "absolute", date: "2026-08-30" },
-    confidenceKey: "low",
-    statusKey: "toReview",
-  },
-  {
-    id: "review-4",
-    typeKey: "structuredData",
-    source: "account_move_2026.csv",
-    author: "Skander",
-    date: { kind: "absolute", date: "2026-08-29" },
-    confidenceKey: "validated",
-    statusKey: "validated",
-  },
-];
-
-const statusFilterKeys = ["toReview", "validated", "all"] as const;
-
-const metrics = { toReview: 12, validatedThisWeek: 48, contributors: 3 };
+const statusFilterKeys = ["toReview", "validated", "all"] as const satisfies (
+  | "all"
+  | ReviewStatus
+)[];
 
 export default function ReviewPage() {
   const params = useParams<{ vaultId: string }>();
@@ -101,15 +49,25 @@ export default function ReviewPage() {
       return reviewItems;
     }
 
-    return reviewItems.filter((item) => item.statusKey === statusFilter);
+    return reviewItems.filter((item) => item.status === statusFilter);
   }, [statusFilter]);
 
-  function formatDate(date: ReviewDate) {
-    if (date.kind === "todayAt") return t("dates.todayAt", { time: date.time });
-    if (date.kind === "yesterdayAt")
-      return t("dates.yesterdayAt", { time: date.time });
+  /**
+   * The fixtures carry an ISO timestamp plus a rendering hint, so "Today at
+   * 09:42" stays stable whatever day the prototype is opened.
+   */
+  function formatSubmittedAt(item: ReviewItem) {
+    const label = item.submittedAtLabel;
 
-    return format.dateTime(new Date(date.date), { dateStyle: "long" });
+    if (label.kind === "todayAt") {
+      return t("dates.todayAt", { time: label.time });
+    }
+
+    if (label.kind === "yesterdayAt") {
+      return t("dates.yesterdayAt", { time: label.time });
+    }
+
+    return format.dateTime(new Date(item.submittedAt), { dateStyle: "long" });
   }
 
   return (
@@ -143,21 +101,21 @@ export default function ReviewPage() {
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<Clock3 size={20} />}
-              value={format.number(metrics.toReview)}
+              value={format.number(reviewMetrics.toReview)}
               label={t("metrics.toReview")}
               tone="warning"
             />
 
             <MetricCard
               icon={<CheckCircle2 size={20} />}
-              value={format.number(metrics.validatedThisWeek)}
+              value={format.number(reviewMetrics.validatedThisWeek)}
               label={t("metrics.validatedThisWeek")}
               tone="success"
             />
 
             <MetricCard
               icon={<UserCircle2 size={20} />}
-              value={format.number(metrics.contributors)}
+              value={format.number(reviewMetrics.contributors)}
               label={t("metrics.contributors")}
               tone="info"
             />
@@ -202,12 +160,12 @@ export default function ReviewPage() {
                     <div className="flex items-start gap-4">
                       <div
                         className={`rounded-lg p-3 ${
-                          item.statusKey === "validated"
+                          item.status === "validated"
                             ? "bg-emerald-50 text-emerald-700"
                             : "bg-amber-50 text-amber-700"
                         }`}
                       >
-                        {item.statusKey === "validated" ? (
+                        {item.status === "validated" ? (
                           <CheckCircle2 size={21} />
                         ) : (
                           <AlertTriangle size={21} />
@@ -221,7 +179,7 @@ export default function ReviewPage() {
                           </h3>
 
                           <span className="rounded-full bg-hoi-cream px-3 py-1 text-xs text-hoi-muted">
-                            {t(`types.${item.typeKey}`)}
+                            {t(`types.${item.type}`)}
                           </span>
                         </div>
 
@@ -230,9 +188,17 @@ export default function ReviewPage() {
                         </p>
 
                         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-hoi-muted">
-                          <span>{t("sourceLabel", { source: item.source })}</span>
-                          <span>{t("authorLabel", { author: item.author })}</span>
-                          <span>{formatDate(item.date)}</span>
+                          <span>
+                            {t("sourceLabel", {
+                              source: getSourceName(item.sourceId),
+                            })}
+                          </span>
+                          <span>
+                            {t("authorLabel", {
+                              author: getUserName(item.submittedByUserId),
+                            })}
+                          </span>
+                          <span>{formatSubmittedAt(item)}</span>
                         </div>
                       </div>
                     </div>
@@ -240,14 +206,14 @@ export default function ReviewPage() {
                     <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
                       <StatusBadge
                         tone={
-                          item.statusKey === "validated" ? "success" : "warning"
+                          item.status === "validated" ? "success" : "warning"
                         }
                       >
-                        {t(`statuses.${item.statusKey}`)}
+                        {t(`statuses.${item.status}`)}
                       </StatusBadge>
 
                       <span className="text-xs text-hoi-muted">
-                        {t(`confidence.${item.confidenceKey}`)}
+                        {t(`confidence.${item.confidence}`)}
                       </span>
 
                       <Link

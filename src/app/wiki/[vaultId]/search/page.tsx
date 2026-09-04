@@ -15,18 +15,11 @@ import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
 import VaultSelector from "@/components/VaultSelector";
 import PageHeader from "@/components/ui/PageHeader";
-import { getVaultName, type VaultId } from "@/lib/vaults";
-
+import { deepSearchCitations, getVaultName } from "@/lib/mock-data";
+import type { VaultId } from "@/types";
 
 const exampleKeys = ["unpaid", "suppliers", "launch"] as const;
 const modeKeys = ["quick", "deep"] as const;
-
-/** Citation names are source identifiers; only their detail line is translated. */
-const citations = [
-  { key: "invoices", name: "account_move_2026.csv" },
-  { key: "wikiPage", name: "Factures — Janvier 2026" },
-  { key: "procedure", name: "process_paiement.pdf" },
-] as const;
 
 export default function DeepSearchPage() {
   const params = useParams<{ vaultId: string }>();
@@ -206,7 +199,7 @@ export default function DeepSearchPage() {
                 </div>
 
                 <span className="text-xs text-hoi-muted">
-                  {t("sourcesConsulted", { count: citations.length })}
+                  {t("sourcesConsulted", { count: deepSearchCitations.length })}
                 </span>
               </div>
 
@@ -238,11 +231,11 @@ export default function DeepSearchPage() {
                   </h3>
 
                   <div className="space-y-2">
-                    {citations.map((citation) => (
+                    {deepSearchCitations.map((citation) => (
                       <SourceCitation
-                        key={citation.key}
+                        key={citation.id}
                         name={citation.name}
-                        detail={t(`citations.${citation.key}`)}
+                        detail={t(citation.detailKey)}
                       />
                     ))}
                   </div>
