@@ -8,7 +8,6 @@ import {
   AlertTriangle,
   ArrowLeft,
   Check,
-  CheckCircle2,
   FileCheck2,
   FileText,
   MessageSquare,
