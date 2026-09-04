@@ -1,5 +1,10 @@
 "use client";
 import VaultSelector from "@/components/VaultSelector";
+import EmptyState from "@/components/ui/EmptyState";
+import MetricCard from "@/components/ui/MetricCard";
+import PageHeader from "@/components/ui/PageHeader";
+import SearchInput from "@/components/ui/SearchInput";
+import StatusBadge from "@/components/ui/StatusBadge";
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
@@ -10,7 +15,6 @@ import {
   File,
   FilePlus2,
   FolderOpen,
-  Search,
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
@@ -124,43 +128,32 @@ export default function SourcesPage() {
             {tv("backToVault", { name: vaultName })}
           </Link>
 
-          <header className="mb-8">
-            <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-                  {t("eyebrow", { vault: vaultName })}
-                </p>
-
-                <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  {t("title")}
-                </h1>
-
-                <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-                  {t("subtitle")}
-                </p>
-              </div>
-
+          <PageHeader
+            eyebrow={t("eyebrow", { vault: vaultName })}
+            title={t("title")}
+            description={t("subtitle")}
+            actions={
               <button
                 type="button"
-                onClick={() =>
-                  router.push(`/wiki/${params.vaultId}/contribute`)
-                }
+                onClick={() => router.push(`/wiki/${params.vaultId}/contribute`)}
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-hoi-navy px-4 py-3 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
               >
                 <FilePlus2 size={17} />
                 {t("addSource")}
               </button>
-            </div>
-          </header>
-<div className="mb-6 flex justify-end">
-  <VaultSelector
-    value={params.vaultId as VaultId}
-    label={tv("eyebrow")}
-    onChange={(nextVaultId) => {
-      router.push(`/wiki/${nextVaultId}/sources`);
-    }}
-  />
-</div>
+            }
+          />
+
+          <div className="mb-6 flex justify-end">
+            <VaultSelector
+              value={params.vaultId as VaultId}
+              label={tv("eyebrow")}
+              onChange={(nextVaultId) => {
+                router.push(`/wiki/${nextVaultId}/sources`);
+              }}
+            />
+          </div>
+
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<File size={20} />}
@@ -183,20 +176,12 @@ export default function SourcesPage() {
 
           <section className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
             <div className="mb-6 flex flex-col gap-3 lg:flex-row">
-              <div className="relative flex-1">
-                <Search
-                  size={18}
-                  className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
-                />
-
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder={t("searchPlaceholder")}
-                  className="form-input w-full ps-10"
-                />
-              </div>
+              <SearchInput
+                containerClassName="flex-1"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t("searchPlaceholder")}
+              />
 
               <select
                 value={statusFilter}
@@ -253,21 +238,22 @@ export default function SourcesPage() {
                     </div>
 
                     <div className="flex flex-col items-start gap-2 text-sm lg:items-end">
-                      <span
-                        className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
+                      <StatusBadge
+                        tone={
                           source.statusKey === "toValidate"
-                            ? "bg-amber-50 text-amber-700"
-                            : "bg-emerald-50 text-emerald-700"
-                        }`}
+                            ? "warning"
+                            : "success"
+                        }
+                        icon={
+                          source.statusKey === "toValidate" ? (
+                            <Clock3 size={13} />
+                          ) : (
+                            <CheckCircle2 size={13} />
+                          )
+                        }
                       >
-                        {source.statusKey === "toValidate" ? (
-                          <Clock3 size={13} />
-                        ) : (
-                          <CheckCircle2 size={13} />
-                        )}
-
                         {t(`statuses.${source.statusKey}`)}
-                      </span>
+                      </StatusBadge>
 
                       <p className="text-xs text-hoi-muted">
                         {t("addedBy", { name: source.addedBy })}
@@ -284,11 +270,7 @@ export default function SourcesPage() {
               ))}
             </div>
 
-            {filteredSources.length === 0 && (
-              <div className="py-12 text-center text-sm text-hoi-muted">
-                {t("empty")}
-              </div>
-            )}
+            {filteredSources.length === 0 && <EmptyState title={t("empty")} />}
           </section>
 
           <section className="mt-8 rounded-card border border-dashed border-hoi-border bg-white/40 p-6">
@@ -311,26 +293,5 @@ export default function SourcesPage() {
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function MetricCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
-        {icon}
-      </div>
-
-      <p className="text-2xl font-semibold text-hoi-navy">{value}</p>
-      <p className="mt-1 text-sm text-hoi-muted">{label}</p>
-    </div>
   );
 }

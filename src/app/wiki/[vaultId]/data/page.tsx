@@ -3,13 +3,17 @@
 import { useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
+import EmptyState from "@/components/ui/EmptyState";
+import MetricCard from "@/components/ui/MetricCard";
+import PageHeader from "@/components/ui/PageHeader";
+import SearchInput from "@/components/ui/SearchInput";
+import StatusBadge from "@/components/ui/StatusBadge";
 import {
   ArrowLeft,
   CheckCircle2,
   CircleAlert,
   Database,
   FileText,
-  Search,
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
@@ -120,19 +124,11 @@ export default function StructuredDataPage() {
             {tv("backToVault", { name: vaultName })}
           </Link>
 
-          <header className="mb-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              {t("eyebrow", { vault: vaultName })}
-            </p>
-
-            <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              {t("title")}
-            </h1>
-
-            <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              {t("subtitle")}
-            </p>
-          </header>
+          <PageHeader
+            eyebrow={t("eyebrow", { vault: vaultName })}
+            title={t("title")}
+            description={t("subtitle")}
+          />
 
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
@@ -172,20 +168,12 @@ export default function StructuredDataPage() {
             </div>
 
             <div className="mb-6 flex flex-col gap-3 lg:flex-row">
-              <div className="relative flex-1">
-                <Search
-                  size={18}
-                  className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
-                />
-
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder={t("searchPlaceholder")}
-                  className="form-input w-full ps-10"
-                />
-              </div>
+              <SearchInput
+                containerClassName="flex-1"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t("searchPlaceholder")}
+              />
 
               <select
                 value={statusFilter}
@@ -257,21 +245,20 @@ export default function StructuredDataPage() {
                       </td>
 
                       <td className="px-4 py-4">
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
-                            invoice.statusKey === "paid"
-                              ? "bg-emerald-50 text-emerald-700"
-                              : "bg-amber-50 text-amber-700"
-                          }`}
+                        <StatusBadge
+                          tone={
+                            invoice.statusKey === "paid" ? "success" : "warning"
+                          }
+                          icon={
+                            invoice.statusKey === "paid" ? (
+                              <CheckCircle2 size={13} />
+                            ) : (
+                              <CircleAlert size={13} />
+                            )
+                          }
                         >
-                          {invoice.statusKey === "paid" ? (
-                            <CheckCircle2 size={13} />
-                          ) : (
-                            <CircleAlert size={13} />
-                          )}
-
                           {t(`statuses.${invoice.statusKey}`)}
-                        </span>
+                        </StatusBadge>
                       </td>
 
                       <td className="px-4 py-4 text-xs text-hoi-muted">
@@ -284,34 +271,11 @@ export default function StructuredDataPage() {
             </div>
 
             {filteredInvoices.length === 0 && (
-              <div className="py-12 text-center text-sm text-hoi-muted">
-                {t("empty")}
-              </div>
+              <EmptyState title={t("empty")} />
             )}
           </section>
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function MetricCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
-        {icon}
-      </div>
-
-      <p className="text-2xl font-semibold text-hoi-navy">{value}</p>
-      <p className="mt-1 text-sm text-hoi-muted">{label}</p>
-    </div>
   );
 }

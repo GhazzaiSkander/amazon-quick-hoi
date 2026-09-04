@@ -3,6 +3,10 @@
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import VaultSelector from "@/components/VaultSelector";
+import EmptyState from "@/components/ui/EmptyState";
+import MetricCard from "@/components/ui/MetricCard";
+import PageHeader from "@/components/ui/PageHeader";
+import StatusBadge from "@/components/ui/StatusBadge";
 import { useFormatter, useTranslations } from "next-intl";
 import {
   AlertTriangle,
@@ -120,48 +124,42 @@ export default function ReviewPage() {
             {tv("backToVault", { name: vaultName })}
           </Link>
 
-          <header className="mb-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              {t("eyebrow", { vault: vaultName })}
-            </p>
+          <PageHeader
+            eyebrow={t("eyebrow", { vault: vaultName })}
+            title={t("title")}
+            description={t("subtitle")}
+          />
 
-            <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              {t("title")}
-            </h1>
+          <div className="mb-6 flex justify-end">
+            <VaultSelector
+              value={params.vaultId as VaultId}
+              label={tv("eyebrow")}
+              onChange={(nextVaultId) => {
+                router.push(`/wiki/${nextVaultId}/review`);
+              }}
+            />
+          </div>
 
-            <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              {t("subtitle")}
-            </p>
-          </header>
-<div className="mb-6 flex justify-end">
-  <VaultSelector
-    value={params.vaultId as VaultId}
-    label={tv("eyebrow")}
-    onChange={(nextVaultId) => {
-      router.push(`/wiki/${nextVaultId}/review`);
-    }}
-  />
-</div>
           <section className="mb-8 grid gap-4 md:grid-cols-3">
             <MetricCard
               icon={<Clock3 size={20} />}
               value={format.number(metrics.toReview)}
               label={t("metrics.toReview")}
-              tone="amber"
+              tone="warning"
             />
 
             <MetricCard
               icon={<CheckCircle2 size={20} />}
               value={format.number(metrics.validatedThisWeek)}
               label={t("metrics.validatedThisWeek")}
-              tone="green"
+              tone="success"
             />
 
             <MetricCard
               icon={<UserCircle2 size={20} />}
               value={format.number(metrics.contributors)}
               label={t("metrics.contributors")}
-              tone="blue"
+              tone="info"
             />
           </section>
 
@@ -240,15 +238,13 @@ export default function ReviewPage() {
                     </div>
 
                     <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
-                      <span
-                        className={`rounded-full px-3 py-1 text-xs font-medium ${
-                          item.statusKey === "validated"
-                            ? "bg-emerald-50 text-emerald-700"
-                            : "bg-amber-50 text-amber-700"
-                        }`}
+                      <StatusBadge
+                        tone={
+                          item.statusKey === "validated" ? "success" : "warning"
+                        }
                       >
                         {t(`statuses.${item.statusKey}`)}
-                      </span>
+                      </StatusBadge>
 
                       <span className="text-xs text-hoi-muted">
                         {t(`confidence.${item.confidenceKey}`)}
@@ -267,11 +263,7 @@ export default function ReviewPage() {
               ))}
             </div>
 
-            {filteredItems.length === 0 && (
-              <div className="py-12 text-center text-sm text-hoi-muted">
-                {t("empty")}
-              </div>
-            )}
+            {filteredItems.length === 0 && <EmptyState title={t("empty")} />}
           </section>
 
           <section className="mt-8 rounded-card border border-dashed border-hoi-border bg-white/40 p-6">
@@ -284,36 +276,5 @@ export default function ReviewPage() {
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function MetricCard({
-  icon,
-  value,
-  label,
-  tone,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-  tone: "amber" | "green" | "blue";
-}) {
-  const colors = {
-    amber: "bg-amber-50 text-amber-700",
-    green: "bg-emerald-50 text-emerald-700",
-    blue: "bg-blue-50 text-blue-700",
-  };
-
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div
-        className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${colors[tone]}`}
-      >
-        {icon}
-      </div>
-
-      <p className="text-2xl font-semibold text-hoi-navy">{value}</p>
-      <p className="mt-1 text-sm text-hoi-muted">{label}</p>
-    </div>
   );
 }

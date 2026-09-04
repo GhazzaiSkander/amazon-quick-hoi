@@ -3,8 +3,11 @@
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import VaultSelector from "@/components/VaultSelector";
+import EmptyState from "@/components/ui/EmptyState";
+import PageHeader from "@/components/ui/PageHeader";
+import SearchInput from "@/components/ui/SearchInput";
 import { useFormatter, useTranslations } from "next-intl";
-import { ArrowLeft, CheckCircle2, FileText, Search, Tag } from "lucide-react";
+import { ArrowLeft, CheckCircle2, FileText, Tag } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
 import { getVaultName, type VaultId } from "@/lib/vaults";
@@ -148,45 +151,30 @@ export default function WikiPagesPage() {
             {tv("backToVault", { name: vaultName })}
           </Link>
 
-          <header className="mb-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              {t("eyebrow", { vault: vaultName })}
-            </p>
+          <PageHeader
+            eyebrow={t("eyebrow", { vault: vaultName })}
+            title={t("title")}
+            description={t("subtitle")}
+          />
 
-            <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              {t("title")}
-            </h1>
-
-            <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              {t("subtitle")}
-            </p>
-          </header>
           <div className="mb-6 flex justify-end">
-  <VaultSelector
-    value={params.vaultId as VaultId}
-    label={tv("eyebrow")}
-    onChange={(nextVaultId) => {
-      router.push(`/wiki/${nextVaultId}/pages`);
-    }}
-  />
-</div>
+            <VaultSelector
+              value={params.vaultId as VaultId}
+              label={tv("eyebrow")}
+              onChange={(nextVaultId) => {
+                router.push(`/wiki/${nextVaultId}/pages`);
+              }}
+            />
+          </div>
 
           <section className="mb-6 rounded-card border border-hoi-border bg-hoi-surface p-4 shadow-sm">
             <div className="flex flex-col gap-3 lg:flex-row">
-              <div className="relative flex-1">
-                <Search
-                  size={18}
-                  className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
-                />
-
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder={t("searchPlaceholder")}
-                  className="form-input w-full ps-10"
-                />
-              </div>
+              <SearchInput
+                containerClassName="flex-1"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t("searchPlaceholder")}
+              />
 
               <select
                 value={typeFilter}
@@ -343,9 +331,7 @@ export default function WikiPagesPage() {
                   </div>
                 </>
               ) : (
-                <div className="py-16 text-center text-hoi-muted">
-                  {t("empty")}
-                </div>
+                <EmptyState title={t("empty")} />
               )}
             </section>
           </div>

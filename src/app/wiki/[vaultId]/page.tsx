@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import PageHeader from "@/components/ui/PageHeader";
+import MetricCard from "@/components/ui/MetricCard";
+import SearchInput from "@/components/ui/SearchInput";
 import { getFormatter, getTranslations } from "next-intl/server";
 import {
   ArrowLeft,
@@ -44,42 +47,20 @@ export default async function VaultPage({
             {t("back")}
           </Link>
 
-          <header className="mb-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              {t("eyebrow")}
-            </p>
-
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div>
-                <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-                  {vaultName}
-                </h1>
-
-                <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-                  {t("subtitle")}
-                </p>
-              </div>
-
+          <PageHeader
+            eyebrow={t("eyebrow")}
+            title={vaultName}
+            description={t("subtitle")}
+            actions={
               <div className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
                 <ShieldCheck size={16} />
                 {t("accessGranted")}
               </div>
-            </div>
-          </header>
+            }
+          />
 
           <section className="mb-8 rounded-card border border-hoi-border bg-hoi-surface p-4 shadow-sm">
-            <div className="relative">
-              <Search
-                size={18}
-                className="absolute start-3 top-1/2 -translate-y-1/2 text-hoi-muted"
-              />
-
-              <input
-                type="search"
-                placeholder={t("searchPlaceholder")}
-                className="form-input w-full ps-10"
-              />
-            </div>
+            <SearchInput placeholder={t("searchPlaceholder")} />
           </section>
 
           <section className="mb-8 grid gap-4 md:grid-cols-4">
@@ -178,27 +159,6 @@ export default async function VaultPage({
         </div>
       </div>
     </AppShell>
-  );
-}
-
-function MetricCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: ReactNode;
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="rounded-card border border-hoi-border bg-hoi-surface p-5 shadow-sm">
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-hoi-cream text-hoi-navy">
-        {icon}
-      </div>
-
-      <p className="text-2xl font-semibold text-hoi-navy">{value}</p>
-      <p className="mt-1 text-sm text-hoi-muted">{label}</p>
-    </div>
   );
 }
 

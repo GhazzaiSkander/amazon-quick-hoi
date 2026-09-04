@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
 import VaultSelector from "@/components/VaultSelector";
+import PageHeader from "@/components/ui/PageHeader";
 import { getVaultName, type VaultId } from "@/lib/vaults";
 
 
@@ -60,28 +61,22 @@ export default function DeepSearchPage() {
             {tv("backToVault", { name: vaultName })}
           </Link>
 
-          <header className="mb-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-hoi-accent">
-              {t("eyebrow", { vault: vaultName })}
-            </p>
+          <PageHeader
+            eyebrow={t("eyebrow", { vault: vaultName })}
+            title={t("title")}
+            description={t("subtitle")}
+          />
 
-            <h1 className="text-4xl font-semibold tracking-tight text-hoi-navy">
-              {t("title")}
-            </h1>
+          <div className="mb-6 flex justify-end">
+            <VaultSelector
+              value={params.vaultId as VaultId}
+              label={tv("eyebrow")}
+              onChange={(nextVaultId) => {
+                router.push(`/wiki/${nextVaultId}/search`);
+              }}
+            />
+          </div>
 
-            <p className="mt-3 max-w-2xl text-base leading-7 text-hoi-muted">
-              {t("subtitle")}
-            </p>
-          </header>
-<div className="mb-6 flex justify-end">
-  <VaultSelector
-    value={params.vaultId as VaultId}
-    label={tv("eyebrow")}
-    onChange={(nextVaultId) => {
-      router.push(`/wiki/${nextVaultId}/search`);
-    }}
-  />
-</div>
           <section className="mb-6 rounded-card border border-blue-200 bg-blue-50 p-5">
             <div className="flex items-start gap-3">
               <BookOpen className="mt-0.5 shrink-0 text-blue-700" size={20} />
