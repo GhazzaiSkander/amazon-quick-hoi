@@ -15,6 +15,7 @@ import {
   Upload,
 } from "lucide-react";
 import Link from "next/link";
+import AccessDeniedState from "@/components/ui/AccessDeniedState";
 import AppShell from "@/components/layout/AppShell";
 import {
   getVaultName,
@@ -30,9 +31,34 @@ export default async function VaultPage({
 }) {
   const { vaultId } = await params;
   const t = await getTranslations("vault");
+  const tc = await getTranslations("common");
   const format = await getFormatter();
+  const access = isVaultId(vaultId) ? vaultAccess[vaultId] : "denied";
+
+  if (access !== "granted") {
+    return (
+      <AppShell>
+        <div className="min-h-screen px-6 py-8 lg:px-12">
+          <div className="mx-auto max-w-3xl">
+            <AccessDeniedState
+              title={tc("states.accessDeniedTitle")}
+              description={tc("states.accessDeniedDescription")}
+              action={
+                <Link
+                  href="/wiki"
+                  className="inline-flex items-center rounded-lg bg-hoi-navy px-4 py-2.5 text-sm font-medium text-white transition hover:bg-hoi-navy-soft"
+                >
+                  {tc("states.backToWiki")}
+                </Link>
+              }
+            />
+          </div>
+        </div>
+      </AppShell>
+    );
+  }
+
   const vaultName = getVaultName(vaultId, t("unknown"));
-  const access = isVaultId(vaultId) ? vaultAccess[vaultId] : null;
 
   return (
     <AppShell>

@@ -29,7 +29,17 @@
     "visibilityPrivate": "Private",
     "visibilityWorkspace": "Entire workspace",
     "visibilityShared": "Selected users",
-    "description": "Description"
+    "description": "Description",
+    "states": {
+      "loadingTitle": "Loading content…",
+      "loadingDescription": "The Vault is being prepared.",
+      "errorTitle": "This page could not be loaded",
+      "errorDescription": "An unexpected error occurred. You can try again.",
+      "retry": "Try again",
+      "accessDeniedTitle": "Access denied",
+      "accessDeniedDescription": "You do not have access to this Vault, or it does not exist.",
+      "backToWiki": "Back to Wiki"
+    }
   },
   "sidebar": {
     "brandInitials": "HOI",

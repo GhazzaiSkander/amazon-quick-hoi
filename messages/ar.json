@@ -29,7 +29,17 @@
     "visibilityPrivate": "خاص",
     "visibilityWorkspace": "مساحة العمل بأكملها",
     "visibilityShared": "مستخدمون محدَّدون",
-    "description": "الوصف"
+    "description": "الوصف",
+    "states": {
+      "loadingTitle": "جارٍ تحميل المحتوى…",
+      "loadingDescription": "جارٍ إعداد الـ Vault.",
+      "errorTitle": "تعذّر تحميل هذه الصفحة",
+      "errorDescription": "حدث خطأ غير متوقع. يمكنك المحاولة مرة أخرى.",
+      "retry": "إعادة المحاولة",
+      "accessDeniedTitle": "الوصول مرفوض",
+      "accessDeniedDescription": "ليس لديك صلاحية الوصول إلى هذا الـ Vault أو أنه غير موجود.",
+      "backToWiki": "العودة إلى Wiki"
+    }
   },
   "sidebar": {
     "brandInitials": "HOI",

@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
+import EmptyState from "@/components/ui/EmptyState";
 import { vaults, type Vault } from "@/lib/vaults";
 
 export default function WikiPage() {
@@ -187,13 +188,11 @@ export default function WikiPage() {
           </section>
 
           {filteredVaults.length === 0 && (
-            <div className="rounded-card border border-dashed border-hoi-border p-12 text-center">
-              <p className="font-medium text-hoi-navy">{t("emptyTitle")}</p>
-
-              <p className="mt-2 text-sm text-hoi-muted">
-                {t("emptyDescription")}
-              </p>
-            </div>
+            <EmptyState
+              className="rounded-card border border-dashed border-hoi-border"
+              title={t("emptyTitle")}
+              description={t("emptyDescription")}
+            />
           )}
 
           <section className="mt-8 rounded-card border border-dashed border-hoi-border bg-white/40 p-6">

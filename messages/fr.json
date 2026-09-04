@@ -29,7 +29,17 @@
     "visibilityPrivate": "Privé",
     "visibilityWorkspace": "Tout l’espace de travail",
     "visibilityShared": "Utilisateurs sélectionnés",
-    "description": "Description"
+    "description": "Description",
+    "states": {
+      "loadingTitle": "Chargement du contenu…",
+      "loadingDescription": "Le Vault est en cours de préparation.",
+      "errorTitle": "Impossible de charger cette page",
+      "errorDescription": "Une erreur inattendue est survenue. Vous pouvez réessayer.",
+      "retry": "Réessayer",
+      "accessDeniedTitle": "Accès refusé",
+      "accessDeniedDescription": "Vous n’avez pas accès à ce Vault ou il n’existe pas.",
+      "backToWiki": "Retour à Wiki"
+    }
   },
   "sidebar": {
     "brandInitials": "HOI",

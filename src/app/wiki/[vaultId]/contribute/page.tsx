@@ -4,6 +4,7 @@ import { type ChangeEvent, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import VaultSelector from "@/components/VaultSelector";
 import PageHeader from "@/components/ui/PageHeader";
+import SuccessState from "@/components/ui/SuccessState";
 import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
@@ -268,15 +269,11 @@ export default function ContributePage() {
                   </div>
 
                   {importPrepared && (
-                    <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-start">
-                      <p className="text-sm font-medium text-blue-900">
-                        {t("preparedTitle")}
-                      </p>
-
-                      <p className="mt-1 text-xs leading-5 text-blue-800">
-                        {t("preparedDescription")}
-                      </p>
-                    </div>
+                    <SuccessState
+                      className="mt-4"
+                      title={t("preparedTitle")}
+                      description={t("preparedDescription")}
+                    />
                   )}
                 </div>
               )}

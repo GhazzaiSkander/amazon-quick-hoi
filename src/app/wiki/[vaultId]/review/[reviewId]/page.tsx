@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
+import EmptyState from "@/components/ui/EmptyState";
+import SuccessState from "@/components/ui/SuccessState";
 import {
   findInvoice,
   findReviewDetail,
@@ -42,7 +44,9 @@ export default function ReviewDetailPage() {
   if (!review || !reviewItem) {
     return (
       <AppShell>
-        <div className="p-12 text-center text-hoi-muted">{t("notFound")}</div>
+        <div className="p-12">
+          <EmptyState title={t("notFound")} />
+        </div>
       </AppShell>
     );
   }
@@ -106,23 +110,13 @@ export default function ReviewDetailPage() {
           </div>
 
           {decision && (
-            <section className="mb-8 rounded-card border border-emerald-200 bg-emerald-50 p-5">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 size={20} className="mt-0.5 text-emerald-700" />
-
-                <div>
-                  <p className="font-medium text-emerald-900">
-                    {t("decisionRecorded")}
-                  </p>
-
-                  <p className="mt-1 text-sm text-emerald-800">
-                    {t("decisionChosen", {
-                      decision: t(`decisions.${decision}`),
-                    })}
-                  </p>
-                </div>
-              </div>
-            </section>
+            <SuccessState
+              className="mb-8"
+              title={t("decisionRecorded")}
+              description={t("decisionChosen", {
+                decision: t(`decisions.${decision}`),
+              })}
+            />
           )}
 
           <div className="grid gap-6 lg:grid-cols-2">
