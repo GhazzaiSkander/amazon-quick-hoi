@@ -31,7 +31,6 @@
     "visibilityShared": "Selected users",
     "description": "Description"
   },
-
   "sidebar": {
     "brandInitials": "HOI",
     "brandTop": "House of",
@@ -53,7 +52,6 @@
     "noConversations": "No conversations yet",
     "role": "Owner"
   },
-
   "home": {
     "title": "What are we working on today?",
     "subtitle": "Query your knowledge, analyse your data and use your work tools from a single place.",
@@ -86,7 +84,6 @@
     "workspaceTitle": "Your workspace",
     "workspaceDescription": "Connections, agents and automations will appear here as you configure your workspace."
   },
-
   "activity": {
     "title": "Activity feed",
     "subtitle": "Your work email, calendar, tasks and team channels gathered into one calm queue.",
@@ -127,7 +124,6 @@
       }
     }
   },
-
   "saved": {
     "title": "My saved items",
     "subtitle": "Find your answers, drafts and reusable resources in one place.",
@@ -141,7 +137,6 @@
     "previewTitle": "Open a saved item",
     "previewDescription": "Select an answer or draft to preview it here."
   },
-
   "agents": {
     "title": "Agents & Skills",
     "subtitle": "Agents are AI teammates that work for you. Skills are reusable procedures they follow to complete a task consistently.",
@@ -179,7 +174,6 @@
       }
     }
   },
-
   "agentCreate": {
     "back": "Back to agents",
     "eyebrow": "New configurator",
@@ -223,7 +217,6 @@
       "notice": "Sensitive tools, in particular MCP servers, must always be authorised by an explicit permission."
     }
   },
-
   "capabilities": {
     "title": "Capabilities",
     "subtitle": "Manage the connectors, schedules, tools and MCP servers of your workspace.",
@@ -253,7 +246,6 @@
       "drive": "Documents and folders approved by the user."
     }
   },
-
   "mcpCreate": {
     "back": "Back to capabilities",
     "eyebrow": "New connection",
@@ -294,7 +286,6 @@
       "notice": "Update and delete permissions must be confirmed separately by the administrator."
     }
   },
-
   "setup": {
     "eyebrow": "Company setup",
     "steps": {
@@ -373,7 +364,6 @@
       }
     }
   },
-
   "myComputer": {
     "title": "My computer",
     "subtitle": "The local folders House of Ichigo can search and read. Cloud spaces connect with governed personal ingestion.",
@@ -400,7 +390,6 @@
       }
     }
   },
-
   "myContext": {
     "title": "My context",
     "subtitle": "Your private knowledge layer, enriched by the company information you have access to.",
@@ -443,7 +432,6 @@
     "addRule": "Add the rule",
     "noRules": "No exclusion rule configured."
   },
-
   "customization": {
     "title": "Customization",
     "subtitle": "Tailor your House of Ichigo experience.",
@@ -485,7 +473,6 @@
       "outlook": "Email · connect Outlook to enable this option."
     }
   },
-
   "chat": {
     "assistantWiki": "Wiki Assistant",
     "assistantGeneral": "General Assistant",
@@ -535,7 +522,6 @@
     "permissions": "Permissions",
     "permissionsValue": "Read-only · No automatic sending"
   },
-
   "wiki": {
     "eyebrow": "Knowledge base",
     "title": "Wiki",
@@ -570,7 +556,6 @@
       "prescription-nature": "Product references, purchases, sales and operational knowledge."
     }
   },
-
   "vault": {
     "back": "Back to vaults",
     "backToVault": "Back to {name}",
@@ -616,12 +601,16 @@
         "title": "Human review",
         "description": "Check the changes proposed after an ingestion.",
         "action": "Open the review"
+      },
+      "contribute": {
+        "title": "Contribute",
+        "description": "Add a source or folder to this vault.",
+        "action": "Add knowledge"
       }
     },
     "nextStepTitle": "Next step in this vault",
     "nextStepDescription": "Once the vault is selected, the user can search, browse, contribute and validate data within that same perimeter."
   },
-
   "wikiPages": {
     "eyebrow": "Knowledge base · {vault}",
     "title": "Wiki pages",
@@ -683,7 +672,6 @@
       "équipe": "team"
     }
   },
-
   "data": {
     "eyebrow": "Vault data · {vault}",
     "title": "Structured data",
@@ -711,7 +699,6 @@
     },
     "empty": "No data matches your search."
   },
-
   "sources": {
     "eyebrow": "Vault sources · {vault}",
     "title": "Sources",
@@ -744,7 +731,6 @@
     "importFolderTitle": "Import a whole folder",
     "importFolderDescription": "You will be able to import several files at once. Each file is kept as an independent source and tracked through the ingestion process."
   },
-
   "contribute": {
     "back": "Back to sources",
     "eyebrow": "Contribution · {vault}",
@@ -797,7 +783,6 @@
       "megabytes": "{size} MB"
     }
   },
-
   "review": {
     "eyebrow": "Data control · {vault}",
     "title": "Human review",
@@ -853,7 +838,6 @@
       }
     }
   },
-
   "reviewDetail": {
     "back": "Back to the review queue",
     "notFound": "Review proposal not found.",
@@ -901,7 +885,6 @@
       "pageRange": "{from} to {to}"
     }
   },
-
   "deepSearch": {
     "eyebrow": "Assisted search · {vault}",
     "title": "Wiki Search Assistant",

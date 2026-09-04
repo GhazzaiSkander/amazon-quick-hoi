@@ -9,6 +9,7 @@ import {
   MessageCircle,
   Search,
   ShieldCheck,
+  Upload,
 } from "lucide-react";
 import Link from "next/link";
 import AppShell from "@/components/layout/AppShell";
@@ -138,6 +139,14 @@ export default async function VaultPage({
               title={t("cards.sources.title")}
               description={t("cards.sources.description")}
               action={t("cards.sources.action")}
+            />
+
+            <WorkspaceCard
+              href={`/wiki/${vaultId}/contribute`}
+              icon={<Upload size={22} />}
+              title={t("cards.contribute.title")}
+              description={t("cards.contribute.description")}
+              action={t("cards.contribute.action")}
             />
 
             <WorkspaceCard

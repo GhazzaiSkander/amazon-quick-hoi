@@ -31,7 +31,6 @@
     "visibilityShared": "Utilisateurs sélectionnés",
     "description": "Description"
   },
-
   "sidebar": {
     "brandInitials": "HOI",
     "brandTop": "House of",
@@ -53,7 +52,6 @@
     "noConversations": "Aucune conversation pour le moment",
     "role": "Propriétaire"
   },
-
   "home": {
     "title": "Sur quoi travaillons-nous aujourd’hui ?",
     "subtitle": "Interrogez vos connaissances, analysez vos données et utilisez vos outils professionnels depuis un espace unique.",
@@ -86,7 +84,6 @@
     "workspaceTitle": "Votre espace de travail",
     "workspaceDescription": "Les connexions, agents et automatisations apparaîtront ici au fur et à mesure de la configuration de votre espace."
   },
-
   "activity": {
     "title": "Fil d’activité",
     "subtitle": "Votre email professionnel, calendrier, tâches et canaux d’équipe réunis dans une seule file calme.",
@@ -127,7 +124,6 @@
       }
     }
   },
-
   "saved": {
     "title": "Mes éléments enregistrés",
     "subtitle": "Retrouvez vos réponses, brouillons et ressources réutilisables au même endroit.",
@@ -141,7 +137,6 @@
     "previewTitle": "Ouvrir un élément enregistré",
     "previewDescription": "Sélectionnez une réponse ou un brouillon pour le prévisualiser ici."
   },
-
   "agents": {
     "title": "Agents et compétences",
     "subtitle": "Les agents sont des coéquipiers IA qui travaillent pour vous. Les compétences sont des procédures réutilisables qu’ils suivent pour accomplir une tâche de manière cohérente.",
@@ -179,7 +174,6 @@
       }
     }
   },
-
   "agentCreate": {
     "back": "Retour aux agents",
     "eyebrow": "Nouveau configurateur",
@@ -223,7 +217,6 @@
       "notice": "Les outils sensibles, notamment les serveurs MCP, devront toujours être autorisés par une permission explicite."
     }
   },
-
   "capabilities": {
     "title": "Capacités",
     "subtitle": "Gérez les connecteurs, les planifications, les outils et les serveurs MCP de votre espace de travail.",
@@ -253,7 +246,6 @@
       "drive": "Documents et dossiers approuvés par l’utilisateur."
     }
   },
-
   "mcpCreate": {
     "back": "Retour aux capacités",
     "eyebrow": "Nouvelle connexion",
@@ -294,7 +286,6 @@
       "notice": "Les permissions de modification et de suppression devront être confirmées séparément par l’administrateur."
     }
   },
-
   "setup": {
     "eyebrow": "Configuration de l’entreprise",
     "steps": {
@@ -373,7 +364,6 @@
       }
     }
   },
-
   "myComputer": {
     "title": "Mon ordinateur",
     "subtitle": "Les dossiers locaux que House of Ichigo peut rechercher et lire. Les espaces cloud se connectent avec une ingestion personnelle gouvernée.",
@@ -400,7 +390,6 @@
       }
     }
   },
-
   "myContext": {
     "title": "Mon contexte",
     "subtitle": "Votre couche de connaissances privée, enrichie par les informations d’entreprise auxquelles vous avez accès.",
@@ -443,7 +432,6 @@
     "addRule": "Ajouter la règle",
     "noRules": "Aucune règle d’exclusion configurée."
   },
-
   "customization": {
     "title": "Personnalisation",
     "subtitle": "Personnalisez votre expérience House of Ichigo.",
@@ -485,7 +473,6 @@
       "outlook": "Email · connectez Outlook pour activer cette option."
     }
   },
-
   "chat": {
     "assistantWiki": "Assistant Wiki",
     "assistantGeneral": "Assistant général",
@@ -535,7 +522,6 @@
     "permissions": "Permissions",
     "permissionsValue": "Lecture seule · Aucun envoi automatique"
   },
-
   "wiki": {
     "eyebrow": "Base de connaissances",
     "title": "Wiki",
@@ -570,7 +556,6 @@
       "prescription-nature": "Référentiels produits, achats, ventes et connaissances opérationnelles."
     }
   },
-
   "vault": {
     "back": "Retour aux Vaults",
     "backToVault": "Retour à {name}",
@@ -616,12 +601,16 @@
         "title": "Validation humaine",
         "description": "Vérifier les changements proposés après une ingestion.",
         "action": "Ouvrir la revue"
+      },
+      "contribute": {
+        "title": "Contribuer",
+        "description": "Ajouter une source ou un dossier à ce Vault.",
+        "action": "Ajouter des connaissances"
       }
     },
     "nextStepTitle": "Prochaine étape dans ce Vault",
     "nextStepDescription": "Après la sélection du Vault, l’utilisateur pourra rechercher, consulter, contribuer et valider les données dans ce même périmètre."
   },
-
   "wikiPages": {
     "eyebrow": "Base de connaissances · {vault}",
     "title": "Pages Wiki",
@@ -683,7 +672,6 @@
       "équipe": "équipe"
     }
   },
-
   "data": {
     "eyebrow": "Données du Vault · {vault}",
     "title": "Données structurées",
@@ -711,7 +699,6 @@
     },
     "empty": "Aucune donnée ne correspond à votre recherche."
   },
-
   "sources": {
     "eyebrow": "Sources du Vault · {vault}",
     "title": "Sources",
@@ -744,7 +731,6 @@
     "importFolderTitle": "Importer un dossier complet",
     "importFolderDescription": "Vous pourrez importer plusieurs fichiers en une seule fois. Chaque fichier sera conservé comme source indépendante et suivi dans le processus d’ingestion."
   },
-
   "contribute": {
     "back": "Retour aux sources",
     "eyebrow": "Contribution · {vault}",
@@ -797,7 +783,6 @@
       "megabytes": "{size} Mo"
     }
   },
-
   "review": {
     "eyebrow": "Contrôle des données · {vault}",
     "title": "Validation humaine",
@@ -853,7 +838,6 @@
       }
     }
   },
-
   "reviewDetail": {
     "back": "Retour à la file de validation",
     "notFound": "Proposition de validation introuvable.",
@@ -901,7 +885,6 @@
       "pageRange": "{from} à {to}"
     }
   },
-
   "deepSearch": {
     "eyebrow": "Recherche assistée · {vault}",
     "title": "Assistant Recherche Wiki",
